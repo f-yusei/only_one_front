@@ -13,12 +13,13 @@ export default function Home() {
   if (isLoading) {
     return <div>loading...</div>;
   }
-  if (isError) {
-    return <div>error</div>;
-  }
   if (!dashboardData) {
     return <div>no data</div>;
   }
+  if (isError) {
+    return <div>error</div>;
+  }
+
   const { dryerData, showerData, washerData } = dashboardData;
   return (
     <Box>

@@ -5,6 +5,12 @@ type DashboardData = {
   numberOfUsingBath: number;
 };
 
+type gotDashboardData = {
+  id: string;
+  state: number;
+  timestamp: string;
+};
+
 type DisplayWasherAndDryerProps = {
   washerData: boolean[];
   dryerData: boolean[];
@@ -23,4 +29,5 @@ export type {
   DisplayWasherAndDryerProps,
   DisplayShowerProps,
   DisplayPublicBathProps,
+  gotDashboardData,
 };
