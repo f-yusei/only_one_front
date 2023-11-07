@@ -1,113 +1,35 @@
-import { Box, Button, Card, CardHeader, HStack, Text, VStack } from '@chakra-ui/react';
-import { v4 } from 'uuid';
+'use client';
+import { VStack, HStack, Box } from '@chakra-ui/react';
+import {
+  DisplayQrCode,
+  DisplayPublicBath,
+  DisplayShower,
+  DisplayWasherAndDryer,
+} from './components/Dashboard';
+import { useDashboardData } from './hooks/useDashboardData';
 
 export default function Home() {
+  const { dashboardData, isError, isLoading } = useDashboardData();
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
+  if (isError) {
+    return <div>error</div>;
+  }
+  if (!dashboardData) {
+    return <div>no data</div>;
+  }
+  const { dryerData, showerData, washerData } = dashboardData;
   return (
     <Box>
       <VStack>
         <DisplayQrCode />
         <HStack>
           <DisplayPublicBath numberOfUsingBath={3} />
-          <DisplayShower showerData={[true, false]} />
+          <DisplayShower showerData={showerData} />
         </HStack>
-        <DisplayWasherAndDryer
-          washerData={[true, false, false, false]}
-          dryerData={[false, false, true, false]}
-        />
+        <DisplayWasherAndDryer washerData={washerData} dryerData={dryerData} />
       </VStack>
     </Box>
   );
 }
-
-type DisplayWasherAndDryerProps = {
-  washerData: boolean[];
-  dryerData: boolean[];
-};
-
-const DisplayWasherAndDryer = ({ washerData, dryerData }: DisplayWasherAndDryerProps) => {
-  const id = v4();
-  return (
-    <Button height="36vh" width="80vw" p="4">
-      <Card bgColor="gray.100" height="36vh" width="80vw" p="4">
-        <VStack>
-          <h1>洗濯機</h1>
-          <HStack>
-            {washerData.map((isUsingWasher) => {
-              return (
-                <Box
-                  key={id}
-                  height="10vh"
-                  width="16vw"
-                  bgColor={isUsingWasher ? 'green.100' : 'white'}
-                ></Box>
-              );
-            })}
-          </HStack>
-          <h1>乾燥機</h1>
-          <HStack>
-            {dryerData.map((isUsingDryer) => {
-              return (
-                <Box
-                  key={id}
-                  height="10vh"
-                  width="16vw"
-                  bgColor={isUsingDryer ? 'green.100' : 'white'}
-                ></Box>
-              );
-            })}
-          </HStack>
-        </VStack>
-      </Card>
-    </Button>
-  );
-};
-
-type DisplayShowerProps = {
-  showerData: boolean[];
-};
-
-const DisplayShower = ({ showerData }: DisplayShowerProps) => {
-  const id = v4();
-  return (
-    <Button height="26vh" width="40vw">
-      <Card bgColor="gray.100" height="26vh" width="40vw">
-        <CardHeader>シャワー室</CardHeader>
-        <HStack>
-          {showerData.map((isUsingShower) => {
-            return (
-              <Box
-                key={id}
-                height="10vh"
-                width="16vw"
-                bgColor={isUsingShower ? 'green.100' : 'white'}
-              ></Box>
-            );
-          })}
-        </HStack>
-      </Card>
-    </Button>
-  );
-};
-
-type DisplayPublicBathProps = {
-  numberOfUsingBath: number;
-};
-
-const DisplayPublicBath = ({ numberOfUsingBath }: DisplayPublicBathProps) => {
-  return (
-    <Button height="26vh" width="40vw">
-      <Card bgColor="gray.100" height="26vh" width="40vw">
-        <CardHeader>大浴場</CardHeader>
-        <Text>{numberOfUsingBath}</Text>
-      </Card>
-    </Button>
-  );
-};
-
-const DisplayQrCode = () => {
-  return (
-    <Button height="20vh" mt="8" width="80vw" bgColor="gray.100">
-      QR
-    </Button>
-  );
-};
