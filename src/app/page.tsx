@@ -1,47 +1,113 @@
-import { Box, Button, Card, CardHeader, HStack, VStack } from '@chakra-ui/react';
+import { Box, Button, Card, CardHeader, HStack, Text, VStack } from '@chakra-ui/react';
+import { v4 } from 'uuid';
 
 export default function Home() {
   return (
     <Box>
       <VStack>
-        <Button height="20vh" mt="8" width="80vw" bgColor="gray.100">
-          QR
-        </Button>
+        <DisplayQrCode />
         <HStack>
-          <Button height="26vh" w="40vw" sx={{ whiteSpace: 'pre-wrap' }}>
-            {'大浴場\n11'}
-          </Button>
-          <Button height="26vh" width="40vw">
-            <Card bgColor="gray.100" height="26vh" width="40vw">
-              <CardHeader>シャワー室</CardHeader>
-              <HStack>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-              </HStack>
-            </Card>
-          </Button>
+          <DisplayPublicBath numberOfUsingBath={3} />
+          <DisplayShower showerData={[true, false]} />
         </HStack>
-        <Button height="36vh" width="80vw" p="4">
-          <Card bgColor="gray.100" height="36vh" width="80vw" p="4">
-            <VStack>
-              <h1>洗濯機</h1>
-              <HStack>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-              </HStack>
-              <h1>乾燥機</h1>
-              <HStack>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-              </HStack>
-            </VStack>
-          </Card>
-        </Button>
+        <DisplayWasherAndDryer
+          washerData={[true, false, false, false]}
+          dryerData={[false, false, true, false]}
+        />
       </VStack>
     </Box>
   );
 }
+
+type DisplayWasherAndDryerProps = {
+  washerData: boolean[];
+  dryerData: boolean[];
+};
+
+const DisplayWasherAndDryer = ({ washerData, dryerData }: DisplayWasherAndDryerProps) => {
+  const id = v4();
+  return (
+    <Button height="36vh" width="80vw" p="4">
+      <Card bgColor="gray.100" height="36vh" width="80vw" p="4">
+        <VStack>
+          <h1>洗濯機</h1>
+          <HStack>
+            {washerData.map((isUsingWasher) => {
+              return (
+                <Box
+                  key={id}
+                  height="10vh"
+                  width="16vw"
+                  bgColor={isUsingWasher ? 'green.100' : 'white'}
+                ></Box>
+              );
+            })}
+          </HStack>
+          <h1>乾燥機</h1>
+          <HStack>
+            {dryerData.map((isUsingDryer) => {
+              return (
+                <Box
+                  key={id}
+                  height="10vh"
+                  width="16vw"
+                  bgColor={isUsingDryer ? 'green.100' : 'white'}
+                ></Box>
+              );
+            })}
+          </HStack>
+        </VStack>
+      </Card>
+    </Button>
+  );
+};
+
+type DisplayShowerProps = {
+  showerData: boolean[];
+};
+
+const DisplayShower = ({ showerData }: DisplayShowerProps) => {
+  const id = v4();
+  return (
+    <Button height="26vh" width="40vw">
+      <Card bgColor="gray.100" height="26vh" width="40vw">
+        <CardHeader>シャワー室</CardHeader>
+        <HStack>
+          {showerData.map((isUsingShower) => {
+            return (
+              <Box
+                key={id}
+                height="10vh"
+                width="16vw"
+                bgColor={isUsingShower ? 'green.100' : 'white'}
+              ></Box>
+            );
+          })}
+        </HStack>
+      </Card>
+    </Button>
+  );
+};
+
+type DisplayPublicBathProps = {
+  numberOfUsingBath: number;
+};
+
+const DisplayPublicBath = ({ numberOfUsingBath }: DisplayPublicBathProps) => {
+  return (
+    <Button height="26vh" width="40vw">
+      <Card bgColor="gray.100" height="26vh" width="40vw">
+        <CardHeader>大浴場</CardHeader>
+        <Text>{numberOfUsingBath}</Text>
+      </Card>
+    </Button>
+  );
+};
+
+const DisplayQrCode = () => {
+  return (
+    <Button height="20vh" mt="8" width="80vw" bgColor="gray.100">
+      QR
+    </Button>
+  );
+};
