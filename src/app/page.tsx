@@ -1,46 +1,35 @@
-import { Box, Button, Card, CardHeader, HStack, VStack } from '@chakra-ui/react';
+'use client';
+import { VStack, HStack, Box } from '@chakra-ui/react';
+import {
+  DisplayQrCode,
+  DisplayPublicBath,
+  DisplayShower,
+  DisplayWasherAndDryer,
+} from './components/Dashboard';
+import { useDashboardData } from './hooks/useDashboardData';
 
 export default function Home() {
+  const { dashboardData, isError, isLoading } = useDashboardData();
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
+  if (!dashboardData) {
+    return <div>no data</div>;
+  }
+  if (isError) {
+    return <div>error</div>;
+  }
+
+  const { dryerData, showerData, washerData } = dashboardData;
   return (
     <Box>
       <VStack>
-        <Button height="20vh" mt="8" width="80vw" bgColor="gray.100">
-          QR
-        </Button>
+        <DisplayQrCode />
         <HStack>
-          <Button height="26vh" w="40vw" sx={{ whiteSpace: 'pre-wrap' }}>
-            {'大浴場\n11'}
-          </Button>
-          <Button height="26vh" width="40vw">
-            <Card bgColor="gray.100" height="26vh" width="40vw">
-              <CardHeader>シャワー室</CardHeader>
-              <HStack>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-              </HStack>
-            </Card>
-          </Button>
+          <DisplayPublicBath numberOfUsingBath={3} />
+          <DisplayShower showerData={showerData} />
         </HStack>
-        <Button height="36vh" width="80vw" p="4">
-          <Card bgColor="gray.100" height="36vh" width="80vw" p="4">
-            <VStack>
-              <h1>洗濯機</h1>
-              <HStack>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-              </HStack>
-              <h1>乾燥機</h1>
-              <HStack>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-                <Box height="10vh" width="16vw" bgColor="white"></Box>
-              </HStack>
-            </VStack>
-          </Card>
-        </Button>
+        <DisplayWasherAndDryer washerData={washerData} dryerData={dryerData} />
       </VStack>
     </Box>
   );
