@@ -43,22 +43,20 @@ const DisplayWasherAndDryer = ({ washerData, dryerData }: DisplayWasherAndDryerP
 const DisplayShower = ({ showerData }: DisplayShowerProps) => {
   const id = v4();
   return (
-    <Button height="26vh" width="40vw">
-      <Card bgColor="gray.100" height="26vh" width="40vw">
-        <CardHeader>シャワー室</CardHeader>
-        <HStack>
-          {showerData.map((isUsingShower) => {
-            return (
-              <Box
-                key={id}
-                height="10vh"
-                width="16vw"
-                bgColor={isUsingShower ? 'green.100' : 'white'}
-              ></Box>
-            );
-          })}
-        </HStack>
-      </Card>
+    <Button bgColor="gray.100" height="26vh" width="40vw">
+      <Text>シャワー室</Text>
+      <HStack>
+        {showerData.map((isUsingShower) => {
+          return (
+            <Box
+              key={id}
+              height="10vh"
+              width="16vw"
+              bgColor={isUsingShower ? 'green.100' : 'white'}
+            ></Box>
+          );
+        })}
+      </HStack>
     </Button>
   );
 };
