@@ -39,7 +39,11 @@ declare module '@tanstack/table-core' {
   }
 }
 
-const MonthlyCleaningTable = () => {
+type MonthlyCleaningTableProps = {
+  isEditMode: boolean;
+};
+
+const MonthlyCleaningTable = ({ isEditMode }: MonthlyCleaningTableProps) => {
   const [tableData, setTableData] = useState<MonthlyCleaningTableData[]>(monthlyCleaningTable);
 
   const columns = [
@@ -68,20 +72,10 @@ const MonthlyCleaningTable = () => {
         setValue(initialValue);
       }, [initialValue]);
 
-      if (id === 'date') {
-        return (
-          <Input
-            type="date"
-            value={value as string}
-            onChange={(e) => setValue(e.target.value)}
-            onBlur={onBlur}
-          />
-        );
-      }
-
       if (id === 'names') {
         return (
           <MultiSelectNames
+            isEditMode={isEditMode}
             onBlur={onBlur}
             rowIndex={index}
             tableData={tableData}
@@ -91,7 +85,13 @@ const MonthlyCleaningTable = () => {
       }
 
       return (
-        <Input value={value as string} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />
+        <Input
+          value={value as string}
+          onChange={(e) => setValue(e.target.value)}
+          onBlur={onBlur}
+          placeholder="例: 28"
+          isReadOnly={!isEditMode}
+        />
       );
     },
   };
@@ -147,22 +147,24 @@ const MonthlyCleaningTable = () => {
             ))}
           </Tbody>
         </Table>
-        <HStack>
-          <Button
-            onClick={() =>
-              setTableData((prevTableData) => [...prevTableData, { date: '', names: [] }])
-            }
-          >
-            行を追加
-          </Button>
-          <Button
-            bgColor="red.400"
-            color="white"
-            onClick={() => setTableData([...monthlyCleaningTable])}
-          >
-            表をクリア
-          </Button>
-        </HStack>
+        {isEditMode && (
+          <HStack>
+            <Button
+              onClick={() =>
+                setTableData((prevTableData) => [...prevTableData, { date: '', names: [] }])
+              }
+            >
+              行を追加
+            </Button>
+            <Button
+              bgColor="red.400"
+              color="white"
+              onClick={() => setTableData([...monthlyCleaningTable])}
+            >
+              表をクリア
+            </Button>
+          </HStack>
+        )}
       </VStack>
     </Box>
   );
@@ -183,9 +185,10 @@ type Props = {
   tableData: MonthlyCleaningTableData[];
   setTableData: Dispatch<SetStateAction<MonthlyCleaningTableData[]>>;
   rowIndex: number;
+  isEditMode: boolean;
 };
 
-const MultiSelectNames = ({ onBlur, tableData, setTableData, rowIndex }: Props) => {
+const MultiSelectNames = ({ onBlur, tableData, setTableData, rowIndex, isEditMode }: Props) => {
   const studentNames: StudentName[] = [
     new StudentName('3I 毛利k', '3I 毛利k', 'gray'),
     new StudentName('3I 村上', '3I 村上', 'blue'),
@@ -198,7 +201,7 @@ const MultiSelectNames = ({ onBlur, tableData, setTableData, rowIndex }: Props) 
     new StudentName('3M 田中', '3M 田中', 'orange'),
   ];
 
-  const handleOnChangeSelectedCats = (
+  const handleOnChangeSelectedNames = (
     _newValue: MultiValue<StudentName>,
     actionMeta: ActionMeta<StudentName>
   ) => {
@@ -257,11 +260,12 @@ const MultiSelectNames = ({ onBlur, tableData, setTableData, rowIndex }: Props) 
       isMulti
       name="studentName"
       options={studentNames}
-      placeholder="当番を選んでください"
+      placeholder="当番を選択"
       closeMenuOnSelect={false}
       value={tableData[rowIndex].names}
-      onChange={handleOnChangeSelectedCats}
+      onChange={handleOnChangeSelectedNames}
       onBlur={onBlur}
+      isReadOnly={!isEditMode}
     />
   );
 };

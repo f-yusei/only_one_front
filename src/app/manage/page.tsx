@@ -2,20 +2,21 @@
 import { Box, Button, HStack, Text } from '@chakra-ui/react';
 import WeeklyCleaningTable from '../components/WeeklyCleaningTable';
 import MonthlyCleaningTable from '../components/MonthlyCleaningTable';
+import PreviewModal from '../components/PreviewModal';
 
 export default function Home() {
   return (
     <Box p={4}>
       <Box>
         <Text>週例清掃</Text>
-        <WeeklyCleaningTable />
+        <WeeklyCleaningTable isEditMode={true} />
       </Box>
       <Box>
         <Text>月例清掃</Text>
-        <MonthlyCleaningTable />
+        <MonthlyCleaningTable isEditMode={true} />
       </Box>
       <HStack>
-        <Button m={4}>プレビューを表示</Button>
+        <PreviewModal />
         <Button colorScheme="teal" m={4}>
           保存して閉じる
         </Button>

@@ -47,7 +47,11 @@ const weeklyCleaningTable: WeeklyCleaningTableData[] = [
   },
 ];
 
-const WeeklyCleaningTable = () => {
+type WeeklyCleaningTableProps = {
+  isEditMode: boolean;
+};
+
+const WeeklyCleaningTable = ({ isEditMode }: WeeklyCleaningTableProps) => {
   const [tableData, setTableData] = useState<WeeklyCleaningTableData[]>(weeklyCleaningTable);
 
   const columns = [
@@ -96,17 +100,6 @@ const WeeklyCleaningTable = () => {
         );
       }
 
-      if (id === 'date') {
-        return (
-          <Input
-            type="date"
-            value={value as string}
-            onChange={(e) => setValue(e.target.value)}
-            onBlur={onBlur}
-          />
-        );
-      }
-
       if (id === '1f') {
         return (
           <MultiSelectNames
@@ -115,6 +108,7 @@ const WeeklyCleaningTable = () => {
             floor="F1studentNames"
             tableData={tableData}
             setTableData={setTableData}
+            isEditMode={isEditMode}
           />
         );
       }
@@ -127,6 +121,7 @@ const WeeklyCleaningTable = () => {
             floor="F2studentNames"
             tableData={tableData}
             setTableData={setTableData}
+            isEditMode={isEditMode}
           />
         );
       }
@@ -139,12 +134,19 @@ const WeeklyCleaningTable = () => {
             floor="F3studentNames"
             tableData={tableData}
             setTableData={setTableData}
+            isEditMode={isEditMode}
           />
         );
       }
 
       return (
-        <Input value={value as string} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />
+        <Input
+          value={value as string}
+          onChange={(e) => setValue(e.target.value)}
+          onBlur={onBlur}
+          placeholder="例: 23"
+          isReadOnly={!isEditMode}
+        />
       );
     },
   };
@@ -200,18 +202,20 @@ const WeeklyCleaningTable = () => {
             ))}
           </Tbody>
         </Table>
-        <HStack align="right">
-          <Button onClick={() => setTableData([...tableData, ...weeklyCleaningTable])}>
-            行を追加
-          </Button>
-          <Button
-            onClick={() => setTableData([...weeklyCleaningTable])}
-            bgColor="red.400"
-            color="white"
-          >
-            表をクリア
-          </Button>
-        </HStack>
+        {isEditMode && (
+          <HStack align="right">
+            <Button onClick={() => setTableData([...tableData, ...weeklyCleaningTable])}>
+              行を追加
+            </Button>
+            <Button
+              onClick={() => setTableData([...weeklyCleaningTable])}
+              bgColor="red.400"
+              color="white"
+            >
+              表をクリア
+            </Button>
+          </HStack>
+        )}
       </VStack>
     </Box>
   );
@@ -231,9 +235,17 @@ type Props = {
   setTableData: Dispatch<SetStateAction<WeeklyCleaningTableData[]>>;
   rowIndex: number;
   floor: 'F1studentNames' | 'F2studentNames' | 'F3studentNames';
+  isEditMode: boolean;
 };
 
-const MultiSelectNames = ({ onBlur, tableData, setTableData, rowIndex, floor }: Props) => {
+const MultiSelectNames = ({
+  onBlur,
+  tableData,
+  setTableData,
+  rowIndex,
+  floor,
+  isEditMode,
+}: Props) => {
   //TODO: DBからフェッチしたデータを使用するようにする
   const studentNames: StudentName[] = [
     new StudentName('3I 毛利k', '3I 毛利k', 'gray'),
@@ -309,11 +321,12 @@ const MultiSelectNames = ({ onBlur, tableData, setTableData, rowIndex, floor }: 
       isMulti
       name="studentName"
       options={studentNames}
-      placeholder="当番を選んでください"
+      placeholder="当番を選択"
       closeMenuOnSelect={false}
       value={tableData[rowIndex][floorStudentNames]}
       onBlur={onBlur}
       onChange={handleOnChangeSelectedNames}
+      isReadOnly={!isEditMode}
     />
   );
 };
