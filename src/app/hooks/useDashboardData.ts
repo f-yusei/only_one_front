@@ -14,3 +14,35 @@ export const useDashboardData = () => {
     isError: error,
   };
 };
+
+export const useYamaDashboardData = () => {
+  const { data, error } = useSWR<DashboardData>('/api/dashboard', fetcher);
+
+  const yamaData = {
+    showerData: data?.yamaShowerData,
+    washerData: data?.yamaWasherData,
+    dryerData: data?.yamaDryerData,
+  };
+
+  return {
+    dashboardData: yamaData,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};
+
+export const useUmiDashboardData = () => {
+  const { data, error } = useSWR<DashboardData>('/api/dashboard', fetcher);
+
+  const umiData = {
+    showerData: data?.umiShowerData,
+    washerData: data?.umiWasherData,
+    dryerData: data?.umiDryerData,
+  };
+
+  return {
+    dashboardData: umiData,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};

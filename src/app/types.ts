@@ -1,8 +1,11 @@
 type DashboardData = {
-  washerData: boolean[];
-  dryerData: boolean[];
-  showerData: boolean[];
-  numberOfUsingBath: number;
+  yamaWasherData: boolean[];
+  umiWasherData: boolean[];
+  yamaDryerData: boolean[];
+  umiDryerData: boolean[];
+  yamaShowerData: boolean[];
+  umiShowerData: boolean[];
+  numberOfUsingBathData: number[];
 };
 
 type gotDashboardData = {
@@ -11,8 +14,11 @@ type gotDashboardData = {
   timestamp: string;
 };
 
-type DisplayWasherAndDryerProps = {
+type DisplayWasherProps = {
   washerData: boolean[];
+};
+
+type DisplayDryerProps = {
   dryerData: boolean[];
 };
 
@@ -21,12 +27,13 @@ type DisplayShowerProps = {
 };
 
 type DisplayPublicBathProps = {
-  numberOfUsingBath: number;
+  numberOfUsingBathData: number[];
 };
 
 export type {
   DashboardData,
-  DisplayWasherAndDryerProps,
+  DisplayWasherProps,
+  DisplayDryerProps,
   DisplayShowerProps,
   DisplayPublicBathProps,
   gotDashboardData,
