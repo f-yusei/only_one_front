@@ -1,15 +1,36 @@
 'use client';
 import { Box, Button, HStack, Text } from '@chakra-ui/react';
-import WeeklyCleaningTable from '../components/WeeklyCleaningTable';
-import MonthlyCleaningTable from '../components/MonthlyCleaningTable';
+import WeeklyCleaningTable, { WeeklyCleaningTableData } from '../components/WeeklyCleaningTable';
+import MonthlyCleaningTable, { MonthlyCleaningTableData } from '../components/MonthlyCleaningTable';
 import PreviewModal from '../components/PreviewModal';
 import { useEffect, useState } from 'react';
 import SelectMonthAndDormitory from '../components/common';
 
 export default function Home() {
+  const weeklyCleaningTable: WeeklyCleaningTableData[] = [
+    {
+      week: '',
+      date: '',
+      F1studentNames: [],
+      F2studentNames: [],
+      F3studentNames: [],
+    },
+  ];
+  const monthlyCleaningTable: MonthlyCleaningTableData[] = [
+    {
+      date: '',
+      names: [],
+    },
+  ];
+
   const [dormitory, setDormitory] = useState('');
   const [month, setMonth] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
+  const [weeklyCleaningTableData, setWeeklyCleaningTable] =
+    useState<WeeklyCleaningTableData[]>(weeklyCleaningTable);
+  const [monthlyCleaningTableData, setMonthlyCleaningTable] =
+    useState<MonthlyCleaningTableData[]>(monthlyCleaningTable);
+
   useEffect(() => {
     if (month === '' || dormitory === '') {
       setIsEditMode(false);
@@ -17,6 +38,39 @@ export default function Home() {
     }
     setIsEditMode(true);
   }, [month, dormitory]);
+
+  const handlePost = async () => {
+    const url = process.env.BACKEND_API_URL + '/api/cleaning';
+    setWeeklyCleaningTable((prevTableData) => {
+      const newData = [...prevTableData];
+      for (let i = 0; i < newData.length; i++) {
+        newData[i].week = (i + 1).toString();
+      }
+      return newData;
+    });
+    const postData = {
+      dormitory: dormitory,
+      month: month,
+      weeklyCleaningTableData: weeklyCleaningTableData,
+      monthlyCleaningTableData: monthlyCleaningTableData,
+    };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postData),
+    };
+    await fetch(url, options).then((res) => {
+      if (res.ok) {
+        alert('保存しました');
+        console.log(res);
+      } else {
+        alert('保存に失敗しました');
+        console.log(res);
+      }
+    });
+  };
   return (
     <Box p={4}>
       <SelectMonthAndDormitory
@@ -28,15 +82,23 @@ export default function Home() {
       />
       <Box>
         <Text>週例清掃</Text>
-        <WeeklyCleaningTable isEditMode={isEditMode} />
+        <WeeklyCleaningTable
+          isEditMode={isEditMode}
+          tableData={weeklyCleaningTableData}
+          setTableData={setWeeklyCleaningTable}
+        />
       </Box>
       <Box>
         <Text>月例清掃</Text>
-        <MonthlyCleaningTable isEditMode={isEditMode} />
+        <MonthlyCleaningTable
+          isEditMode={isEditMode}
+          tableData={monthlyCleaningTableData}
+          setTableData={setMonthlyCleaningTable}
+        />
       </Box>
       <HStack>
         <PreviewModal />
-        <Button colorScheme="teal" m={4}>
+        <Button colorScheme="teal" onClick={() => handlePost} m={4}>
           保存して閉じる
         </Button>
       </HStack>

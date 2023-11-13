@@ -21,17 +21,10 @@ import {
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { ActionMeta, MultiValue, Select, GroupBase, OptionBase } from 'chakra-react-select';
 
-type MonthlyCleaningTableData = {
+export type MonthlyCleaningTableData = {
   date: string;
   names: StudentName[];
 };
-
-const monthlyCleaningTable: MonthlyCleaningTableData[] = [
-  {
-    date: '',
-    names: [],
-  },
-];
 
 declare module '@tanstack/table-core' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -41,12 +34,16 @@ declare module '@tanstack/table-core' {
 }
 
 type MonthlyCleaningTableProps = {
+  tableData: MonthlyCleaningTableData[];
+  setTableData: Dispatch<SetStateAction<MonthlyCleaningTableData[]>>;
   isEditMode: boolean;
 };
 
-const MonthlyCleaningTable = ({ isEditMode }: MonthlyCleaningTableProps) => {
-  const [tableData, setTableData] = useState<MonthlyCleaningTableData[]>(monthlyCleaningTable);
-
+const MonthlyCleaningTable = ({
+  isEditMode,
+  tableData,
+  setTableData,
+}: MonthlyCleaningTableProps) => {
   const columns = [
     {
       header: '実施日',
@@ -160,7 +157,7 @@ const MonthlyCleaningTable = ({ isEditMode }: MonthlyCleaningTableProps) => {
             <Button
               bgColor="red.400"
               color="white"
-              onClick={() => setTableData([...monthlyCleaningTable])}
+              onClick={() => setTableData([{ date: '', names: [] }])}
             >
               表をクリア
             </Button>

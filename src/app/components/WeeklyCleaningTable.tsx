@@ -30,7 +30,7 @@ declare module '@tanstack/table-core' {
   }
 }
 
-type WeeklyCleaningTableData = {
+export type WeeklyCleaningTableData = {
   week: string;
   date: string;
   F1studentNames: StudentName[];
@@ -38,23 +38,13 @@ type WeeklyCleaningTableData = {
   F3studentNames: StudentName[];
 };
 
-const weeklyCleaningTable: WeeklyCleaningTableData[] = [
-  {
-    week: '',
-    date: '',
-    F1studentNames: [],
-    F2studentNames: [],
-    F3studentNames: [],
-  },
-];
-
 type WeeklyCleaningTableProps = {
   isEditMode: boolean;
+  tableData: WeeklyCleaningTableData[];
+  setTableData: Dispatch<SetStateAction<WeeklyCleaningTableData[]>>;
 };
 
-const WeeklyCleaningTable = ({ isEditMode }: WeeklyCleaningTableProps) => {
-  const [tableData, setTableData] = useState<WeeklyCleaningTableData[]>(weeklyCleaningTable);
-
+const WeeklyCleaningTable = ({ isEditMode, tableData, setTableData }: WeeklyCleaningTableProps) => {
   const columns = [
     {
       header: '第何回',
@@ -205,11 +195,34 @@ const WeeklyCleaningTable = ({ isEditMode }: WeeklyCleaningTableProps) => {
         </Table>
         {isEditMode && (
           <HStack align="right">
-            <Button onClick={() => setTableData([...tableData, ...weeklyCleaningTable])}>
+            <Button
+              onClick={() =>
+                setTableData([
+                  ...tableData,
+                  {
+                    week: '',
+                    date: '',
+                    F1studentNames: [],
+                    F2studentNames: [],
+                    F3studentNames: [],
+                  },
+                ])
+              }
+            >
               行を追加
             </Button>
             <Button
-              onClick={() => setTableData([...weeklyCleaningTable])}
+              onClick={() =>
+                setTableData([
+                  {
+                    week: '',
+                    date: '',
+                    F1studentNames: [],
+                    F2studentNames: [],
+                    F3studentNames: [],
+                  },
+                ])
+              }
               bgColor="red.400"
               color="white"
             >
