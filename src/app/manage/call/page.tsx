@@ -21,7 +21,7 @@ const CallManagePage = () => {
     setIsEditMode(true);
   }, [month, dormitory]);
 
-  const handlePost = () => {
+  const handlePost = async () => {
     const url = process.env.BACKEND_API_URL + '/api/rollcall';
     setTableData((prevTableData) => {
       const newData = [...prevTableData];
@@ -43,11 +43,13 @@ const CallManagePage = () => {
       },
       body: JSON.stringify(postData),
     };
-    fetch(url, options).then((res) => {
+    await fetch(url, options).then((res) => {
       if (res.ok) {
         alert('保存しました');
+        console.log(res);
       } else {
         alert('保存に失敗しました');
+        console.log(res);
       }
     });
   };
