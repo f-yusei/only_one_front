@@ -1,12 +1,12 @@
 import useSWR from 'swr';
 import { DashboardData } from '../types';
 
-const fetchUrl = process.env.BACKEND_API_URL || 'http://localhost:5000';
+const fetchUrl = process.env.NEXT_BACKEND_API_URL + 'api/dashboard' || 'http://localhost:5000';
 
 const fetcher = () => fetch(fetchUrl).then((res) => res.json());
 
 export const useDashboardData = () => {
-  const { data, error } = useSWR<DashboardData>('/api/dashboard', fetcher);
+  const { data, error } = useSWR<DashboardData>(fetcher);
 
   return {
     dashboardData: data,

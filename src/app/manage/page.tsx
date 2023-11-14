@@ -40,11 +40,12 @@ export default function Home() {
   }, [month, dormitory]);
 
   const handlePost = async () => {
-    const url = process.env.BACKEND_API_URL + '/api/cleaning';
+    const url = '/api/cleaning';
     setWeeklyCleaningTable((prevTableData) => {
       const newData = [...prevTableData];
       for (let i = 0; i < newData.length; i++) {
         newData[i].week = (i + 1).toString();
+        newData[i].F1studentNames;
       }
       return newData;
     });
@@ -66,7 +67,7 @@ export default function Home() {
         alert('保存しました');
         console.log(res);
       } else {
-        alert('保存に失敗しました');
+        alert('保存に失敗しました。フォームが正しく入力されているか確認して下さい');
         console.log(res);
       }
     });
@@ -98,7 +99,7 @@ export default function Home() {
       </Box>
       <HStack>
         <PreviewModal />
-        <Button colorScheme="teal" onClick={() => handlePost} m={4}>
+        <Button colorScheme="teal" onClick={() => handlePost()} m={4}>
           保存して閉じる
         </Button>
       </HStack>
