@@ -4,7 +4,7 @@ import WeeklyCleaningTable, { WeeklyCleaningTableData } from '../components/Week
 import MonthlyCleaningTable, { MonthlyCleaningTableData } from '../components/MonthlyCleaningTable';
 import PreviewModal from '../components/PreviewModal';
 import { useEffect, useState } from 'react';
-import SelectMonthAndDormitory from '../components/common';
+import { SelectMonthAndDormitory } from '../components/Common';
 
 export default function Home() {
   const weeklyCleaningTable: WeeklyCleaningTableData[] = [

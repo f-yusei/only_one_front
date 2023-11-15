@@ -1,6 +1,6 @@
 'use client';
 import RollCallTable, { RollCallTableData } from '@/app/components/RollCallTable';
-import SelectMonthAndDormitory from '@/app/components/common';
+import { SelectMonthAndDormitory } from '@/app/components/Common';
 import { Box, Button, Card } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 

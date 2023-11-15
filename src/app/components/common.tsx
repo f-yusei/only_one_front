@@ -1,4 +1,5 @@
-import { Text, Select } from '@chakra-ui/react';
+'use client';
+import { Text, Select, Box, Button, Collapse, useDisclosure } from '@chakra-ui/react';
 
 type SelectMonthAndDormitoryProps = {
   setDormitory: (dormitory: string) => void;
@@ -54,4 +55,24 @@ const SelectMonthAndDormitory = ({
   );
 };
 
-export default SelectMonthAndDormitory;
+type CollapseExProps = {
+  children: React.ReactNode;
+  day: string;
+};
+
+const CollapseEx = ({ children, day }: CollapseExProps) => {
+  const { isOpen, onToggle } = useDisclosure();
+
+  return (
+    <>
+      <Button onClick={onToggle}>{day}</Button>
+      <Collapse in={isOpen} animateOpacity>
+        <Box p="40px" color="white" mt="4" bg="teal.500" rounded="md" shadow="md">
+          {children}
+        </Box>
+      </Collapse>
+    </>
+  );
+};
+
+export { SelectMonthAndDormitory, CollapseEx };
