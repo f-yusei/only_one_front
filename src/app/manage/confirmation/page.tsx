@@ -3,18 +3,7 @@ import { CollapseEx } from '@/app/components/Common';
 import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-type CleaningData = {
-  id: string;
-  times: number;
-  cleaningType: string;
-  dormitory: string;
-  floor: number;
-};
-
-type CleaningAllData = {
-  date: string;
-  cleaningData: CleaningData[];
-}[];
+import { CleaningAllData } from '@/app/types';
 
 const TeacherConfirmationPage = () => {
   const router = useRouter();

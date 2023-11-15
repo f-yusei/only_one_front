@@ -1,10 +1,12 @@
 'use client';
 import { Box, Button, HStack, Text } from '@chakra-ui/react';
-import WeeklyCleaningTable, { WeeklyCleaningTableData } from '../components/WeeklyCleaningTable';
-import MonthlyCleaningTable, { MonthlyCleaningTableData } from '../components/MonthlyCleaningTable';
 import PreviewModal from '../components/PreviewModal';
 import { useEffect, useState } from 'react';
 import { SelectMonthAndDormitory } from '../components/Common';
+import MonthlyCleaningTable from '../components/MonthlyCleaningTable';
+import WeeklyCleaningTable from '../components/WeeklyCleaningTable';
+import { WeeklyCleaningTableData, MonthlyCleaningTableData } from '../types';
+import api from '@/api/api';
 
 export default function Home() {
   const weeklyCleaningTable: WeeklyCleaningTableData[] = [
@@ -40,7 +42,6 @@ export default function Home() {
   }, [month, dormitory]);
 
   const handlePost = async () => {
-    const url = '/api/cleaning';
     setWeeklyCleaningTable((prevTableData) => {
       const newData = [...prevTableData];
       for (let i = 0; i < newData.length; i++) {
@@ -55,15 +56,8 @@ export default function Home() {
       weeklyCleaningTableData: weeklyCleaningTableData,
       monthlyCleaningTableData: monthlyCleaningTableData,
     };
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postData),
-    };
-    await fetch(url, options).then((res) => {
-      if (res.ok) {
+    await api.postTableData(postData).then((res) => {
+      if (res) {
         alert('保存しました');
         console.log(res);
       } else {
