@@ -6,7 +6,7 @@ import MonthlyCleaningTable from '../components/MonthlyCleaningTable';
 import WeeklyCleaningTable from '../components/WeeklyCleaningTable';
 import { WeeklyCleaningTableData, MonthlyCleaningTableData } from '../types';
 import api from '@/api/api';
-import { SelectMonthAndDormitory } from '../components/Common';
+import { SelectMonthAndDormitory } from '../components/CommonFunction';
 
 export default function Home() {
   const weeklyCleaningTable: WeeklyCleaningTableData[] = [

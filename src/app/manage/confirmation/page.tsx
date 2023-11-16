@@ -3,7 +3,7 @@ import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { CleaningAllData } from '@/app/types';
-import { CollapseEx } from '@/app/components/Common';
+import { CollapseEx } from '@/app/components/CommonFunction';
 
 const TeacherConfirmationPage = () => {
   const router = useRouter();
