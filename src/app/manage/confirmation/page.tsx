@@ -4,9 +4,14 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { CleaningAllData } from '@/app/types';
 import { CollapseEx } from '@/app/components/CommonFunction';
+import { useUserContext } from '@/app/hooks/useUserContext';
 
 const TeacherConfirmationPage = () => {
   const router = useRouter();
+  const { userData } = useUserContext();
+  if (userData.account === undefined) {
+    router.push('/manage/login');
+  }
   const cleaningAllData: CleaningAllData = [
     {
       date: '2021-10-01',

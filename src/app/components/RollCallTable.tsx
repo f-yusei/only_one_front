@@ -20,11 +20,7 @@ import {
   RowData,
 } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
-
-export type RollCallTableData = {
-  date: string;
-  name: string;
-};
+import { RollCallTableData } from '../types';
 
 declare module '@tanstack/table-core' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -35,12 +31,12 @@ declare module '@tanstack/table-core' {
 
 type RollCallTableProps = {
   isEditMode: boolean;
-  month: string;
+  date: string;
   tableData: RollCallTableData[];
   setTableData: React.Dispatch<React.SetStateAction<RollCallTableData[]>>;
 };
 
-const RollCallTable = ({ isEditMode, month, tableData, setTableData }: RollCallTableProps) => {
+const RollCallTable = ({ isEditMode, date, tableData, setTableData }: RollCallTableProps) => {
   const columns = [
     {
       header: '担当日',
@@ -68,7 +64,7 @@ const RollCallTable = ({ isEditMode, month, tableData, setTableData }: RollCallT
       }, [initialValue]);
 
       if (id === 'date') {
-        return <Input isReadOnly defaultValue={month + '月' + (index + 1).toString() + '日'} />;
+        return <Input isReadOnly defaultValue={date + (index + 1).toString() + '日'} />;
       }
 
       return (
@@ -138,7 +134,7 @@ const RollCallTable = ({ isEditMode, month, tableData, setTableData }: RollCallT
           <HStack>
             <Button
               onClick={() =>
-                setTableData((prevTableData) => [...prevTableData, { date: '', name: '' }])
+                setTableData((prevTableData) => [...prevTableData, { day: '', name: '' }])
               }
             >
               行を追加
@@ -153,7 +149,7 @@ const RollCallTable = ({ isEditMode, month, tableData, setTableData }: RollCallT
             <Button
               bgColor="red.400"
               color="white"
-              onClick={() => setTableData([{ date: '', name: '' }])}
+              onClick={() => setTableData([{ day: '', name: '' }])}
             >
               表をクリア
             </Button>

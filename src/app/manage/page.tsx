@@ -7,11 +7,18 @@ import WeeklyCleaningTable from '../components/WeeklyCleaningTable';
 import { WeeklyCleaningTableData, MonthlyCleaningTableData } from '../types';
 import api from '@/api/api';
 import { SelectMonthAndDormitory } from '../components/CommonFunction';
+import { useUserContext } from '../hooks/useUserContext';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const { userData } = useUserContext();
+  const router = useRouter();
+  if (userData.account === undefined) {
+    router.push('/manage/login');
+  }
   const weeklyCleaningTable: WeeklyCleaningTableData[] = [
     {
-      week: '',
+      times: '',
       date: '',
       F1studentNames: [],
       F2studentNames: [],
@@ -27,6 +34,7 @@ export default function Home() {
 
   const [dormitory, setDormitory] = useState('');
   const [month, setMonth] = useState('');
+  const [year, setYear] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [weeklyCleaningTableData, setWeeklyCleaningTable] =
     useState<WeeklyCleaningTableData[]>(weeklyCleaningTable);
@@ -45,16 +53,45 @@ export default function Home() {
     setWeeklyCleaningTable((prevTableData) => {
       const newData = [...prevTableData];
       for (let i = 0; i < newData.length; i++) {
-        newData[i].week = (i + 1).toString();
+        newData[i].times = (i + 1).toString();
         newData[i].F1studentNames;
       }
       return newData;
     });
+
+    const weeklyCleaningTableDataToPost = weeklyCleaningTableData.map(
+      (data: WeeklyCleaningTableData) => {
+        return {
+          times: data.times,
+          day: data.date,
+          F1studentNames: data.F1studentNames.map((name) => {
+            return name.value;
+          }),
+          F2studentNames: data.F2studentNames.map((name) => {
+            return name.value;
+          }),
+          F3studentNames: data.F3studentNames.map((name) => {
+            return name.value;
+          }),
+        };
+      }
+    );
+    const monthlyCleaningTableDataToPost = monthlyCleaningTableData.map(
+      (data: MonthlyCleaningTableData) => {
+        return {
+          day: data.date,
+          names: data.names.map((name) => {
+            return name.value;
+          }),
+        };
+      }
+    );
+
     const postData = {
       dormitory: dormitory,
-      month: month,
-      weeklyCleaningTableData: weeklyCleaningTableData,
-      monthlyCleaningTableData: monthlyCleaningTableData,
+      date: year + '-' + month,
+      weeklyCleaningTableData: weeklyCleaningTableDataToPost,
+      monthlyCleaningTableData: monthlyCleaningTableDataToPost,
     };
     await api.postTableData(postData).then((res) => {
       if (res) {
@@ -70,6 +107,8 @@ export default function Home() {
     <Box p={4}>
       <SelectMonthAndDormitory
         dormitory={dormitory}
+        year={year}
+        setYear={setYear}
         month={month}
         setDormitory={setDormitory}
         setMonth={setMonth}

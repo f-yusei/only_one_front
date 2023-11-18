@@ -30,6 +30,70 @@ type gotDashboardData = {
   timestamp: string;
 };
 
+type CleaningTableDataToPost = {
+  dormitory: string;
+  date: string;
+  weeklyCleaningTableData: WeeklyCleaningTableDataToPost[];
+  monthlyCleaningTableData: MonthlyCleaningTableDataToPost[];
+};
+
+type RollCallTableData = {
+  day: string;
+  name: string;
+};
+
+type RollCallTableDataToPost = {
+  dormitory: string;
+  date: string;
+  tableData: RollCallTableData[];
+};
+
+class StudentName implements OptionBase {
+  constructor(
+    public value: string,
+    public label: string,
+    public colorScheme: string
+  ) {}
+}
+
+type StudentNameType = {
+  value: string;
+  label: string;
+  colorScheme: string;
+};
+
+type WeeklyCleaningTableData = {
+  times: string;
+  date: string;
+  F1studentNames: StudentName[];
+  F2studentNames: StudentName[];
+  F3studentNames: StudentName[];
+};
+
+type WeeklyCleaningTableDataToPost = {
+  times: string;
+  day: string;
+  F1studentNames: string[];
+  F2studentNames: string[];
+  F3studentNames: string[];
+};
+
+type MonthlyCleaningTableDataToPost = {
+  day: string;
+  names: string[];
+};
+
+type MonthlyCleaningTableData = {
+  date: string;
+  names: StudentName[];
+};
+type LoginData = {
+  studentId: string;
+  password: string;
+};
+
+//type for Props
+
 type DisplayWasherProps = {
   washerData: boolean[];
 };
@@ -46,43 +110,10 @@ type DisplayPublicBathProps = {
   numberOfUsingBathData: number[];
 };
 
-type CleaningTableDataToPost = {
-  dormitory: string;
-  month: string;
-  weeklyCleaningTableData: WeeklyCleaningTableData[];
-  monthlyCleaningTableData: MonthlyCleaningTableData[];
-};
-
-class StudentName implements OptionBase {
-  constructor(
-    public value: string,
-    public label: string,
-    public colorScheme: string
-  ) {}
-}
-
-type WeeklyCleaningTableData = {
-  week: string;
-  date: string;
-  F1studentNames: StudentName[];
-  F2studentNames: StudentName[];
-  F3studentNames: StudentName[];
-};
-
 type WeeklyCleaningTableProps = {
   isEditMode: boolean;
   tableData: WeeklyCleaningTableData[];
   setTableData: Dispatch<SetStateAction<WeeklyCleaningTableData[]>>;
-};
-
-type MonthlyCleaningTableData = {
-  date: string;
-  names: StudentName[];
-};
-
-type LoginData = {
-  studentId: string;
-  password: string;
 };
 
 export type {
@@ -99,6 +130,11 @@ export type {
   WeeklyCleaningTableProps,
   MonthlyCleaningTableData,
   LoginData,
+  RollCallTableData,
+  RollCallTableDataToPost,
+  StudentNameType,
+  WeeklyCleaningTableDataToPost,
+  MonthlyCleaningTableDataToPost,
 };
 
 export default StudentName;

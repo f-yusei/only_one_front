@@ -1,4 +1,5 @@
 'use client';
+import { useUserContext } from '@/app/hooks/useUserContext';
 import {
   Input,
   FormControl,
@@ -12,6 +13,7 @@ import {
   Box,
   Stack,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function WeeklyCleanReport() {
@@ -39,6 +41,11 @@ type AttendCheckerProps = {
 };
 
 const AttendChecker = ({ studentAccount }: AttendCheckerProps) => {
+  const { userData } = useUserContext();
+  const router = useRouter();
+  if (userData.account === undefined) {
+    router.push('/manage/login');
+  }
   const [attendcheck, setAttendCheck] = useState('出席');
   return (
     <>
