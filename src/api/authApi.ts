@@ -1,19 +1,18 @@
-import { LoginData } from '@/app/types';
+import { LoginData, UserData } from '@/app/types';
 import apiClient from './axiosClient';
-import { AxiosResponse } from 'axios';
 
-const getCleaningData = async () => {
-  const response = await apiClient.get<AxiosResponse>('/@me');
+const getAccountData = async () => {
+  const response = await apiClient.get<UserData>('/@me');
   return response.data;
 };
 
 const postLogin = async (data: LoginData) => {
-  const response = await apiClient.post(`/login`, data);
+  const response = await apiClient.post<UserData>(`/login`, data);
   return response.data;
 };
 
 const authApi = {
-  getCleaningData,
+  getAccountData,
   postLogin,
 };
 

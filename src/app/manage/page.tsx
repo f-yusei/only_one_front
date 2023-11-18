@@ -9,8 +9,10 @@ import api from '@/api/api';
 import { SelectMonthAndDormitory } from '../components/CommonFunction';
 import { useUserContext } from '../hooks/useUserContext';
 import { useRouter } from 'next/navigation';
+import useCheckCanAccessManage from '../hooks/useCheckCanAccessManage';
 
 export default function Home() {
+  useCheckCanAccessManage();
   const { userData } = useUserContext();
   const router = useRouter();
   if (userData.account === undefined) {

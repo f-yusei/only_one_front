@@ -1,9 +1,5 @@
 import React, { useState, createContext, ReactNode } from 'react';
-
-type UserData = {
-  account?: string;
-  studentId?: string;
-};
+import { UserData } from '../types';
 
 type UserStoreContext = {
   userData: UserData;

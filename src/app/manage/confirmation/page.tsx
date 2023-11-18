@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { CleaningAllData } from '@/app/types';
 import { CollapseEx } from '@/app/components/CommonFunction';
 import { useUserContext } from '@/app/hooks/useUserContext';
+import useCheckCanAccessManage from '@/app/hooks/useCheckCanAccessManage';
 
 const TeacherConfirmationPage = () => {
   const router = useRouter();
+  useCheckCanAccessManage();
   const { userData } = useUserContext();
   if (userData.account === undefined) {
     router.push('/manage/login');

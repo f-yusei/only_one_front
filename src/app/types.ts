@@ -116,6 +116,11 @@ type WeeklyCleaningTableProps = {
   setTableData: Dispatch<SetStateAction<WeeklyCleaningTableData[]>>;
 };
 
+type UserData = {
+  account?: string;
+  studentId?: string;
+};
+
 export type {
   DashboardData,
   DisplayWasherProps,
@@ -135,6 +140,7 @@ export type {
   StudentNameType,
   WeeklyCleaningTableDataToPost,
   MonthlyCleaningTableDataToPost,
+  UserData,
 };
 
 export default StudentName;

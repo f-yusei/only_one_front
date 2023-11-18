@@ -7,10 +7,12 @@ import api from '@/api/api';
 import { RollCallTableData, RollCallTableDataToPost } from '@/app/types';
 import { useUserContext } from '@/app/hooks/useUserContext';
 import { useRouter } from 'next/navigation';
+import useCheckCanAccessManage from '@/app/hooks/useCheckCanAccessManage';
 
 const CallManagePage = () => {
-  const { userData } = useUserContext();
   const router = useRouter();
+  useCheckCanAccessManage();
+  const { userData } = useUserContext();
   if (userData.account === undefined) {
     router.push('/manage/login');
   }
