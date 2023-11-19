@@ -32,20 +32,20 @@ type gotDashboardData = {
 
 type CleaningTableDataToPost = {
   dormitory: string;
-  date: string;
+  date: string; //yyyy-mm
   register: string;
   weeklyCleaningTableData: WeeklyCleaningTableDataToPost[];
   monthlyCleaningTableData: MonthlyCleaningTableDataToPost[];
 };
 
 type RollCallTableData = {
-  day: string;
+  day: string; //dd
   account: string;
 };
 
 type RollCallTableDataToPost = {
   dormitory: string;
-  date: string;
+  date: string; //yyyy-mm
   register: string;
   tableData: RollCallTableData[];
 };
@@ -74,7 +74,7 @@ type WeeklyCleaningTableData = {
 
 type WeeklyCleaningTableDataToPost = {
   times: string;
-  day: string;
+  day: string; //dd
   studentAccounts: {
     f1: string[];
     f2: string[];
@@ -83,7 +83,7 @@ type WeeklyCleaningTableDataToPost = {
 };
 
 type MonthlyCleaningTableDataToPost = {
-  day: string;
+  day: string; //dd
   accounts: string[];
 };
 
