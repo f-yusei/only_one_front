@@ -134,7 +134,7 @@ const RollCallTable = ({ isEditMode, date, tableData, setTableData }: RollCallTa
           <HStack>
             <Button
               onClick={() =>
-                setTableData((prevTableData) => [...prevTableData, { day: '', name: '' }])
+                setTableData((prevTableData) => [...prevTableData, { day: '', account: '' }])
               }
             >
               行を追加
@@ -149,7 +149,7 @@ const RollCallTable = ({ isEditMode, date, tableData, setTableData }: RollCallTa
             <Button
               bgColor="red.400"
               color="white"
-              onClick={() => setTableData([{ day: '', name: '' }])}
+              onClick={() => setTableData([{ day: '', account: '' }])}
             >
               表をクリア
             </Button>
