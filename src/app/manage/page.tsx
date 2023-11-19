@@ -59,7 +59,6 @@ export default function Home() {
       const newData = [...prevTableData];
       for (let i = 0; i < newData.length; i++) {
         newData[i].times = (i + 1).toString();
-        newData[i].F1studentNames;
       }
       return newData;
     });

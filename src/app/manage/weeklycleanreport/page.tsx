@@ -1,4 +1,5 @@
 'use client';
+import useCheckCanAccessManage from '@/app/hooks/useCheckCanAccessManage';
 import { useUserContext } from '@/app/hooks/useUserContext';
 import {
   Input,
@@ -41,6 +42,7 @@ type AttendCheckerProps = {
 };
 
 const AttendChecker = ({ studentAccount }: AttendCheckerProps) => {
+  useCheckCanAccessManage();
   const { userData } = useUserContext();
   const router = useRouter();
   if (userData.account === undefined) {
