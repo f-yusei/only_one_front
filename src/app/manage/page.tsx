@@ -15,8 +15,11 @@ export default function Home() {
   useCheckCanAccessManage();
   const { userData } = useUserContext();
   const router = useRouter();
+  const [account, setAccount] = useState('');
   if (userData.account === undefined) {
     router.push('/manage/login');
+  } else {
+    setAccount(userData.account);
   }
   const weeklyCleaningTable: WeeklyCleaningTableData[] = [
     {
@@ -66,15 +69,17 @@ export default function Home() {
         return {
           times: data.times,
           day: data.date,
-          F1studentNames: data.F1studentNames.map((name) => {
-            return name.value;
-          }),
-          F2studentNames: data.F2studentNames.map((name) => {
-            return name.value;
-          }),
-          F3studentNames: data.F3studentNames.map((name) => {
-            return name.value;
-          }),
+          studentAccounts: {
+            f1: data.F1studentNames.map((name) => {
+              return name.value;
+            }),
+            f2: data.F2studentNames.map((name) => {
+              return name.value;
+            }),
+            f3: data.F3studentNames.map((name) => {
+              return name.value;
+            }),
+          },
         };
       }
     );
@@ -82,7 +87,7 @@ export default function Home() {
       (data: MonthlyCleaningTableData) => {
         return {
           day: data.date,
-          names: data.names.map((name) => {
+          accounts: data.names.map((name) => {
             return name.value;
           }),
         };
@@ -92,6 +97,7 @@ export default function Home() {
     const postData = {
       dormitory: dormitory,
       date: year + '-' + month,
+      register: account,
       weeklyCleaningTableData: weeklyCleaningTableDataToPost,
       monthlyCleaningTableData: monthlyCleaningTableDataToPost,
     };

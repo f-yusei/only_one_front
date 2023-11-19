@@ -10,15 +10,18 @@ import { useRouter } from 'next/navigation';
 import useCheckCanAccessManage from '@/app/hooks/useCheckCanAccessManage';
 
 const CallManagePage = () => {
+  const [account, setAccount] = useState('');
   const router = useRouter();
   useCheckCanAccessManage();
   const { userData } = useUserContext();
   if (userData.account === undefined) {
     router.push('/manage/login');
+  } else {
+    setAccount(userData.account);
   }
   const rollCallTableInit: RollCallTableData[] = Array.from({ length: 30 }, () => ({
     day: '',
-    name: '',
+    account: '',
   }));
 
   const [dormitory, setDormitory] = useState('');
@@ -39,14 +42,19 @@ const CallManagePage = () => {
     setTableData((prevTableData) => {
       const newData = [...prevTableData];
       for (let i = 0; i < newData.length; i++) {
-        newData[i].day = (i + 1).toString() + '日';
+        if ((i + 1).toString().length === 1) {
+          newData[i].day = '0' + (i + 1).toString();
+        } else {
+          newData[i].day = (i + 1).toString();
+        }
       }
       return newData;
     });
 
     const postData: RollCallTableDataToPost = {
       dormitory: dormitory,
-      date: month,
+      date: year + '-' + month,
+      register: account,
       tableData: tableData,
     };
     try {
