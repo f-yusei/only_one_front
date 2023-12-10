@@ -11,19 +11,6 @@ type DashboardData = {
   numberOfUsingBathData: number[];
 };
 
-type CleaningData = {
-  id: string;
-  times: number;
-  cleaningType: string;
-  dormitory: string;
-  floor: number;
-};
-
-type CleaningAllData = {
-  date: string;
-  cleaningData: CleaningData[];
-}[];
-
 type WeekCleaningData = {
   cleanType: string;
   date: string;
@@ -60,6 +47,19 @@ type SpecialCleaningData = {
     agent: string;
   }[];
 };
+
+type CleaningData = {
+  id: string;
+  times: number;
+  cleaningType: string;
+  dormitory: string;
+  floor: number;
+};
+
+type CleaningAllData = {
+  date: string;
+  cleaningData: CleaningData[];
+}[];
 
 type gotDashboardData = {
   id: string;
@@ -215,14 +215,13 @@ export type {
   MonthlyCleaningReportAndSpecialCleaningReport,
   WeeklyCleaningReport,
   DashboardData,
-  CleaningReport,
-  DisplayWasherProps,
-  TeacherCleaningReport,
-  DisplayDryerProps,
   DisplayShowerProps,
   DisplayPublicBathProps,
   StudentDataAttendedMonthlyCleaning,
   gotDashboardData,
+  DisplayWasherProps,
+  DisplayDryerProps,
+  SpecialCleaningData,
   CleaningData,
   CleaningAllData,
   CleaningTableDataToPost,
@@ -232,14 +231,16 @@ export type {
   LoginData,
   RollCallTableData,
   RollCallTableDataToPost,
-  StudentDataByFloor,
   StudentNameType,
   WeeklyCleaningTableDataToPost,
   MonthlyCleaningTableDataToPost,
   UserData,
-  WeekCleaningData,
+  StudentDataByFloor,
+  CleaningReport,
+  TeacherCleaningReport,
+  StudentName,
   MonthCleaningData,
-  SpecialCleaningData,
+  WeekCleaningData,
 };
 
 export default StudentName;

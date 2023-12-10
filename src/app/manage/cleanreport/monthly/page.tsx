@@ -12,7 +12,6 @@ const state = {
   ],
 };
 
-
 export default function MonthlyCleanReport() {
   return (
     <Box>
