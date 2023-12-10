@@ -4,7 +4,7 @@ import {
   DisplayQrCode,
   DisplayPublicBath,
   DisplayShower,
-  DisplayWasherAndDryer,
+  DisplayWasherAndDryer
 } from './components/Dashboard';
 import { useDashboardData } from './hooks/useDashboardData';
 
@@ -20,17 +20,19 @@ export default function Home() {
     return <div>error</div>;
   }
 
-  const { dryerData, showerData, washerData } = dashboardData;
+  
+  const { yamaDryerData, yamaShowerData, yamaWasherData, numberOfUsingBathData } = dashboardData;
   return (
     <Box>
       <VStack>
         <DisplayQrCode />
         <HStack>
-          <DisplayPublicBath numberOfUsingBath={3} />
-          <DisplayShower showerData={showerData} />
+          <DisplayPublicBath numberOfUsingBathData ={numberOfUsingBathData} />
+          <DisplayShower showerData={yamaShowerData} />
         </HStack>
-        <DisplayWasherAndDryer washerData={washerData} dryerData={dryerData} />
+        <DisplayWasherAndDryer washerData={yamaWasherData} dryerData={yamaDryerData} />
       </VStack>
     </Box>
   );
+  
 }
