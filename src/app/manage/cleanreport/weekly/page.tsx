@@ -1,5 +1,4 @@
 'use client';
-import { useCheckIsLoginNow } from '@/app/hooks/useCheckIsLoginNow';
 import {
   Input,
   FormControl,
@@ -13,28 +12,43 @@ import {
   Box,
   Stack,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+const cleanData = {
+  cleanTimes: 1,
+  dormname: 'MON',
+  floor: 1,
+  studentStatus: [
+    {
+      student: '1I 村上亜士沙',
+      cleaningStatus: 'attend',
+      agent: '',
+    },
+    {
+      student: '2I 蔵田修也',
+      cleaningStatus: 'attend',
+      agent: '',
+    },
+    {
+      student: '3I 福井郵政',
+      cleaningStatus: 'absence',
+      agent: '',
+    },
+    {
+      student: '4I ばいがるまほびとぐるドゥル',
+      cleaningStatus: 'substitute',
+      agent: '1I 田中ゆうき',
+    },
+  ],
+};
 
 export default function WeeklyCleanReport() {
-  const studentName = {
-    one: 'あーちゃん',
-    two: 'いーちゃん',
-    three: 'うーちゃん',
-  };
-  const router = useRouter();
-
-  const isLogin = useCheckIsLoginNow();
-  useEffect(() => {
-    if (!isLogin) {
-      router.push('/manage/login');
-    }
-  }, [isLogin, router]);
-
   return (
-    <Box m={5}>
-      <AttendChecker studentAccount={studentName.one} />
-      <AttendChecker studentAccount={studentName.two} />
+    <Box m={1}>
+      <Box>週例清掃</Box>
+      {cleanData.studentStatus.map((array) => (
+        <AttendChecker key={array.student} studentAccount={array.student} />
+      ))}
       <WeeklyCleanValue cleanpoint="要項１" />
       <WeeklyCleanValue cleanpoint="要項２" />
       <WeeklyCleanValue cleanpoint="要項３" />
@@ -49,17 +63,18 @@ type AttendCheckerProps = {
 };
 
 const AttendChecker = ({ studentAccount }: AttendCheckerProps) => {
-  const [attendcheck, setAttendCheck] = useState('出席');
+  const [attendcheck, setAttendCheck] = useState('');
   return (
     <>
       <Box>
         <HStack>
-          <Box width="80%">{studentAccount}</Box>
+          <Box width="60%">{studentAccount}</Box>
           <Select
+            width="40%"
             onChange={(e) => {
               setAttendCheck(e.target.value);
             }}
-            placeholder="選択してください"
+            placeholder="選択"
           >
             <option value={studentAccount + 'attend'}>出席</option>
             <option value={studentAccount + 'absence'}>欠席</option>
@@ -96,7 +111,7 @@ const WeeklyCleanComment = () => {
   return (
     <Box>
       <Box>なんかあったら書いてもらう</Box>
-      <Textarea />
+      <Textarea m={1} width="98%" height={30} />
     </Box>
   );
 };
