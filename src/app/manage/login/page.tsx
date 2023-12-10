@@ -1,32 +1,40 @@
 'use client';
+import authApi from '@/api/authApi';
+import { LoginData } from '@/app/types';
 import { Link } from '@chakra-ui/next-js';
 import { FormControl, FormLabel, Input, Button, VStack } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
-
-type LoginFormInputs = {
-  studentId: string;
-  password: string;
-};
+import { useState } from 'react';
 
 export default function LoginPage() {
-  const { register, handleSubmit } = useForm<LoginFormInputs>();
+  const [studentId, setStudentId] = useState('');
+  const [password, setPassword] = useState('');
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log(data);
+  const handleSubmit = (data: LoginData) => {
+    const res = authApi.postLogin(data);
+    console.log(res);
   };
 
   return (
     <VStack height="80vh" alignItems="center" justifyContent="center">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form>
         <FormControl>
           <FormLabel>学籍番号</FormLabel>
-          <Input type="studentId" {...register('studentId')} />
+          <Input type="text" value={studentId} onChange={(e) => setStudentId(e.target.value)} />
         </FormControl>
         <FormControl>
           <FormLabel>パスワード</FormLabel>
-          <Input type="password" {...register('password')} />
+          <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </FormControl>
-        <Button mt={4} colorScheme="teal" type="submit">
+        <Button
+          mt={4}
+          colorScheme="teal"
+          onClick={() =>
+            handleSubmit({
+              studentId,
+              password,
+            })
+          }
+        >
           Login
         </Button>
       </form>

@@ -30,6 +30,7 @@ type gotDashboardData = {
   timestamp: string;
 };
 
+
 type CleaningTableDataToPost = {
   dormitory: string;
   date: string; //yyyy-mm
@@ -114,6 +115,8 @@ type DisplayPublicBathProps = {
   numberOfUsingBathData: number[];
 };
 
+
+
 type WeeklyCleaningTableProps = {
   isEditMode: boolean;
   tableData: WeeklyCleaningTableData[];
@@ -123,6 +126,7 @@ type WeeklyCleaningTableProps = {
 type UserData = {
   account?: string;
   studentId?: string;
+
 };
 
 export type {
@@ -147,4 +151,4 @@ export type {
   UserData,
 };
 
-export default StudentName;
+
