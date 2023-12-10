@@ -7,8 +7,16 @@ import WeeklyCleaningTable from '../components/WeeklyCleaningTable';
 import { WeeklyCleaningTableData, MonthlyCleaningTableData } from '../types';
 import api from '@/api/api';
 import { SelectMonthAndDormitory } from '../components/CommonFunction';
+import { useCheckIsLoginNow } from '../hooks/useCheckIsLoginNow';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  const isLogined = useCheckIsLoginNow();
+  if (!isLogined) {
+    router.push('/login');
+  }
   const weeklyCleaningTable: WeeklyCleaningTableData[] = [
     {
       week: '',

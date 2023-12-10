@@ -4,9 +4,15 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { CleaningAllData } from '@/app/types';
 import { CollapseEx } from '@/app/components/CommonFunction';
+import { useCheckIsLoginNow } from '@/app/hooks/useCheckIsLoginNow';
 
 const TeacherConfirmationPage = () => {
   const router = useRouter();
+
+  const isLogined = useCheckIsLoginNow();
+  if (!isLogined) {
+    router.push('/login');
+  }
   const cleaningAllData: CleaningAllData = [
     {
       date: '2021-10-01',

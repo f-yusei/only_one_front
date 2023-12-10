@@ -1,4 +1,5 @@
 'use client';
+import { useCheckIsLoginNow } from '@/app/hooks/useCheckIsLoginNow';
 import {
   Input,
   FormControl,
@@ -12,6 +13,7 @@ import {
   Box,
   Stack,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function WeeklyCleanReport() {
@@ -20,6 +22,12 @@ export default function WeeklyCleanReport() {
     two: 'いーちゃん',
     three: 'うーちゃん',
   };
+  const router = useRouter();
+
+  const isLogined = useCheckIsLoginNow();
+  if (!isLogined) {
+    router.push('/login');
+  }
 
   return (
     <Box m={5}>

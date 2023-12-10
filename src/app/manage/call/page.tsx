@@ -3,6 +3,8 @@ import RollCallTable, { RollCallTableData } from '@/app/components/RollCallTable
 import { SelectMonthAndDormitory } from '@/app/components/CommonFunction';
 import { Box, Button, Card } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { useCheckIsLoginNow } from '@/app/hooks/useCheckIsLoginNow';
+import { useRouter } from 'next/navigation';
 
 const CallManagePage = () => {
   const rollCallTableInit: RollCallTableData[] = Array.from({ length: 30 }, () => ({
@@ -14,6 +16,13 @@ const CallManagePage = () => {
   const [month, setMonth] = useState('');
   const [tableData, setTableData] = useState<RollCallTableData[]>(rollCallTableInit);
   const [isEditMode, setIsEditMode] = useState(false);
+
+  const router = useRouter();
+
+  const isLogined = useCheckIsLoginNow();
+  if (!isLogined) {
+    router.push('/login');
+  }
 
   useEffect(() => {
     if (month === '') return;
