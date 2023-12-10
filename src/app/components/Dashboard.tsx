@@ -1,8 +1,8 @@
 import { Button, Card, VStack, HStack, CardHeader, Text, Box } from '@chakra-ui/react';
 import { v4 } from 'uuid';
-import { DisplayWasherAndDryerProps, DisplayShowerProps, DisplayPublicBathProps } from '../types';
+import { DisplayWasherProps, DisplayDryerProps,DisplayShowerProps, DisplayPublicBathProps } from '../types';
 
-const DisplayWasherAndDryer = ({ washerData, dryerData }: DisplayWasherAndDryerProps) => {
+const DisplayWasherAndDryer = ({ washerData,dryerData }: DisplayWasherProps&DisplayDryerProps) => {
   const id = v4();
   return (
     <Button height="36vh" width="80vw" p="4">
@@ -61,12 +61,12 @@ const DisplayShower = ({ showerData }: DisplayShowerProps) => {
   );
 };
 
-const DisplayPublicBath = ({ numberOfUsingBath }: DisplayPublicBathProps) => {
+const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) => {
   return (
     <Button height="26vh" width="40vw">
       <Card bgColor="gray.100" height="26vh" width="40vw">
         <CardHeader>大浴場</CardHeader>
-        <Text>{numberOfUsingBath}</Text>
+        <Text>{numberOfUsingBathData}</Text>
       </Card>
     </Button>
   );
