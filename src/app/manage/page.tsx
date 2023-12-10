@@ -13,10 +13,13 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
   const router = useRouter();
 
-  const isLogined = useCheckIsLoginNow();
-  if (!isLogined) {
-    router.push('/login');
-  }
+  const isLogin = useCheckIsLoginNow();
+  useEffect(() => {
+    if (!isLogin) {
+      router.push('/manage/login');
+    }
+  }, [isLogin, router]);
+
   const weeklyCleaningTable: WeeklyCleaningTableData[] = [
     {
       week: '',

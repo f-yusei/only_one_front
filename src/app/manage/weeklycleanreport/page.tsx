@@ -14,7 +14,7 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function WeeklyCleanReport() {
   const studentName = {
@@ -24,10 +24,12 @@ export default function WeeklyCleanReport() {
   };
   const router = useRouter();
 
-  const isLogined = useCheckIsLoginNow();
-  if (!isLogined) {
-    router.push('/login');
-  }
+  const isLogin = useCheckIsLoginNow();
+  useEffect(() => {
+    if (!isLogin) {
+      router.push('/manage/login');
+    }
+  }, [isLogin, router]);
 
   return (
     <Box m={5}>

@@ -1,6 +1,6 @@
 'use client';
 import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { CleaningAllData } from '@/app/types';
 import { CollapseEx } from '@/app/components/CommonFunction';
@@ -9,10 +9,12 @@ import { useCheckIsLoginNow } from '@/app/hooks/useCheckIsLoginNow';
 const TeacherConfirmationPage = () => {
   const router = useRouter();
 
-  const isLogined = useCheckIsLoginNow();
-  if (!isLogined) {
-    router.push('/login');
-  }
+  const isLogin = useCheckIsLoginNow();
+  useEffect(() => {
+    if (!isLogin) {
+      router.push('/manage/login');
+    }
+  }, [isLogin, router]);
   const cleaningAllData: CleaningAllData = [
     {
       date: '2021-10-01',

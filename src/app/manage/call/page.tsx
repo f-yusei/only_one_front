@@ -19,10 +19,12 @@ const CallManagePage = () => {
 
   const router = useRouter();
 
-  const isLogined = useCheckIsLoginNow();
-  if (!isLogined) {
-    router.push('/login');
-  }
+  const isLogin = useCheckIsLoginNow();
+  useEffect(() => {
+    if (!isLogin) {
+      router.push('/manage/login');
+    }
+  }, [isLogin, router]);
 
   useEffect(() => {
     if (month === '') return;
