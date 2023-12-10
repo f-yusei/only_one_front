@@ -1,5 +1,6 @@
 import { Button, Card, VStack, HStack, CardHeader, Text, Box } from '@chakra-ui/react';
 import { v4 } from 'uuid';
+
 import {
   DisplayShowerProps,
   DisplayPublicBathProps,
@@ -9,6 +10,7 @@ import {
 
 const DisplayWasher = ({ washerData }: DisplayWasherProps) => {
   const canUseWasher = washerData.filter((isUsingWasher) => isUsingWasher).length;
+
   return (
     <Card bgColor="gray.100" height="36vh" width="80vw" p="4">
       <VStack>
@@ -46,6 +48,7 @@ const DisplayShower = ({ showerData }: DisplayShowerProps) => {
 };
 
 const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) => {
+
   const id = v4();
   return (
     <Card bgColor="gray.100" height="26vh" width="40vw">
@@ -71,4 +74,6 @@ const DisplayQrCode = () => {
   );
 };
 
+
 export { DisplayShower, DisplayPublicBath, DisplayQrCode, DisplayWasher, DisplayDryer };
+
