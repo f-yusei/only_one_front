@@ -2,11 +2,15 @@ import { create } from 'zustand';
 import { UserData } from '../types';
 
 type Action = {
-  setAccount: (account: string) => void;
+  setAccount: (account: UserData) => void;
 };
 
-export const useStore = create<UserData & Action>()((set) => ({
-  account: 'noUser',
-  studentId: 'noUser',
-  setAccount: (account) => set((state) => ({ account: (state.account = account) })),
+export const useAccountStore = create<UserData & Action>()((set) => ({
+  account: 'ゲスト',
+  studentId: 'ゲスト',
+  setAccount: (account) =>
+    set((state) => ({
+      account: (state.account = account.account),
+      studentId: (state.studentId = account.studentId),
+    })),
 }));

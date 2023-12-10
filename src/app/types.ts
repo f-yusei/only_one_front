@@ -85,7 +85,13 @@ type LoginData = {
   password: string;
 };
 
+type UserData = {
+  account: string;
+  studentId: string;
+};
+
 export type {
+  UserData,
   DashboardData,
   DisplayWasherProps,
   DisplayDryerProps,
