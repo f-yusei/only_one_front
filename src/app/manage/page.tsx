@@ -7,8 +7,9 @@ import WeeklyCleaningTable from '../components/WeeklyCleaningTable';
 import { WeeklyCleaningTableData, MonthlyCleaningTableData } from '../types';
 import api from '@/api/api';
 import { SelectMonthAndDormitory } from '../components/CommonFunction';
-import { useCheckIsLoginNow } from '../hooks/useCheckIsLoginNow';
 import { useRouter } from 'next/navigation';
+import { useCheckIsLoginNow } from '../hooks/useCheckIsLoginNow';
+import { useAccountStore } from '../state/user';
 
 export default function Home() {
   const router = useRouter();
@@ -20,9 +21,11 @@ export default function Home() {
     }
   }, [isLogin, router]);
 
+  const account = useAccountStore((state) => state.account);
+
   const weeklyCleaningTable: WeeklyCleaningTableData[] = [
     {
-      week: '',
+      times: '',
       date: '',
       F1studentNames: [],
       F2studentNames: [],
@@ -38,6 +41,7 @@ export default function Home() {
 
   const [dormitory, setDormitory] = useState('');
   const [month, setMonth] = useState('');
+  const [year, setYear] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [weeklyCleaningTableData, setWeeklyCleaningTable] =
     useState<WeeklyCleaningTableData[]>(weeklyCleaningTable);
@@ -56,16 +60,47 @@ export default function Home() {
     setWeeklyCleaningTable((prevTableData) => {
       const newData = [...prevTableData];
       for (let i = 0; i < newData.length; i++) {
-        newData[i].week = (i + 1).toString();
-        newData[i].F1studentNames;
+        newData[i].times = (i + 1).toString();
       }
       return newData;
     });
+
+    const weeklyCleaningTableDataToPost = weeklyCleaningTableData.map(
+      (data: WeeklyCleaningTableData) => {
+        return {
+          times: data.times,
+          day: data.date,
+          studentAccounts: {
+            f1: data.F1studentNames.map((name) => {
+              return name.value;
+            }),
+            f2: data.F2studentNames.map((name) => {
+              return name.value;
+            }),
+            f3: data.F3studentNames.map((name) => {
+              return name.value;
+            }),
+          },
+        };
+      }
+    );
+    const monthlyCleaningTableDataToPost = monthlyCleaningTableData.map(
+      (data: MonthlyCleaningTableData) => {
+        return {
+          day: data.date,
+          accounts: data.names.map((name) => {
+            return name.value;
+          }),
+        };
+      }
+    );
+
     const postData = {
       dormitory: dormitory,
-      month: month,
-      weeklyCleaningTableData: weeklyCleaningTableData,
-      monthlyCleaningTableData: monthlyCleaningTableData,
+      date: year + '-' + month,
+      register: account,
+      weeklyCleaningTableData: weeklyCleaningTableDataToPost,
+      monthlyCleaningTableData: monthlyCleaningTableDataToPost,
     };
     await api.postTableData(postData).then((res) => {
       if (res) {
@@ -81,6 +116,8 @@ export default function Home() {
     <Box p={4}>
       <SelectMonthAndDormitory
         dormitory={dormitory}
+        year={year}
+        setYear={setYear}
         month={month}
         setDormitory={setDormitory}
         setMonth={setMonth}

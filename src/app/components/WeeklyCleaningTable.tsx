@@ -22,6 +22,7 @@ import {
 } from '@tanstack/react-table';
 import { ActionMeta, MultiValue, Select, GroupBase, OptionBase } from 'chakra-react-select';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { WeeklyCleaningTableData, WeeklyCleaningTableProps } from '../types';
 
 declare module '@tanstack/table-core' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -29,20 +30,6 @@ declare module '@tanstack/table-core' {
     updateData: (rowIndex: number, columnId: string, value: unknown) => void;
   }
 }
-
-export type WeeklyCleaningTableData = {
-  week: string;
-  date: string;
-  F1studentNames: StudentName[];
-  F2studentNames: StudentName[];
-  F3studentNames: StudentName[];
-};
-
-type WeeklyCleaningTableProps = {
-  isEditMode: boolean;
-  tableData: WeeklyCleaningTableData[];
-  setTableData: Dispatch<SetStateAction<WeeklyCleaningTableData[]>>;
-};
 
 const WeeklyCleaningTable = ({ isEditMode, tableData, setTableData }: WeeklyCleaningTableProps) => {
   const columns = [
@@ -200,7 +187,7 @@ const WeeklyCleaningTable = ({ isEditMode, tableData, setTableData }: WeeklyClea
                 setTableData([
                   ...tableData,
                   {
-                    week: '',
+                    times: '',
                     date: '',
                     F1studentNames: [],
                     F2studentNames: [],
@@ -215,7 +202,7 @@ const WeeklyCleaningTable = ({ isEditMode, tableData, setTableData }: WeeklyClea
               onClick={() =>
                 setTableData([
                   {
-                    week: '',
+                    times: '',
                     date: '',
                     F1studentNames: [],
                     F2studentNames: [],
