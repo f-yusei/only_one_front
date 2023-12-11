@@ -232,6 +232,7 @@ export type {
   RollCallTableData,
   RollCallTableDataToPost,
   StudentNameType,
+  StudentName,
   WeeklyCleaningTableDataToPost,
   MonthlyCleaningTableDataToPost,
   UserData,

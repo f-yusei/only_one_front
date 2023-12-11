@@ -19,8 +19,8 @@ import {
   RowData,
 } from '@tanstack/react-table';
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { ActionMeta, MultiValue, Select, GroupBase } from 'chakra-react-select';
-import StudentName, { MonthlyCleaningTableData } from '../types';
+import { ActionMeta, MultiValue, Select, GroupBase ,OptionBase} from 'chakra-react-select';
+import  {MonthlyCleaningTableData } from '../types';
 
 declare module '@tanstack/table-core' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -166,7 +166,13 @@ const MonthlyCleaningTable = ({
 };
 
 export default MonthlyCleaningTable;
-
+class StudentName implements OptionBase {
+  constructor(
+    public value: string,
+    public label: string,
+    public colorScheme: string
+  ) {}
+}
 type Props = {
   onBlur: () => void;
   tableData: MonthlyCleaningTableData[];

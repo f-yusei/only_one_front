@@ -35,7 +35,7 @@ const WeeklyCleaningTable = ({ isEditMode, tableData, setTableData }: WeeklyClea
   const columns = [
     {
       header: '第何回',
-      accessorKey: 'week',
+      accessorKey: 'times',
     },
     {
       header: '実施日',
@@ -70,7 +70,7 @@ const WeeklyCleaningTable = ({ isEditMode, tableData, setTableData }: WeeklyClea
         setValue(initialValue);
       }, [initialValue]);
 
-      if (id === 'week') {
+      if (id === 'times') {
         return (
           <PinInput defaultValue={(index + 1).toString()}>
             <PinInputField readOnly />
