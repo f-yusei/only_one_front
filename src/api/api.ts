@@ -1,5 +1,6 @@
 import {
   CleaningAllData,
+  CleaningReport,
   CleaningTableDataToPost,
   DashboardData,
   MonthCleaningData,
@@ -8,6 +9,7 @@ import {
   StudentDataAttendedMonthlyCleaning,
   StudentDataByFloor,
   StudentNameType,
+  TeacherCleaningReport,
   WeekCleaningData,
 } from '@/app/types';
 import apiClient from './axiosClient';
@@ -56,13 +58,30 @@ const postMonthlyCleaningAttender = async (StudentData: StudentDataAttendedMonth
   return response.data;
 };
 
+const postCleaningReport = async (reportData: CleaningReport) => {
+  const response = await apiClient.post(`/manage/cleaningreport/`, reportData);
+  return response.data;
+};
+
+const postTeacherCleaningReport = async (reportData: TeacherCleaningReport) => {
+  const response = await apiClient.post(`/manage/teachercleaningreport/`, reportData);
+  return response.data;
+};
+
 const getStudentDataByDormitoryName = async (dormitory: string) => {
   const response = await apiClient.get<StudentDataByFloor>(`/student/${dormitory}`);
   return response.data;
 };
 
 const getCleaningDataByDate = async (date: string) => {
-  const response = await apiClient.get<CleaningAllData>(`/cleaning/${date}`);
+  const response = await apiClient.get<WeekCleaningData | MonthCleaningData | SpecialCleaningData>(
+    `/cleaning/${date}`
+  );
+  return response.data;
+};
+
+const postTeacherReadReport = async (cleaningId: number) => {
+  const response = await apiClient.post(`/manage/reportread/${cleaningId}`);
   return response.data;
 };
 
@@ -70,9 +89,12 @@ const api = {
   getDashboardData,
   getCleaningData,
   postTableData,
+  postTeacherReadReport,
   getCleaningStatus,
   getStudentData,
   getCleaningDataByDate,
+  postTeacherCleaningReport,
+  postCleaningReport,
   getStudentDataByDormitoryName,
   postRollCallData,
   getCleaningDataById,

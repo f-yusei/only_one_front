@@ -128,6 +128,7 @@ type MonthlyCleaningTableData = {
   date: string;
   names: StudentName[];
 };
+
 type LoginData = {
   studentId: string;
   password: string;
@@ -179,9 +180,44 @@ type StudentDataAttendedMonthlyCleaning = {
   };
 };
 
+type WeeklyCleaningReport = {
+  check1: number;
+  check2: number;
+  check3: number;
+  check4: number;
+  check5: number;
+  comment: string;
+};
+
+type MonthlyCleaningReportAndSpecialCleaningReport = {
+  did: string;
+  comment: string;
+};
+
+type CleaningReport = {
+  cleaningId: number;
+  studentStatus: {
+    student: string;
+    status: number;
+    agent: string;
+  }[];
+  cleanReport: WeeklyCleaningReport | MonthlyCleaningReportAndSpecialCleaningReport;
+  registeredStudent: string;
+};
+
+type TeacherCleaningReport = {
+  cleaningId: number;
+  cleanReport: WeeklyCleaningReport | MonthlyCleaningReportAndSpecialCleaningReport;
+  registeredTeacher: string;
+};
+
 export type {
+  MonthlyCleaningReportAndSpecialCleaningReport,
+  WeeklyCleaningReport,
   DashboardData,
+  CleaningReport,
   DisplayWasherProps,
+  TeacherCleaningReport,
   DisplayDryerProps,
   DisplayShowerProps,
   DisplayPublicBathProps,
