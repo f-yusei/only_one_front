@@ -61,12 +61,18 @@ const getStudentDataByDormitoryName = async (dormitory: string) => {
   return response.data;
 };
 
+const getCleaningDataByDate = async (date: string) => {
+  const response = await apiClient.get<CleaningAllData>(`/cleaning/${date}`);
+  return response.data;
+};
+
 const api = {
   getDashboardData,
   getCleaningData,
   postTableData,
   getCleaningStatus,
   getStudentData,
+  getCleaningDataByDate,
   getStudentDataByDormitoryName,
   postRollCallData,
   getCleaningDataById,
