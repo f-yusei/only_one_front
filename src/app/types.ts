@@ -170,12 +170,22 @@ type StudentDataByFloor = {
   f5: string[];
 };
 
+type StudentDataAttendedMonthlyCleaning = {
+  cleaningID: number;
+  studentStatus: {
+    student: string;
+    status: number;
+    agent: string;
+  };
+};
+
 export type {
   DashboardData,
   DisplayWasherProps,
   DisplayDryerProps,
   DisplayShowerProps,
   DisplayPublicBathProps,
+  StudentDataAttendedMonthlyCleaning,
   gotDashboardData,
   CleaningData,
   CleaningAllData,

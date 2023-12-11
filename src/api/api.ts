@@ -5,6 +5,7 @@ import {
   MonthCleaningData,
   RollCallTableDataToPost,
   SpecialCleaningData,
+  StudentDataAttendedMonthlyCleaning,
   StudentDataByFloor,
   StudentNameType,
   WeekCleaningData,
@@ -50,8 +51,8 @@ const getCleaningStatus = async (id: number) => {
   return response.data;
 };
 
-const postMonthlyCleaningAttender = async (id: number) => {
-  const response = await apiClient.post<number>(`/manage/cleaningstatus/${id}`);
+const postMonthlyCleaningAttender = async (StudentData: StudentDataAttendedMonthlyCleaning) => {
+  const response = await apiClient.post(`/manage/monthlyattend/`, StudentData);
   return response.data;
 };
 
