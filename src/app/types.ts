@@ -24,6 +24,43 @@ type CleaningAllData = {
   cleaningData: CleaningData[];
 }[];
 
+type WeekCleaningData = {
+  cleanType: string;
+  date: string;
+  cleaningTimes: number;
+  dormitory: string;
+  floor: number;
+  studentStatus: {
+    student: string;
+    status: string;
+    agent: string;
+  }[];
+};
+
+type MonthCleaningData = {
+  cleanType: string;
+  date: string;
+  cleaningTimes: number;
+  dormitory: string;
+  studentStatus: {
+    student: string;
+    status: string;
+    agent: string;
+  }[];
+};
+
+type SpecialCleaningData = {
+  cleanType: string;
+  date: string;
+  cleaningTimes: number;
+  place: string;
+  studentStatus: {
+    student: string;
+    status: string;
+    agent: string;
+  }[];
+};
+
 type gotDashboardData = {
   id: string;
   state: number;
@@ -125,6 +162,14 @@ type UserData = {
   studentId: string;
 };
 
+type StudentDataByFloor = {
+  f1: string[];
+  f2: string[];
+  f3: string[];
+  f4: string[];
+  f5: string[];
+};
+
 export type {
   DashboardData,
   DisplayWasherProps,
@@ -141,10 +186,14 @@ export type {
   LoginData,
   RollCallTableData,
   RollCallTableDataToPost,
+  StudentDataByFloor,
   StudentNameType,
   WeeklyCleaningTableDataToPost,
   MonthlyCleaningTableDataToPost,
   UserData,
+  WeekCleaningData,
+  MonthCleaningData,
+  SpecialCleaningData,
 };
 
 export default StudentName;

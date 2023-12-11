@@ -2,8 +2,12 @@ import {
   CleaningAllData,
   CleaningTableDataToPost,
   DashboardData,
+  MonthCleaningData,
   RollCallTableDataToPost,
+  SpecialCleaningData,
+  StudentDataByFloor,
   StudentNameType,
+  WeekCleaningData,
 } from '@/app/types';
 import apiClient from './axiosClient';
 
@@ -34,12 +38,38 @@ const postRollCallData = async (tableData: RollCallTableDataToPost) => {
   return response.data;
 };
 
+const getCleaningDataById = async (id: number) => {
+  const response = await apiClient.get<WeekCleaningData | MonthCleaningData | SpecialCleaningData>(
+    `/manage/cleaningstudent/${id}`
+  );
+  return response.data;
+};
+
+const getCleaningStatus = async (id: number) => {
+  const response = await apiClient.get<number>(`/manage/cleaningstatus/${id}`);
+  return response.data;
+};
+
+const postMonthlyCleaningAttender = async (id: number) => {
+  const response = await apiClient.post<number>(`/manage/cleaningstatus/${id}`);
+  return response.data;
+};
+
+const getStudentDataByDormitoryName = async (dormitory: string) => {
+  const response = await apiClient.get<StudentDataByFloor>(`/student/${dormitory}`);
+  return response.data;
+};
+
 const api = {
   getDashboardData,
   getCleaningData,
   postTableData,
+  getCleaningStatus,
   getStudentData,
+  getStudentDataByDormitoryName,
   postRollCallData,
+  getCleaningDataById,
+  postMonthlyCleaningAttender,
 };
 
 export default api;
