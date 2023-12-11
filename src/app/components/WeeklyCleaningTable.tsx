@@ -31,7 +31,7 @@ declare module '@tanstack/table-core' {
 }
 
 export type WeeklyCleaningTableData = {
-  week: string;
+  times: string;
   date: string;
   F1studentNames: StudentName[];
   F2studentNames: StudentName[];
@@ -48,7 +48,7 @@ const WeeklyCleaningTable = ({ isEditMode, tableData, setTableData }: WeeklyClea
   const columns = [
     {
       header: '第何回',
-      accessorKey: 'week',
+      accessorKey: 'times',
     },
     {
       header: '実施日',
@@ -83,7 +83,7 @@ const WeeklyCleaningTable = ({ isEditMode, tableData, setTableData }: WeeklyClea
         setValue(initialValue);
       }, [initialValue]);
 
-      if (id === 'week') {
+      if (id === 'times') {
         return (
           <PinInput defaultValue={(index + 1).toString()}>
             <PinInputField readOnly />
@@ -200,7 +200,7 @@ const WeeklyCleaningTable = ({ isEditMode, tableData, setTableData }: WeeklyClea
                 setTableData([
                   ...tableData,
                   {
-                    week: '',
+                    times: '',
                     date: '',
                     F1studentNames: [],
                     F2studentNames: [],
@@ -215,7 +215,7 @@ const WeeklyCleaningTable = ({ isEditMode, tableData, setTableData }: WeeklyClea
               onClick={() =>
                 setTableData([
                   {
-                    week: '',
+                    times: '',
                     date: '',
                     F1studentNames: [],
                     F2studentNames: [],

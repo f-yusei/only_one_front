@@ -11,7 +11,7 @@ import { SelectMonthAndDormitory } from '../components/CommonFunction';
 export default function Home() {
   const weeklyCleaningTable: WeeklyCleaningTableData[] = [
     {
-      week: '',
+      times: '',
       date: '',
       F1studentNames: [],
       F2studentNames: [],
@@ -45,14 +45,15 @@ export default function Home() {
     setWeeklyCleaningTable((prevTableData) => {
       const newData = [...prevTableData];
       for (let i = 0; i < newData.length; i++) {
-        newData[i].week = (i + 1).toString();
+        newData[i].times = (i + 1).toString();
         newData[i].F1studentNames;
       }
       return newData;
     });
     const postData = {
       dormitory: dormitory,
-      month: month,
+      date: month,
+      register: ,
       weeklyCleaningTableData: weeklyCleaningTableData,
       monthlyCleaningTableData: monthlyCleaningTableData,
     };
