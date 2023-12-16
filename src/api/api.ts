@@ -1,4 +1,4 @@
-import { CleaningAllData, CleaningTableDataToPost, DashboardData } from '@/app/types';
+import { CleaningAllData, DashboardData, RollCallTableDataToPost } from '@/app/types';
 import apiClient from './axiosClient';
 
 const getDashboardData = async () => {
@@ -12,8 +12,13 @@ const getCleaningData = async () => {
   return response.data;
 };
 
-const postTableData = async (tableData: CleaningTableDataToPost) => {
-  const response = await apiClient.post<CleaningTableDataToPost>(`/cleaning`, tableData);
+const postTableData = async (tableData: RollCallTableDataToPost) => {
+  const response = await apiClient.post(`/cleaning`, tableData);
+  return response;
+};
+
+const postRollCallData = async (tableData: RollCallTableDataToPost) => {
+  const response = await apiClient.post<RollCallTableDataToPost>(`/rollcall`, tableData);
   return response.data;
 };
 
@@ -21,6 +26,7 @@ const api = {
   getDashboardData,
   getCleaningData,
   postTableData,
+  postRollCallData,
 };
 
 export default api;

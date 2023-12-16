@@ -27,6 +27,7 @@ export default function Home() {
 
   const [dormitory, setDormitory] = useState('');
   const [month, setMonth] = useState('');
+  const [year, setYear] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [weeklyCleaningTableData, setWeeklyCleaningTable] =
     useState<WeeklyCleaningTableData[]>(weeklyCleaningTable);
@@ -46,16 +47,46 @@ export default function Home() {
       const newData = [...prevTableData];
       for (let i = 0; i < newData.length; i++) {
         newData[i].times = (i + 1).toString();
-        newData[i].F1studentNames;
       }
       return newData;
     });
+
+    const weeklyCleaningTableDataToPost = weeklyCleaningTableData.map(
+      (data: WeeklyCleaningTableData) => {
+        return {
+          times: data.times,
+          day: data.date,
+          studentAccounts: {
+            f1: data.F1studentNames.map((name) => {
+              return name.value;
+            }),
+            f2: data.F2studentNames.map((name) => {
+              return name.value;
+            }),
+            f3: data.F3studentNames.map((name) => {
+              return name.value;
+            }),
+          },
+        };
+      }
+    );
+    const monthlyCleaningTableDataToPost = monthlyCleaningTableData.map(
+      (data: MonthlyCleaningTableData) => {
+        return {
+          day: data.date,
+          accounts: data.names.map((name) => {
+            return name.value;
+          }),
+        };
+      }
+    );
+
     const postData = {
+      register: 'test',
       dormitory: dormitory,
-      date: month,
-      register: ,
-      weeklyCleaningTableData: weeklyCleaningTableData,
-      monthlyCleaningTableData: monthlyCleaningTableData,
+      date: year + '-' + month,
+      weeklyCleaningTableData: weeklyCleaningTableDataToPost,
+      monthlyCleaningTableData: monthlyCleaningTableDataToPost,
     };
     await api.postTableData(postData).then((res) => {
       if (res) {
@@ -72,6 +103,8 @@ export default function Home() {
       <SelectMonthAndDormitory
         dormitory={dormitory}
         month={month}
+        year={year}
+        setYear={setYear}
         setDormitory={setDormitory}
         setMonth={setMonth}
         tableName="清掃当番表"

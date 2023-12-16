@@ -1,71 +1,72 @@
 'use client';
-import RollCallTable, { RollCallTableData } from '@/app/components/RollCallTable';
+import RollCallTable from '@/app/components/RollCallTable';
 import { SelectMonthAndDormitory } from '@/app/components/CommonFunction';
 import { Box, Button, Card } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { RollCallTableData, RollCallTableDataToPost } from '@/app/types';
+import api from '@/api/api';
 
 const CallManagePage = () => {
   const rollCallTableInit: RollCallTableData[] = Array.from({ length: 30 }, () => ({
-    date: '',
-    name: '',
+    day: '',
+    account: '',
   }));
 
   const [dormitory, setDormitory] = useState('');
   const [month, setMonth] = useState('');
+  const [year, setYear] = useState('');
+  const [date, setDate] = useState(''); //yyyy-mm
   const [tableData, setTableData] = useState<RollCallTableData[]>(rollCallTableInit);
   const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     if (month === '') return;
+    if (year === '') return;
+    setDate(year + '-' + month);
     if (dormitory === '') return;
     setIsEditMode(true);
-  }, [month, dormitory]);
+  }, [month, dormitory, year]);
 
   const handlePost = async () => {
-    const url = process.env.BACKEND_API_URL + '/api/rollcall';
     setTableData((prevTableData) => {
       const newData = [...prevTableData];
       for (let i = 0; i < newData.length; i++) {
-        newData[i].date = (i + 1).toString() + '日';
+        if ((i + 1).toString().length === 1) {
+          newData[i].day = '0' + (i + 1).toString();
+        } else {
+          newData[i].day = (i + 1).toString();
+        }
       }
       return newData;
     });
 
-    const postData = {
+    const postData: RollCallTableDataToPost = {
       dormitory: dormitory,
-      month: month,
+      date: year + '-' + month,
+      register: 'test',
       tableData: tableData,
     };
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postData),
-    };
-    await fetch(url, options).then((res) => {
-      if (res.ok) {
-        alert('保存しました');
-        console.log(res);
-      } else {
-        alert('保存に失敗しました');
-        console.log(res);
-      }
-    });
+    try {
+      await api.postTableData(postData);
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <Box p={4}>
       <SelectMonthAndDormitory
         dormitory={dormitory}
         month={month}
+        year={year}
         setDormitory={setDormitory}
         setMonth={setMonth}
+        setYear={setYear}
         tableName="点呼当番表"
       />
       <Card overflow="scroll" h="64vh" w="100vw" p={4}>
         <RollCallTable
           isEditMode={isEditMode}
-          month={month}
+          date={date}
           tableData={tableData}
           setTableData={setTableData}
         />
