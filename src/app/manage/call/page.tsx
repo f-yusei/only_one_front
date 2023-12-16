@@ -47,7 +47,7 @@ const CallManagePage = () => {
       tableData: tableData,
     };
     try {
-      await api.postTableData(postData);
+      await api.postRollCallData(postData);
     } catch (e) {
       console.log(e);
     }

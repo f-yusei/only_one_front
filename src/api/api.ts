@@ -1,8 +1,20 @@
-import { CleaningAllData, DashboardData, RollCallTableDataToPost } from '@/app/types';
+import {
+  CleaningAllData,
+  CleaningTableDataToPost,
+  DashboardData,
+  RollCallTableDataToPost,
+  StudentNameType,
+} from '@/app/types';
 import apiClient from './axiosClient';
 
 const getDashboardData = async () => {
   const response = await apiClient.get<DashboardData[]>('/dashboard');
+  console.log(response);
+  return response.data;
+};
+
+const getStudentData = async () => {
+  const response = await apiClient.get<StudentNameType[]>('/student');
   console.log(response);
   return response.data;
 };
@@ -12,9 +24,9 @@ const getCleaningData = async () => {
   return response.data;
 };
 
-const postTableData = async (tableData: RollCallTableDataToPost) => {
-  const response = await apiClient.post(`/cleaning`, tableData);
-  return response;
+const postTableData = async (tableData: CleaningTableDataToPost) => {
+  const response = await apiClient.post<CleaningTableDataToPost>(`/cleaning`, tableData);
+  return response.data;
 };
 
 const postRollCallData = async (tableData: RollCallTableDataToPost) => {
@@ -26,6 +38,7 @@ const api = {
   getDashboardData,
   getCleaningData,
   postTableData,
+  getStudentData,
   postRollCallData,
 };
 
