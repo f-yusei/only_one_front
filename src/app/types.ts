@@ -239,7 +239,6 @@ export type {
   StudentDataByFloor,
   CleaningReport,
   TeacherCleaningReport,
-  StudentName,
   MonthCleaningData,
   WeekCleaningData,
 };
