@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 export default function Home() {
   const { dashboardData, isError, isLoading } = useDashboardData();
+
   if (isLoading) {
     return <div>loading...</div>;
   }

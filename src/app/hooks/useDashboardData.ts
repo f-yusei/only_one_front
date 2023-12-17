@@ -1,9 +1,14 @@
 import useSWR from 'swr';
 import { DashboardData } from '../types';
+import process from 'process';
 
-const fetchUrl = process.env.NEXT_BACKEND_API_URL + '/api/dashboard' || 'http://localhost:5000';
+const fetchUrl =
+  process.env.NEXT_PUBLIC_BACKEND_API_URL + '/api/dashboard' || 'http://localhost:5000';
 
-const fetcher = () => fetch(fetchUrl).then((res) => res.json());
+const fetcher = async () =>
+  await fetch(fetchUrl).then(async (res) => {
+    return await res.json();
+  });
 
 export const useDashboardData = () => {
   const { data, error } = useSWR<DashboardData>(fetcher);
@@ -16,7 +21,7 @@ export const useDashboardData = () => {
 };
 
 export const useYamaDashboardData = () => {
-  const { data, error } = useSWR<DashboardData>('/api/dashboard', fetcher);
+  const { data, error } = useSWR<DashboardData>(fetcher);
 
   const yamaData = {
     showerData: data?.yamaShowerData,
@@ -32,7 +37,7 @@ export const useYamaDashboardData = () => {
 };
 
 export const useUmiDashboardData = () => {
-  const { data, error } = useSWR<DashboardData>('/api/dashboard', fetcher);
+  const { data, error } = useSWR<DashboardData>(fetcher);
 
   const umiData = {
     showerData: data?.umiShowerData,
