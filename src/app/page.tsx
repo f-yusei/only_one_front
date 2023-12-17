@@ -2,6 +2,7 @@
 import { VStack, HStack, Box } from '@chakra-ui/react';
 import { DisplayQrCode, DisplayPublicBath } from './components/Dashboard';
 import { useDashboardData } from './hooks/useDashboardData';
+import Link from 'next/link';
 
 export default function Home() {
   const { dashboardData, isError, isLoading } = useDashboardData();
@@ -20,8 +21,6 @@ export default function Home() {
     return <div>風呂のデータがねえぞおおおおおおおおお</div>;
   }
 
-
-
   return (
     <Box>
       <VStack>
@@ -34,5 +33,4 @@ export default function Home() {
       </VStack>
     </Box>
   );
-  
 }
