@@ -7,8 +7,22 @@ import WeeklyCleaningTable from '../components/WeeklyCleaningTable';
 import { WeeklyCleaningTableData, MonthlyCleaningTableData } from '../types';
 import api from '@/api/api';
 import { SelectMonthAndDormitory } from '../components/CommonFunction';
+import { useRouter } from 'next/navigation';
+import { useCheckIsLoginNow } from '../hooks/useCheckIsLoginNow';
+import { useAccountStore } from '../state/user';
 
 export default function Home() {
+  const router = useRouter();
+
+  const isLogin = useCheckIsLoginNow();
+  useEffect(() => {
+    if (!isLogin) {
+      router.push('/manage/login');
+    }
+  }, [isLogin, router]);
+
+  const account = useAccountStore((state) => state.account);
+
   const weeklyCleaningTable: WeeklyCleaningTableData[] = [
     {
       times: '',
@@ -82,9 +96,9 @@ export default function Home() {
     );
 
     const postData = {
-      register: 'test',
       dormitory: dormitory,
       date: year + '-' + month,
+      register: account,
       weeklyCleaningTableData: weeklyCleaningTableDataToPost,
       monthlyCleaningTableData: monthlyCleaningTableDataToPost,
     };
@@ -102,9 +116,9 @@ export default function Home() {
     <Box p={4}>
       <SelectMonthAndDormitory
         dormitory={dormitory}
-        month={month}
         year={year}
         setYear={setYear}
+        month={month}
         setDormitory={setDormitory}
         setMonth={setMonth}
         tableName="清掃当番表"

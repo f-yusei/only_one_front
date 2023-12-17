@@ -30,7 +30,6 @@ const cleanData = {
   ],
 };
 
-
 export default function MonthlyCleanReport() {
   return (
     <>

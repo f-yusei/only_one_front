@@ -43,7 +43,6 @@ const cleanData = {
 };
 
 
-
 export default function WeeklyCleanReport(){
   return(
     <Box m={1}>
@@ -56,7 +55,7 @@ export default function WeeklyCleanReport(){
       <WeeklyCleanValue cleanpoint="要項３" />
       <WeeklyCleanValue cleanpoint="要項４" />
       <WeeklyCleanComment />
-      </Box>
+    </Box>
   );
 }
 
@@ -72,7 +71,7 @@ const AttendChecker = ({ studentAccount }: AttendCheckerProps) => {
         <HStack>
           <Box width="60%">{studentAccount}</Box>
           <Select
-          width="40%"
+            width="40%"
             onChange={(e) => {
               setAttendCheck(e.target.value);
             }}

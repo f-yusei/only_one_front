@@ -11,9 +11,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'
-
-
+import { useRouter } from 'next/navigation';
 
 const cleanplacedata = [
   { place: '山寮一階シンク' },
@@ -36,18 +34,14 @@ export default function CreanReportChoice() {
   const [cleanplace, setCleanPlace] = useState('');
   const router = useRouter();
 
-
   const Submit = async () => {
-      router.push(`/manage/cleanreport/${cleantype}`);
+    router.push(`/manage/cleanreport/${cleantype}`);
   };
-
-  
 
   const PlaceSelect = () => {
     // ここで情報を取得する処理
 
     return (
-      
       <Select
         onChange={(e) => {
           setCleanPlace(e.target.value);
@@ -62,9 +56,7 @@ export default function CreanReportChoice() {
       </Select>
     );
   };
-
-
-
+  
   return (
     <>
       <Box m={2}>
@@ -177,64 +169,73 @@ export default function CreanReportChoice() {
           <ModalHeader>週例清掃報告</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          {
-  (cleantype === "weekly" && cleanmonth != "" && cleantimes != "" && dormname != "" && floor != "") 
-  ?
-  <>
-  <Box>週例清掃</Box>
-  <Box>{cleanmonth + "月"}</Box>
-  <Box>{"第" + cleantimes + "回"}</Box>
-  {cleantype === "weekly" ? (
-    <Box>場所:
-      {dormname === "CEN"
-        ? "中寮"
-        : dormname === "MOU"
-        ? "山寮"
-        : dormname === "SEA"
-        ? "海寮"
-        : dormname === "SPA"
-        ? "宙寮"
-        : ""}
-        
-    </Box>
-  ) : (
-    ""
-  )}
-  {floor + "階"}
-  </>
-  :(cleantype === "monthly" && cleanmonth != null && cleantimes != null) 
-  ?
-  <>
-  <Box>週例清掃</Box>
-  <Box>{cleanmonth + "月"}</Box>
-  <Box>{"第" + cleantimes + "回"}</Box>
-  </>
-  :(cleantype === "special" && cleanmonth != null && cleantimes != null && cleanplace != null)
-  ? <>
-  <Box>週例清掃</Box>
-  <Box>{cleanmonth + "月"}</Box>
-  <Box>{"第" + cleantimes + "回"}</Box>
-  <Box>場所:{cleanplace}</Box>
-  </>
-  :"すべての要素を入力してください"
-  
-          }
-           
+            {cleantype === 'weekly' &&
+            cleanmonth != '' &&
+            cleantimes != '' &&
+            dormname != '' &&
+            floor != '' ? (
+              <>
+                <Box>週例清掃</Box>
+                <Box>{cleanmonth + '月'}</Box>
+                <Box>{'第' + cleantimes + '回'}</Box>
+                {cleantype === 'weekly' ? (
+                  <Box>
+                    場所:
+                    {dormname === 'CEN'
+                      ? '中寮'
+                      : dormname === 'MOU'
+                      ? '山寮'
+                      : dormname === 'SEA'
+                      ? '海寮'
+                      : dormname === 'SPA'
+                      ? '宙寮'
+                      : ''}
+                  </Box>
+                ) : (
+                  ''
+                )}
+                {floor + '階'}
+              </>
+            ) : cleantype === 'monthly' && cleanmonth != null && cleantimes != null ? (
+              <>
+                <Box>週例清掃</Box>
+                <Box>{cleanmonth + '月'}</Box>
+                <Box>{'第' + cleantimes + '回'}</Box>
+              </>
+            ) : cleantype === 'special' &&
+              cleanmonth != null &&
+              cleantimes != null &&
+              cleanplace != null ? (
+              <>
+                <Box>週例清掃</Box>
+                <Box>{cleanmonth + '月'}</Box>
+                <Box>{'第' + cleantimes + '回'}</Box>
+                <Box>場所:{cleanplace}</Box>
+              </>
+            ) : (
+              'すべての要素を入力してください'
+            )}
           </ModalBody>
-          
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               戻る
             </Button>
-            {
-            (cleantype === "weekly" && cleanmonth != "" && cleantimes != "" && dormname != "" && floor != "") ||
-            (cleantype === "monthly" && cleanmonth != "" && cleantimes != "") ||
-            (cleantype === "special" && cleanmonth != "" && cleantimes != "" && cleanplace != "")
-
-            ?
-            <Button variant="ghost" onClick={() => Submit()}>清掃報告を開始する</Button>
-            :""
-}
+            {(cleantype === 'weekly' &&
+              cleanmonth != '' &&
+              cleantimes != '' &&
+              dormname != '' &&
+              floor != '') ||
+            (cleantype === 'monthly' && cleanmonth != '' && cleantimes != '') ||
+            (cleantype === 'special' &&
+              cleanmonth != '' &&
+              cleantimes != '' &&
+              cleanplace != '') ? (
+              <Button variant="ghost" onClick={() => Submit()}>
+                清掃報告を開始する
+              </Button>
+            ) : (
+              ''
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>

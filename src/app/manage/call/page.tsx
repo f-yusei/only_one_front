@@ -3,10 +3,23 @@ import RollCallTable from '@/app/components/RollCallTable';
 import { SelectMonthAndDormitory } from '@/app/components/CommonFunction';
 import { Box, Button, Card } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { RollCallTableData, RollCallTableDataToPost } from '@/app/types';
 import api from '@/api/api';
+import { RollCallTableData, RollCallTableDataToPost } from '@/app/types';
+import { useRouter } from 'next/navigation';
+import { useCheckIsLoginNow } from '@/app/hooks/useCheckIsLoginNow';
+import { useAccountStore } from '@/app/state/user';
 
 const CallManagePage = () => {
+  const router = useRouter();
+
+  const isLogin = useCheckIsLoginNow();
+  useEffect(() => {
+    if (!isLogin) {
+      router.push('/manage/login');
+    }
+  }, [isLogin, router]);
+  const account = useAccountStore((state) => state.account);
+
   const rollCallTableInit: RollCallTableData[] = Array.from({ length: 30 }, () => ({
     day: '',
     account: '',
@@ -18,7 +31,6 @@ const CallManagePage = () => {
   const [date, setDate] = useState(''); //yyyy-mm
   const [tableData, setTableData] = useState<RollCallTableData[]>(rollCallTableInit);
   const [isEditMode, setIsEditMode] = useState(false);
-
   useEffect(() => {
     if (month === '') return;
     if (year === '') return;
@@ -43,7 +55,7 @@ const CallManagePage = () => {
     const postData: RollCallTableDataToPost = {
       dormitory: dormitory,
       date: year + '-' + month,
-      register: 'test',
+      register: account,
       tableData: tableData,
     };
     try {

@@ -1,5 +1,6 @@
 'use client';
 import authApi from '@/api/authApi';
+import { useAccountStore } from '@/app/state/user';
 import { LoginData } from '@/app/types';
 import { Link } from '@chakra-ui/next-js';
 import { FormControl, FormLabel, Input, Button, VStack } from '@chakra-ui/react';
@@ -9,9 +10,9 @@ export default function LoginPage() {
   const [studentId, setStudentId] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (data: LoginData) => {
-    const res = authApi.postLogin(data);
-    console.log(res);
+  const handleSubmit = async (data: LoginData) => {
+    const res = await authApi.postLogin(data);
+    useAccountStore.getState().setAccount(res);
   };
 
   return (

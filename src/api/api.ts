@@ -1,9 +1,16 @@
 import {
   CleaningAllData,
+  CleaningReport,
   CleaningTableDataToPost,
   DashboardData,
+  MonthCleaningData,
   RollCallTableDataToPost,
+  SpecialCleaningData,
+  StudentDataAttendedMonthlyCleaning,
+  StudentDataByFloor,
   StudentNameType,
+  TeacherCleaningReport,
+  WeekCleaningData,
 } from '@/app/types';
 import apiClient from './axiosClient';
 
@@ -34,12 +41,64 @@ const postRollCallData = async (tableData: RollCallTableDataToPost) => {
   return response.data;
 };
 
+const getCleaningDataById = async (id: number) => {
+  const response = await apiClient.get<WeekCleaningData | MonthCleaningData | SpecialCleaningData>(
+    `/manage/cleaningstudent/${id}`
+  );
+  return response.data;
+};
+
+const getCleaningStatus = async (id: number) => {
+  const response = await apiClient.get<number>(`/manage/cleaningstatus/${id}`);
+  return response.data;
+};
+
+const postMonthlyCleaningAttender = async (StudentData: StudentDataAttendedMonthlyCleaning) => {
+  const response = await apiClient.post(`/manage/monthlyattend/`, StudentData);
+  return response.data;
+};
+
+const postCleaningReport = async (reportData: CleaningReport) => {
+  const response = await apiClient.post(`/manage/cleaningreport/`, reportData);
+  return response.data;
+};
+
+const postTeacherCleaningReport = async (reportData: TeacherCleaningReport) => {
+  const response = await apiClient.post(`/manage/teachercleaningreport/`, reportData);
+  return response.data;
+};
+
+const getStudentDataByDormitoryName = async (dormitory: string) => {
+  const response = await apiClient.get<StudentDataByFloor>(`/student/${dormitory}`);
+  return response.data;
+};
+
+const getCleaningDataByDate = async (date: string) => {
+  const response = await apiClient.get<WeekCleaningData | MonthCleaningData | SpecialCleaningData>(
+    `/cleaning/${date}`
+  );
+  return response.data;
+};
+
+const postTeacherReadReport = async (cleaningId: number) => {
+  const response = await apiClient.post(`/manage/reportread/${cleaningId}`);
+  return response.data;
+};
+
 const api = {
   getDashboardData,
   getCleaningData,
   postTableData,
+  postTeacherReadReport,
+  getCleaningStatus,
   getStudentData,
+  getCleaningDataByDate,
+  postTeacherCleaningReport,
+  postCleaningReport,
+  getStudentDataByDormitoryName,
   postRollCallData,
+  getCleaningDataById,
+  postMonthlyCleaningAttender,
 };
 
 export default api;
