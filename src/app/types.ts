@@ -128,7 +128,6 @@ type MonthlyCleaningTableData = {
   date: string;
   names: StudentName[];
 };
-
 type LoginData = {
   studentId: string;
   password: string;
@@ -243,4 +242,4 @@ export type {
   WeekCleaningData,
 };
 
-export default StudentName;
+

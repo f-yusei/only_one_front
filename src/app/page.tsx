@@ -1,6 +1,6 @@
 'use client';
 import { VStack, HStack, Box } from '@chakra-ui/react';
-import { DisplayQrCode, DisplayPublicBath, DisplayShower } from './components/Dashboard';
+import { DisplayQrCode, DisplayPublicBath } from './components/Dashboard';
 import { useDashboardData } from './hooks/useDashboardData';
 
 export default function Home() {
@@ -15,17 +15,24 @@ export default function Home() {
     return <div>なんかエラー出たぞ</div>;
   }
 
-  const { yamaShowerData, numberOfUsingBathData } = dashboardData;
+  const { numberOfUsingBathData } = dashboardData;
+  if (!numberOfUsingBathData) {
+    return <div>風呂のデータがねえぞおおおおおおおおお</div>;
+  }
+
+
+
   return (
     <Box>
       <VStack>
         <DisplayQrCode />
         <DisplayPublicBath numberOfUsingBathData={numberOfUsingBathData} />
         <HStack>
-          <DisplayPublicBath numberOfUsingBathData={numberOfUsingBathData} />
-          <DisplayShower showerData={yamaShowerData} />
+          <Link href="/yama">山寮</Link>
+          <Link href="/umi">海寮</Link>
         </HStack>
       </VStack>
     </Box>
   );
+  
 }

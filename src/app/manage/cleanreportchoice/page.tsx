@@ -56,7 +56,7 @@ export default function CreanReportChoice() {
       </Select>
     );
   };
-
+  
   return (
     <>
       <Box m={2}>
@@ -216,7 +216,6 @@ export default function CreanReportChoice() {
               'すべての要素を入力してください'
             )}
           </ModalBody>
-
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               戻る
