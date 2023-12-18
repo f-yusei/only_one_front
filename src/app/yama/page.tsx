@@ -4,30 +4,30 @@ import { DisplayDryer, DisplayShower, DisplayWasher } from '../components/Dashbo
 import { useYamaDashboardData } from '../hooks/useDashboardData';
 
 const YamaDashboardPage = () => {
-  const { dashboardData, isError, isLoading } = useYamaDashboardData();
+  const { yamaDashboardData, isError, isLoading } = useYamaDashboardData();
   if (isLoading) {
     return <div>loading...</div>;
   }
-  if (!dashboardData) {
+  if (!yamaDashboardData) {
     return <div>そもそもデータ取得できてねーぞ</div>;
   }
   if (isError) {
     return <div>なんかエラー出たぞ</div>;
   }
 
-  if (!dashboardData.showerData) {
+  if (!yamaDashboardData.showerData) {
     return <div>シャワーのデータがねえぞおおおおおおおおお</div>;
   }
 
-  if (!dashboardData.washerData) {
+  if (!yamaDashboardData.washerData) {
     return <div>洗濯機のデータがねえぞおおおおおおおおお</div>;
   }
 
-  if (!dashboardData.dryerData) {
+  if (!yamaDashboardData.dryerData) {
     return <div>乾燥機のデータがねえぞおおおおおおおおお</div>;
   }
 
-  const { showerData, washerData, dryerData } = dashboardData;
+  const { showerData, washerData, dryerData } = yamaDashboardData;
 
   return (
     <Box>

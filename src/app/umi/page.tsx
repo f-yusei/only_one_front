@@ -4,30 +4,30 @@ import { DisplayShower, DisplayWasher, DisplayDryer } from '../components/Dashbo
 import { useUmiDashboardData } from '../hooks/useDashboardData';
 
 const UmiDashboardPage = () => {
-  const { dashboardData, isError, isLoading } = useUmiDashboardData();
+  const { umiDashboardData, isError, isLoading } = useUmiDashboardData();
   if (isLoading) {
     return <div>loading...</div>;
   }
-  if (!dashboardData) {
+  if (!umiDashboardData) {
     return <div>そもそもデータ取得できてねーぞ</div>;
   }
   if (isError) {
     return <div>なんかエラー出たぞ</div>;
   }
 
-  if (!dashboardData.showerData) {
+  if (!umiDashboardData.showerData) {
     return <div>シャワーのデータがねえぞおおおおおおおおお</div>;
   }
 
-  if (!dashboardData.washerData) {
+  if (!umiDashboardData.washerData) {
     return <div>洗濯機のデータがねえぞおおおおおおおおお</div>;
   }
 
-  if (!dashboardData.dryerData) {
+  if (!umiDashboardData.dryerData) {
     return <div>乾燥機のデータがねえぞおおおおおおおおお</div>;
   }
 
-  const { showerData, washerData, dryerData } = dashboardData;
+  const { showerData, washerData, dryerData } = umiDashboardData;
 
   return (
     <Box>

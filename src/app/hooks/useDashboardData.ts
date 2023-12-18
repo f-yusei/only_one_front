@@ -1,5 +1,4 @@
 'use client';
-import useSWR from 'swr';
 import { DashboardData } from '../types';
 import process from 'process';
 import { useEffect, useState } from 'react';
@@ -7,11 +6,6 @@ import apiClient from '@/api/axiosClient';
 
 const fetchUrl =
   process.env.NEXT_PUBLIC_BACKEND_API_URL + '/api/dashboard' || 'http://localhost:5000';
-
-const fetcher = async () =>
-  await fetch(fetchUrl).then(async (res) => {
-    return await res.json();
-  });
 
 export const useDashboardData = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
@@ -40,33 +34,65 @@ export const useDashboardData = () => {
 };
 
 export const useYamaDashboardData = () => {
-  const { data, error } = useSWR<DashboardData>(fetcher);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-  const yamaData = {
-    showerData: data?.yamaShowerData,
-    washerData: data?.yamaWasherData,
-    dryerData: data?.yamaDryerData,
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsError(false);
+      setIsLoading(true);
+
+      try {
+        const result = await apiClient.get<DashboardData>(fetchUrl);
+        setDashboardData(result.data);
+      } catch (error) {
+        setIsError(true);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  const yamaDashboardData = {
+    showerData: dashboardData?.yamaShowerData,
+    washerData: dashboardData?.yamaWasherData,
+    dryerData: dashboardData?.yamaDryerData,
   };
 
-  return {
-    dashboardData: yamaData,
-    isLoading: !error && !data,
-    isError: error,
-  };
+  return { yamaDashboardData, isLoading, isError };
 };
 
 export const useUmiDashboardData = () => {
-  const { data, error } = useSWR<DashboardData>(fetcher);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-  const umiData = {
-    showerData: data?.umiShowerData,
-    washerData: data?.umiWasherData,
-    dryerData: data?.umiDryerData,
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsError(false);
+      setIsLoading(true);
+
+      try {
+        const result = await apiClient.get<DashboardData>(fetchUrl);
+        setDashboardData(result.data);
+      } catch (error) {
+        setIsError(true);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  const umiDashboardData = {
+    showerData: dashboardData?.umiShowerData,
+    washerData: dashboardData?.umiWasherData,
+    dryerData: dashboardData?.umiDryerData,
   };
 
-  return {
-    dashboardData: umiData,
-    isLoading: !error && !data,
-    isError: error,
-  };
+  return { umiDashboardData, isLoading, isError };
 };
