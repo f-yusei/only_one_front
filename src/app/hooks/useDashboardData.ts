@@ -1,6 +1,9 @@
+'use client';
 import useSWR from 'swr';
 import { DashboardData } from '../types';
 import process from 'process';
+import { useEffect, useState } from 'react';
+import apiClient from '@/api/axiosClient';
 
 const fetchUrl =
   process.env.NEXT_PUBLIC_BACKEND_API_URL + '/api/dashboard' || 'http://localhost:5000';
@@ -11,13 +14,29 @@ const fetcher = async () =>
   });
 
 export const useDashboardData = () => {
-  const { data, error } = useSWR<DashboardData>(fetcher);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-  return {
-    dashboardData: data,
-    isLoading: !error && !data,
-    isError: error,
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsError(false);
+      setIsLoading(true);
+
+      try {
+        const result = await apiClient.get<DashboardData>(fetchUrl);
+        setDashboardData(result.data);
+      } catch (error) {
+        setIsError(true);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  return { dashboardData, isLoading, isError };
 };
 
 export const useYamaDashboardData = () => {
