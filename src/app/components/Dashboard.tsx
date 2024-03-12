@@ -25,7 +25,7 @@ const DisplayWasher = ({ washerData }: DisplayWasherProps) => {
     <Card bgColor="gray.100" height="36vh" width="80vw" p="4">
       <VStack>
         <HStack>
-          <Text>洗濯機使用可能台数</Text>
+          <Text fontWeight="bold">洗濯機使用可能台数</Text>
           <Text>{canUseWasher}</Text>
         </HStack>
       </VStack>
@@ -38,7 +38,7 @@ const DisplayDryer = ({ dryerData }: DisplayDryerProps) => {
   return (
     <Card bgColor="gray.100" height="36vh" width="80vw" p="4">
       <VStack>
-        <Text>乾燥機使用可能台数</Text>
+        <Text fontWeight="bold">乾燥機使用可能台数</Text>
         <Text>{canUseDryer}</Text>
       </VStack>
     </Card>
@@ -50,7 +50,7 @@ const DisplayShower = ({ showerData }: DisplayShowerProps) => {
   return (
     <Box bgColor="gray.100" height="26vh" width="40vw">
       <HStack>
-        <Text>シャワー室</Text>
+        <Text fontWeight="bold">シャワー室</Text>
         <Text>{canUseShower}</Text>
       </HStack>
     </Box>
@@ -68,6 +68,7 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
       height="48vh"
       width="80vw"
       rounded={'xl'}
+      fontWeight="bold" fontSize="125%"
     >
       <HStack borderColor={'black'} spacing="0vh" divider={<StackDivider />}>
         <Box height="48vh" width="100vw">
@@ -75,7 +76,7 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
             <Box>
               <VStack>
                 <Image boxSize="100px" objectFit="cover" src={bathIcon.src} alt="ローカル" />
-                <Box>大浴場利用人数</Box>
+                <Box  >大浴場利用人数</Box>
               </VStack>
             </Box>
           </Center>
@@ -91,7 +92,7 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
                 justify="space-between"
                 p="3"
               >
-                <Box fontSize="xl">{textData[index]}</Box>
+                <Box fontSize="90%" >{textData[index]}</Box>
                 <Box fontSize="xl">{numberOfUsingBath}人</Box>
               </Flex>
             ))}
@@ -105,8 +106,8 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
 const DisplayQrCode = () => {
   return (
     <Card height="15vh" mt="0" width="80vw" boxShadow="0 4px 8px rgba(0, 0.2, 0.2, 0.4)">
-      <Center h="100%" fontSize="xl">
-        QRだああああ
+      <Center h="100%" fontSize="200%" fontFamily="Impact">
+        Coming Soon...
       </Center>
     </Card>
   );

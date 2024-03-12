@@ -1,5 +1,5 @@
 'use client';
-import { VStack, Box, Center,  StackDivider } from '@chakra-ui/react';
+import { VStack, Box, Center, StackDivider, Button } from '@chakra-ui/react';
 import { DisplayQrCode, DisplayPublicBath } from './components/Dashboard';
 //import { useDashboardData } from './hooks/useDashboardData';
 import { Link } from '@chakra-ui/next-js';
@@ -36,24 +36,28 @@ export default function Home() {
         <Box boxShadow="0 4px 8px rgba(0, 0.2, 0.2, 0.4)" borderWidth='1px' height="28vh" width="80vw" rounded={"xl"}>
           <VStack borderColor={"black"}
             divider={<StackDivider />} spacing='0' >
-            <Box style={{ width: '80vw', height: '14vh' }}
-            >
+            <Link href="/yama">
+              <Button style={{ width: '80vw', height: '14vh' }} variant='outline'
+              >
 
 
-              <Center h="100%">
-                <Link href="/yama" fontSize="xl">
+                <Center h="100%" fontWeight="bold" fontSize="130%">
                   山寮
-                </Link>
-              </Center>
+                </Center>
 
 
-            </Box>
+              </Button>
+            </Link>
 
-            <Box style={{ width: '80vw', height: '14vh' }}  >
-              <Center h="100%">
-                <Link href="/umi" fontSize="xl">海寮</Link>
-              </Center>
-            </Box>
+            <Link href="/umi">
+
+              <Button style={{ width: '80vw', height: '14vh' }} variant='outline'>
+                <Center h="100%" fontWeight="bold" fontSize="130%">
+                  海寮
+                </Center>
+              </Button>
+            </Link>
+
           </VStack>
         </Box>
       </VStack >
