@@ -1,5 +1,5 @@
 'use client';
-import { VStack, Box, Center, StackDivider, Button, ButtonGroup } from '@chakra-ui/react';
+import { VStack, Box, Center, StackDivider, Button } from '@chakra-ui/react';
 import { DisplayQrCode, DisplayPublicBath } from './components/Dashboard';
 //import { useDashboardData } from './hooks/useDashboardData';
 import { Link } from '@chakra-ui/next-js';
