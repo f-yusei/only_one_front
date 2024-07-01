@@ -41,7 +41,7 @@
 // export default YamaDashboardPage;
 'use client';
 import {
-  Image, VStack, HStack, Box, Center, StackDivider, Grid, GridItem, Text, Flex,
+  Image, VStack, HStack, Box, Center, StackDivider, Text, Flex,
 } from '@chakra-ui/react';
 import bathIcon from '../../../public/images/bathicon.png';
 import { StaticImageData } from 'next/image';
