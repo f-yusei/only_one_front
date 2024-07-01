@@ -112,7 +112,7 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ name, Data, image }) => {
                 <Box fontSize="100%" position="absolute" top="0" left="0" m={2}>{textData[index]}</Box>
                 <CustomFlex size="100%">
                   {twoDArray.map((row, i) => (
-                    <div >
+                    <div key={index}>
                       <Box fontSize="10%">{floorData[i]}</Box>
                       <Box>{countTrueValues(row)}</Box>
                     </div>
@@ -156,12 +156,14 @@ const DisplayShower = ({ showerData }: DisplayShowerProps) => {
         <Box height="100%" width="50%">
           <CustomVStack>
             {showerData.map((row, index) => (
-              <CustomFlex size="50%">
-                <Box fontSize="90%" position="absolute" top="0" left="0" m={2}>{textData[index]}</Box>
-                <Flex justifyContent="center" alignItems="center" flex="1">
-                  <Box >{countTrueValues(row)}</Box>
-                </Flex>
-              </CustomFlex>
+              <div key={index}>
+                <CustomFlex size="50%">
+                  <Box fontSize="90%" position="absolute" top="0" left="0" m={2}>{textData[index]}</Box>
+                  <Flex justifyContent="center" alignItems="center" flex="1">
+                    <Box >{countTrueValues(row)}</Box>
+                  </Flex>
+                </CustomFlex>
+              </div>
             ))}
           </CustomVStack>
         </Box>
@@ -171,7 +173,6 @@ const DisplayShower = ({ showerData }: DisplayShowerProps) => {
 };
 
 const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) => {
-  const id = v4();
   const textData = ['1', '2', '3'];
   return (
     // <Card bgColor="gray.100" height="28vh" width="80vw" boxShadow="xl">
@@ -192,12 +193,14 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
         <Box height="100%" width="100%">
           <CustomVStack >
             {numberOfUsingBathData.map((numberOfUsingBath, index) => (
-              <CustomFlex size="33%">
-                <Box fontSize="90%" >{textData[index]}</Box>
-                <Flex justifyContent="center" alignItems="center" flex="1">
-                  <Box fontSize="200%" >{numberOfUsingBath}</Box>
-                </Flex>
-              </CustomFlex>
+              <div key={index}>
+                <CustomFlex size="33%">
+                  <Box fontSize="90%" >{textData[index]}</Box>
+                  <Flex justifyContent="center" alignItems="center" flex="1">
+                    <Box fontSize="200%" >{numberOfUsingBath}</Box>
+                  </Flex>
+                </CustomFlex>
+              </div>
             ))}
           </CustomVStack>
         </Box>
