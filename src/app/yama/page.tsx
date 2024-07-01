@@ -45,6 +45,7 @@ import {
 } from '@chakra-ui/react';
 import bathIcon from '../../../public/images/bathicon.png';
 import { StaticImageData } from 'next/image';
+import { BuildingPage } from '../components/Dashboard';
 
 type WashAndDryProps = {
   data: number[];
@@ -108,7 +109,7 @@ const WashAndDry = ({ data, image, name }: WashAndDryProps) => {
   );
 };
 
-export default function Home({ Wash, Dry, Shawer }: BuildingProps) {
+export default function Home() {
   const showerRoomAvailability = 1;
   const washingMachineAvailability = [1, 0, 2];
   const dryerAvailability = [2, 2, 3];
@@ -134,35 +135,3 @@ export default function Home({ Wash, Dry, Shawer }: BuildingProps) {
 }
 
 
-const BuildingPage = ({ Wash, Dry, Shawer }: BuildingProps) => {
-  return (
-    <Box
-      style={{ width: '100vw', height: '100vh' }}
-      padding="2rem"
-    >
-      <VStack spacing="2vh" mt="6vh">
-
-        {/* シャワー室空室数 */}
-        <Box boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)" borderWidth='1px' height="auto" width="80vw" rounded="xl" padding="1rem">
-          <HStack borderColor="black" divider={<StackDivider />} spacing='0'>
-            <Box width={"50%"}>
-              <Center>
-                <Image src={bathIcon.src} alt="Logo" />
-              </Center>
-              <Text textAlign={"center"} fontWeight="bold">シャワー室空室数</Text>
-            </Box>
-            <Box width={"50%"}>
-              <Center fontSize="200%">{Shawer.data}</Center>
-            </Box>
-          </HStack>
-        </Box>
-
-        {/* 洗濯機利用可能台数 */}
-        <WashAndDry data={Wash.data} name="洗濯機利用可能台数" image={bathIcon}></WashAndDry>
-        {/* 乾燥機 */}
-        <WashAndDry data={Dry.data} name="乾燥機利用可能台数" image={bathIcon}></WashAndDry>
-
-      </VStack >
-    </Box >
-  );
-}
