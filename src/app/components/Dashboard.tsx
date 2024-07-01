@@ -9,7 +9,6 @@ import {
   Image,
   StackDivider,
   Flex,
-  position,
 } from '@chakra-ui/react';
 import { v4 } from 'uuid';
 import {

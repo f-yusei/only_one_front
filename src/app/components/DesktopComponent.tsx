@@ -1,8 +1,6 @@
 'use client';
-import { VStack, Box, Center, StackDivider, Button } from '@chakra-ui/react';
-import { DisplayQrCode, DisplayPublicBath, DisplayWasher, DisplayDryer, DisplayShower } from '../components/Dashboard';
-//import { useDashboardData } from './hooks/useDashboardData';
-import { Link } from '@chakra-ui/next-js';
+import { Box } from '@chakra-ui/react';
+import { DisplayPublicBath, DisplayWasher, DisplayDryer, DisplayShower } from '../components/Dashboard';
 import "../style/Desktop.css";
 import { Flex, Text } from '@chakra-ui/react';
 
