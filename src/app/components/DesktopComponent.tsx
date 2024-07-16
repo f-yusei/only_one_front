@@ -95,7 +95,6 @@ const DesctopComponent = () => {
 
   }, []);
 
-  const numberOfUsingBathData = [4, 3, 5];
 
 
 
@@ -115,25 +114,10 @@ const DesctopComponent = () => {
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
   };
 
-  const Menu = () => {
-    return (
-      <Box width="20%" bg="gray.200" p={4}>
-        <Text fontSize="xl" fontWeight="bold">メニュー</Text>
-        <Box mt={4}>
-          <Text>メニュー項目1</Text>
-          <Text>メニュー項目2</Text>
-          <Text>メニュー項目3</Text>
-          {/* 他のメニュー項目を追加 */}
-        </Box>
-      </Box>
-    );
-  };
 
-  // const data = [true, false];
+
   return (
     <Flex height="90vh" width={"100%"}>
-      <Menu />
-
 
       <Box style={gridContainerStyle}> {/* グリッドコンテナのクラスを追加 */}
         <div style={gridItemStyle}>{bathArray ? (
