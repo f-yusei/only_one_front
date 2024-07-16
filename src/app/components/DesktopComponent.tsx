@@ -18,7 +18,6 @@ function extractDR(data: { [key: string]: { [key: string]: { [key: string]: bool
     });
   });
 
-  console.log(drData);
 
   const threeArray: boolean[][][] = Object.keys(drData).map(dormitory => {
     return Object.keys(drData[dormitory]).map(floor => {
@@ -26,7 +25,6 @@ function extractDR(data: { [key: string]: { [key: string]: { [key: string]: bool
     });
   });
 
-  console.log(threeArray);
   return threeArray;
 }
 
@@ -39,7 +37,6 @@ function extractSW(data: { [key: string]: { [key: string]: { [key: string]: bool
     }
   });
 
-  console.log(swData);
   return swData;
 }
 
@@ -54,13 +51,11 @@ const DesctopComponent = () => {
     fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard`)
       .then(response => {
         if (!response.ok) {
-          console.log("net work");
           throw new Error('Network response was not ok');
         }
         return response.json();
       })
       .then(data => {
-        console.log(data); // ここでデータをコンソールに表示
         let extractedData = extractDR(data, "DR");
         setDryArray(extractedData);
         extractedData = extractDR(data, "WA");
@@ -71,25 +66,21 @@ const DesctopComponent = () => {
 
       })
       .catch(error => {
-        console.log(error); // ここでエラーをコンソールに表示
+        alert(error.message); // エラーメッセージを表示
       });
 
     fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?dor=PB`)
       .then(response => {
         if (!response.ok) {
-          console.log("net work");
           throw new Error('Network response was not ok');
         }
         return response.json();
       })
       .then(data => {
-        console.log(data); // ここでデータをコンソールに表示
         setBathArray(data);
-
-
       })
       .catch(error => {
-        console.log(error); // ここでエラーをコンソールに表示
+        alert(error.message); // エラーメッセージを表示
       });
 
 
