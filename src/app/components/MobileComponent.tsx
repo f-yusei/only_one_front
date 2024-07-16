@@ -3,34 +3,40 @@ import { VStack, Box, Center, StackDivider, Button } from '@chakra-ui/react';
 import { DisplayQrCode, DisplayPublicBath } from '../components/Dashboard';
 //import { useDashboardData } from './hooks/useDashboardData';
 import { Link } from '@chakra-ui/next-js';
+import { useEffect, useState } from 'react';
 
 const MobileComponent = () => {
-  // const { dashboardData, isError, isLoading } = useDashboardData();
-  // if (isLoading) {
-  //   return <div>loading...</div>;
-  // }
-  // if (!dashboardData) {
-  //   return <div>そもそもデータ取得できてねーぞ</div>;
-  // }
-  // if (isError) {
-  //   return <div>なんかエラー出たぞ</div>;
-  // }
+  const [bathArray, setBathArray] = useState<boolean[]>([]);
+  const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  // const { numberOfUsingBathData } = dashboardData;
-  // if (!numberOfUsingBathData) {
-  //   return <div>風呂のデータがねえぞおおおおおおおおお</div>;
-  // }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?dor=PB`);
+        if (!response.ok) {
+          console.log("Network response was not ok");
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log(data); // ここでデータをコンソールに表示
+        setBathArray(data);
+      } catch (error) {
+        console.log(error); // ここでエラーをコンソールに表示
+      }
+    };
 
-  const numberOfUsingBathData = [4, 3, 5];
+    fetchData();
+  }, []); // 空の配列を渡して、コンポーネントのマウント時に一度だけ実行されるようにする
 
   return (
 
     <Box
       style={{ width: '100vw', height: '100vh' }} >
-      <VStack spacing="1vh" mt="6vh">
+      <VStack spacing="1vh" mt="6vh" height={"100%"}>
         <DisplayQrCode />
-        <DisplayPublicBath numberOfUsingBathData={numberOfUsingBathData} />
-
+        <Box width={"90%"} height={"50%"}>
+          <DisplayPublicBath numberOfUsingBathData={bathArray} />
+        </Box>
 
 
         <Box boxShadow="0 4px 8px rgba(0, 0.2, 0.2, 0.4)" borderWidth='1px' height="28vh" width="90vw" rounded={"xl"}>

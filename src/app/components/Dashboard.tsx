@@ -13,9 +13,9 @@ import {
 import { v4 } from 'uuid';
 import {
   DisplayPublicBathProps,
-  // DisplayShowerProps,
-  // DisplayWasherProps,
-  // DisplayDryerProps,
+  DisplayShowerProps,
+  DisplayWasherProps,
+  DisplayDryerProps,
 } from '../types';
 import bathIcon from '../../../public/images/bathicon.png';
 import { StaticImageData } from 'next/image'; // インポートが機能しない場合の代替策
@@ -30,19 +30,11 @@ const boxStyles = {
   fontWeight: 'bold',
   fontSize: '125%',
 };
-// DisplayProps.ts
-export interface DisplayShowerProps {
-  showerData: boolean[][];
-}
 
-export interface DisplayWasherProps {
-  washerData: boolean[][][];
-}
-
-export interface DisplayDryerProps {
-  dryerData: boolean[][][];
-}
 const countTrueValues = (data: boolean[]) => {
+  if (!data) {
+    return 0;
+  }
   return data.filter(value => value).length;
 };
 
@@ -51,7 +43,6 @@ interface CustomStackProps {
 }
 
 interface CustomFlexProps {
-  size: string;
   children: React.ReactNode;
 }
 
@@ -70,10 +61,10 @@ const CustomVStack: React.FC<CustomStackProps> = ({ children }) => {
   );
 };
 
-const CustomFlex: React.FC<CustomFlexProps> = ({ size, children }) => {
+const CustomFlex: React.FC<CustomFlexProps> = ({ children }) => {
   return (
     <Flex
-      height={size}
+      height="100%"
       width="100%"
       align="center"
       justify="space-between"
@@ -110,9 +101,9 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ name, Data, image }) => {
             {Data.map((twoDArray, index) => (
               <div key={index} style={{ height: '100%', width: "100%", position: "relative" }} >
                 <Box fontSize="100%" position="absolute" top="0" left="0" m={2}>{textData[index]}</Box>
-                <CustomFlex size="100%">
+                <CustomFlex>
                   {twoDArray.map((row, i) => (
-                    <div key={index}>
+                    <div key={i}>
                       <Box fontSize="10%">{floorData[i]}</Box>
                       <Box>{countTrueValues(row)}</Box>
                     </div>
@@ -156,8 +147,8 @@ const DisplayShower = ({ showerData }: DisplayShowerProps) => {
         <Box height="100%" width="50%">
           <CustomVStack>
             {showerData.map((row, index) => (
-              <div key={index}>
-                <CustomFlex size="50%">
+              <div key={index} style={{ width: "100%", height: "50%" }}>
+                <CustomFlex >
                   <Box fontSize="90%" position="absolute" top="0" left="0" m={2}>{textData[index]}</Box>
                   <Flex justifyContent="center" alignItems="center" flex="1">
                     <Box >{countTrueValues(row)}</Box>
@@ -174,6 +165,7 @@ const DisplayShower = ({ showerData }: DisplayShowerProps) => {
 
 const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) => {
   const textData = ['1', '2', '3'];
+  const _numberOfUsingBathData = [countTrueValues(numberOfUsingBathData), null, null];
   return (
     // <Card bgColor="gray.100" height="28vh" width="80vw" boxShadow="xl">
     <Box
@@ -192,20 +184,28 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
         </Box>
         <Box height="100%" width="100%">
           <CustomVStack >
-            {numberOfUsingBathData.map((numberOfUsingBath, index) => (
-              <div key={index}>
-                <CustomFlex size="33%">
+            {_numberOfUsingBathData.map((numberOfUsingBath, index) => (
+              <div key={index} style={{ width: "100%", height: "33%" }}>
+                <CustomFlex >
                   <Box fontSize="90%" >{textData[index]}</Box>
                   <Flex justifyContent="center" alignItems="center" flex="1">
-                    <Box fontSize="200%" >{numberOfUsingBath}</Box>
+                    <Box >
+                      {numberOfUsingBath !== null ? (
+                        <Box fontSize="100%">
+                          {numberOfUsingBath}
+                        </Box>
+                      ) : (
+                        <Box fontSize="100%">Coming Soon..</Box>
+                      )}
+                    </Box>
                   </Flex>
                 </CustomFlex>
               </div>
             ))}
           </CustomVStack>
         </Box>
-      </CustomHStack>
-    </Box>
+      </CustomHStack >
+    </Box >
   );
 };
 
