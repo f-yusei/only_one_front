@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { OptionBase } from 'chakra-react-select';
+import { StaticImageData } from 'next/image';
+
 
 type DashboardData = {
   yamaWasherData: boolean[];
@@ -92,7 +94,7 @@ class StudentName implements OptionBase {
     public value: string,
     public label: string,
     public colorScheme: string
-  ) {}
+  ) { }
 }
 
 type StudentNameType = {
@@ -210,6 +212,24 @@ type TeacherCleaningReport = {
   registeredTeacher: string;
 };
 
+type WashAndDryProps = {
+  data: number[];
+  image: StaticImageData;
+  name: string;
+};
+
+type ShawerProps = {
+  data: number;
+  image: StaticImageData;
+  name: string;
+};
+
+type BuildingProps = {
+  Wash: WashAndDryProps;
+  Dry: WashAndDryProps;
+  Shawer: ShawerProps;
+};
+
 export type {
   MonthlyCleaningReportAndSpecialCleaningReport,
   WeeklyCleaningReport,
@@ -240,6 +260,9 @@ export type {
   TeacherCleaningReport,
   MonthCleaningData,
   WeekCleaningData,
+  WashAndDryProps,
+  ShawerProps,
+  BuildingProps,
 };
 
 

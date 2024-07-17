@@ -9,6 +9,7 @@ import {
   Image,
   StackDivider,
   Flex,
+  Button,
 } from '@chakra-ui/react';
 import { v4 } from 'uuid';
 import {
@@ -16,9 +17,13 @@ import {
   DisplayPublicBathProps,
   DisplayWasherProps,
   DisplayDryerProps,
+  WashAndDryProps,
+  BuildingProps,
 } from '../types';
 import bathIcon from '../../../public/images/bathicon.png';
 import { StaticImageData } from 'next/image';
+import { Link } from '@chakra-ui/next-js';
+
 
 
 
@@ -116,24 +121,24 @@ const DisplayQrCode = () => {
   );
 };
 
-type WashAndDryProps = {
-  data: number[];
-  image: StaticImageData;
-  name: string;
+// type WashAndDryProps = {
+//   data: number[];
+//   image: StaticImageData;
+//   name: string;
 
-};
-type ShawerProps = {
-  data: number;
-  image: StaticImageData;
-  name: string;
+// };
+// type ShawerProps = {
+//   data: number;
+//   image: StaticImageData;
+//   name: string;
 
-};
-type BuildingProps = {
-  Wash: WashAndDryProps;
-  Dry: WashAndDryProps;
-  Shawer: ShawerProps;
+// };
+// type BuildingProps = {
+//   Wash: WashAndDryProps;
+//   Dry: WashAndDryProps;
+//   Shawer: ShawerProps;
 
-};
+// };
 const WashAndDry = ({ data, image, name }: WashAndDryProps) => {
   return (
     <Box boxShadow="0 4px 8px rgba(0, 0, 0, 0.2)" borderWidth='1px' height="auto" width="80vw" rounded="xl" padding="0rem">
@@ -202,7 +207,6 @@ const BuildingPage = ({ Wash, Dry, Shawer }: BuildingProps) => {
         <WashAndDry data={Wash.data} name="洗濯機利用可能台数" image={bathIcon}></WashAndDry>
         {/* 乾燥機 */}
         <WashAndDry data={Dry.data} name="乾燥機利用可能台数" image={bathIcon}></WashAndDry>
-
       </VStack >
     </Box >
   );
