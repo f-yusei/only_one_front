@@ -48,26 +48,38 @@ const DesctopComponent = () => {
   const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
-    fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?dormitory=MOU&dormitory=SEA`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+    async function fetchDormitoryData() {
+      const dormitories = ['MOU', 'SEA'];
+      const results: { [key: string]: { [key: string]: { [key: string]: boolean[] } | boolean[] } } = {};
+
+      for (const dormitory of dormitories) {
+        try {
+          const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?dormitory=${encodeURIComponent(dormitory)}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+          results[dormitory] = data[dormitory]; // 階層を一つ下げて格納
+        } catch (error) {
+          console.error(`Error fetching data for ${dormitory}:`, error);
         }
-        return response.json();
-      })
-      .then(data => {
-        let extractedData = extractDR(data, "DR");
-        setDryArray(extractedData);
-        extractedData = extractDR(data, "WA");
-        setWashArray(extractedData);
-        let shower_Data = extractSW(data);
-        setShowerArray(shower_Data);
+      }
 
+      return results;
+    }
+    // 使用例
+    fetchDormitoryData().then(results => {
+      console.log(results);
+      let extractedData = extractDR(results, "DR");
+      setDryArray(extractedData);
+      extractedData = extractDR(results, "WA");
+      setWashArray(extractedData);
+      let shower_Data = extractSW(results);
+      setShowerArray(shower_Data);
+    }).catch(error => {
+      console.error('Error:', error);
+    });
 
-      })
-      .catch(error => {
-        alert(error.message); // エラーメッセージを表示
-      });
 
     fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?type=PB`)
       .then(response => {
@@ -77,7 +89,13 @@ const DesctopComponent = () => {
         return response.json();
       })
       .then(data => {
-        setBathArray(data);
+        if (data && Array.isArray(data.PB)) {
+          const boolArray = data.PB.map((value: any) => Boolean(value));
+          setBathArray(boolArray);
+
+        } else {
+          console.error('Data is not in the expected format:', data);
+        }
       })
       .catch(error => {
         alert(error.message); // エラーメッセージを表示
