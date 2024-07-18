@@ -12,14 +12,20 @@ const MobileComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?dor=PB`);
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?type=PB`);
         if (!response.ok) {
-          console.log("Network response was not ok");
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data); // ここでデータをコンソールに表示
-        setBathArray(data);
+
+        if (data && Array.isArray(data.PB)) {
+          const boolArray = data.PB.map((value: any) => Boolean(value));
+          setBathArray(boolArray);
+
+        } else {
+          console.error('Data is not in the expected format:', data);
+        }
+
       } catch (error) {
         console.log(error); // ここでエラーをコンソールに表示
       }

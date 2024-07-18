@@ -48,7 +48,7 @@ const DesctopComponent = () => {
   const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
-    fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard`)
+    fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?dormitory=MOU&dormitory=SEA`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -69,7 +69,7 @@ const DesctopComponent = () => {
         alert(error.message); // エラーメッセージを表示
       });
 
-    fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?dor=PB`)
+    fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?type=PB`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
