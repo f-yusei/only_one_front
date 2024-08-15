@@ -28,12 +28,15 @@ const UmiDashboardPage = () => {
   }
 
   const { showerData, washerData, dryerData } = umiDashboardData;
-
+  // 既存の boolean[][] を boolean[][][] に変換
+  const _showerData = [showerData]; // これで showerData は boolean[][][] になります
+  const _washerData = [[washerData]]; // 同様に変換
+  const _dryerData = [[dryerData]];   // 同様に変換
   return (
     <Box>
-      <DisplayShower showerData={showerData} />
-      <DisplayWasher washerData={washerData} />
-      <DisplayDryer dryerData={dryerData} />
+      <DisplayShower showerData={_showerData} />
+      <DisplayWasher washerData={_washerData} />
+      <DisplayDryer dryerData={_dryerData} />
     </Box>
   );
 };
