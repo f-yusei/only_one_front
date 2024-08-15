@@ -4,7 +4,7 @@
 'use client';
 // pages/index.tsx
 import { NextPage } from 'next';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import useMediaQuery from './components/useMediaQuery';
 import DesktopComponent from './components/DesktopComponent';
 import MobileComponent from './components/MobileComponent';

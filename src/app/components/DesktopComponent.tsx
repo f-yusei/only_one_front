@@ -1,7 +1,7 @@
 'use client';
 import { Box } from '@chakra-ui/react';
 import { DisplayPublicBath, DisplayWasher, DisplayDryer, DisplayShower } from '../components/Dashboard';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 
 function extractDR(data: { [key: string]: { [key: string]: { [key: string]: boolean[] } | boolean[] } }, char: string) {
@@ -74,7 +74,7 @@ const DesctopComponent = () => {
       setDryArray(extractedData);
       extractedData = extractDR(results, "WA");
       setWashArray(extractedData);
-      let shower_Data = extractSW(results);
+      const shower_Data = extractSW(results);
       setShowerArray(shower_Data);
     }).catch(error => {
       console.error('Error:', error);
@@ -90,7 +90,8 @@ const DesctopComponent = () => {
       })
       .then(data => {
         if (data && Array.isArray(data.PB)) {
-          const boolArray = data.PB.map((value: any) => Boolean(value));
+          console.log(data);
+          const boolArray = data.PB.map((value: number) => Boolean(value));
           setBathArray(boolArray);
 
         } else {
@@ -102,7 +103,7 @@ const DesctopComponent = () => {
       });
 
 
-  }, []);
+  }, [NEXT_PUBLIC_API_URL]);
 
 
 

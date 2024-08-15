@@ -19,7 +19,7 @@ const MobileComponent = () => {
         const data = await response.json();
 
         if (data && Array.isArray(data.PB)) {
-          const boolArray = data.PB.map((value: any) => Boolean(value));
+          const boolArray = data.PB.map((value: number) => Boolean(value));
           setBathArray(boolArray);
 
         } else {
@@ -32,7 +32,7 @@ const MobileComponent = () => {
     };
 
     fetchData();
-  }, []); // 空の配列を渡して、コンポーネントのマウント時に一度だけ実行されるようにする
+  }, [NEXT_PUBLIC_API_URL]); // 空の配列を渡して、コンポーネントのマウント時に一度だけ実行されるようにする
 
   return (
 
