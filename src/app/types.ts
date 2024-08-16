@@ -92,7 +92,7 @@ class StudentName implements OptionBase {
     public value: string,
     public label: string,
     public colorScheme: string
-  ) {}
+  ) { }
 }
 
 type StudentNameType = {
@@ -134,21 +134,20 @@ type LoginData = {
 };
 
 //type for Props
-
 type DisplayWasherProps = {
-  washerData: boolean[];
+  washerData: boolean[][][];
 };
 
 type DisplayDryerProps = {
-  dryerData: boolean[];
-};
+  dryerData: boolean[][][];
+}
 
 type DisplayShowerProps = {
-  showerData: boolean[];
+  showerData: boolean[][];
 };
 
 type DisplayPublicBathProps = {
-  numberOfUsingBathData: number[];
+  numberOfUsingBathData: boolean[];
 };
 
 type WeeklyCleaningTableProps = {
