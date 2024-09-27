@@ -112,7 +112,6 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
   useEffect(() => {
     const now = new Date();
     const currentHours = now.getHours();
-    const currentMinutes = now.getMinutes();
 
     const start = new Date(now);
     start.setHours(currentHours - 4);
@@ -167,11 +166,11 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
           pinch: {
             enabled: true,
           },
-          mode: 'x' as 'x',
+          mode: 'x' as const,
         },
         pan: {
           enabled: true,
-          mode: 'x' as 'x',
+          mode: 'x' as const,
         },
       },
     },
