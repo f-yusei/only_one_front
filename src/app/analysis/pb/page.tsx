@@ -1,10 +1,10 @@
 'use client';
 import React from 'react';
 import { Chart as ChartJS,  LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
-import zoomPlugin from 'chartjs-plugin-zoom';
+
 import Analysis from '../../components/Analysis';  
 
-ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend, zoomPlugin);
+ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 const generateLabels = () => {
 const labels = [];

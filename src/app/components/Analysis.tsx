@@ -4,12 +4,15 @@ import React, { useState, useEffect } from 'react';
 import { Box, SimpleGrid, Text } from '@chakra-ui/react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, ChartOptions, LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
-import zoomPlugin from 'chartjs-plugin-zoom';
-ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend, zoomPlugin);
+
+
+
+ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 type BoxGridProps = {
   data: boolean[];
 };
+
 
 export const BoxGrid: React.FC<BoxGridProps> = ({ data }) => {
   const getCurrentTime = (): string => {
@@ -53,50 +56,50 @@ export const BoxGrid: React.FC<BoxGridProps> = ({ data }) => {
 };
 
 interface LineChartProps {
-    data: number[][];
-    labels: string[];
-    options?: ChartOptions<'line'>;
-  }
-  
-  const LineChart: React.FC<LineChartProps> = ({ data, labels, options }) => {
-    const chartData = {
-      labels: labels,
-      datasets: [
-        {
-          label: '1日',
-          data: data[0],
-          fill: false,
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1,
-          pointRadius: 0,
-        },
-        {
-          label: '1週間',
-          data: data[1],
-          fill: false,
-          borderColor: 'rgba(192, 75, 192, 1)',
-          borderWidth: 1,
-          pointRadius: 0,
-        },
-        {
-          label: '1ヶ月',
-          data: data[2],
-          fill: false,
-          borderColor: 'rgba(192, 192, 75, 1)',
-          borderWidth: 1,
-          pointRadius: 0,
-        },
-        {
-          label: '半年',
-          data: data[3],
-          fill: false,
-          borderColor: 'rgba(192, 192, 192, 1)',
-          borderWidth: 1,
-          pointRadius: 0,
-        },
-      ],
-    };
-    return <Line data={chartData} options={options} />;
+  data: number[][];
+  labels: string[];
+  options?: ChartOptions<'line'>;
+}
+
+const LineChart: React.FC<LineChartProps> = ({ data, labels, options }) => {
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: '1日',
+        data: data[0],
+        fill: false,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+        pointRadius: 0,
+      },
+      {
+        label: '1週間',
+        data: data[1],
+        fill: false,
+        borderColor: 'rgba(192, 75, 192, 1)',
+        borderWidth: 1,
+        pointRadius: 0,
+      },
+      {
+        label: '1ヶ月',
+        data: data[2],
+        fill: false,
+        borderColor: 'rgba(192, 192, 75, 1)',
+        borderWidth: 1,
+        pointRadius: 0,
+      },
+      {
+        label: '半年',
+        data: data[3],
+        fill: false,
+        borderColor: 'rgba(192, 192, 192, 1)',
+        borderWidth: 1,
+        pointRadius: 0,
+      },
+    ],
+  };
+  return <Line data={chartData} options={options} />;
 };
 
 interface AnalysisProps {
@@ -129,7 +132,15 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
 
     setStartTime(formatTime(start));
     setEndTime(formatTime(end));
-    setCurrentTime(formatTime(now));  // 現在時刻を設定
+    setCurrentTime(formatTime(now));
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      import('chartjs-plugin-zoom').then((zoomPlugin) => {
+        ChartJS.register(zoomPlugin.default);
+      });
+    }
   }, []);
 
   const filteredLabels = initialLabels.filter(label => label >= startTime && label <= endTime);
@@ -157,23 +168,24 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
         max: 10,
       },
     },
-    plugins: {
-      zoom: {
-        zoom: {
-          wheel: {
-            enabled: true,
-          },
-          pinch: {
-            enabled: true,
-          },
-          mode: 'x' as const,
-        },
-        pan: {
-          enabled: true,
-          mode: 'x' as const,
-        },
-      },
-    },
+    // plugins: {
+
+    //   zoom: {
+    //     zoom: {
+    //       wheel: {
+    //         enabled: true,
+    //       },
+    //       pinch: {
+    //         enabled: true,
+    //       },
+    //       mode: 'x' as const,
+    //     },
+    //     pan: {
+    //       enabled: true,
+    //       mode: 'x' as const,
+    //     },
+    //   },
+    // },
   };
 
   return (
