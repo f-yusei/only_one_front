@@ -5,8 +5,6 @@ import { Box, SimpleGrid, Text } from '@chakra-ui/react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, ChartOptions, LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 
-
-
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 type BoxGridProps = {
@@ -168,24 +166,24 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
         max: 10,
       },
     },
-    // plugins: {
+     plugins: {
 
-    //   zoom: {
-    //     zoom: {
-    //       wheel: {
-    //         enabled: true,
-    //       },
-    //       pinch: {
-    //         enabled: true,
-    //       },
-    //       mode: 'x' as const,
-    //     },
-    //     pan: {
-    //       enabled: true,
-    //       mode: 'x' as const,
-    //     },
-    //   },
-    // },
+      zoom: {
+         zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true,
+          },
+          mode: 'x' as const,
+        },
+        pan: {
+          enabled: true,
+          mode: 'x' as const,
+        },
+      },
+    },
   };
 
   return (
