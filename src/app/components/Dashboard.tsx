@@ -9,6 +9,7 @@ import {
   Image,
   StackDivider,
   Flex,
+  Button
 } from '@chakra-ui/react';
 // import { v4 } from 'uuid';
 import {
@@ -30,6 +31,12 @@ const boxStyles = {
   fontWeight: 'bold',
   fontSize: '125%',
 };
+
+import { useRouter } from 'next/navigation';
+
+
+
+
 
 const countTrueValues = (data: boolean[]) => {
   if (!data) {
@@ -84,6 +91,19 @@ interface DryOrWashProps {
 const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ name, Data, image }) => {
   const textData = ['山寮', '海寮'];
   const floorData = ['1F', '2F', '3F'];
+  const router = useRouter();
+  interface DryOrWashAnaProps {
+    dormName:string;
+    floor:string;
+  }
+  const dryOrWashTrans = ({dormName,floor} : DryOrWashAnaProps) => {
+    if(name==="洗濯機"){
+    router.push(`/analysis/wm/${dormName}/${floor}`);
+    }else if(name==="乾燥機"){
+    router.push(`/analysis/dm/${dormName}/${floor}`);
+}
+
+  };
   return (
     <Card {...boxStyles}>
       <CustomHStack >
@@ -91,7 +111,7 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ name, Data, image }) => {
           <Center h="100%">
             <VStack>
               <Image src={image.src} alt="Dryer Image" objectFit="cover" boxSize="30%" />
-              <Text fontWeight="bold">{name}</Text>
+              <Text fontWeight="bold">{name}使用可能台数</Text>
             </VStack>
 
           </Center>
@@ -99,14 +119,14 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ name, Data, image }) => {
         <Box width={"50%"} height={"100%"}>
           <CustomVStack>
             {Data.map((twoDArray, index) => (
-              <div key={index} style={{ height: '100%', width: "100%", position: "relative" }} >
+              <div  key={index} style={{ height: '100%', width: "100%", position: "relative" }} >
                 <Box fontSize="100%" position="absolute" top="0" left="0" m={2}>{textData[index]}</Box>
                 <CustomFlex>
                   {twoDArray.map((row, i) => (
-                    <div key={i}>
+                    <Button onClick={() => dryOrWashTrans({ dormName:textData[index], floor: floorData[i] })} key={i} style={{background:"white"}}>
                       <Box fontSize="10%">{floorData[i]}</Box>
                       <Box>{countTrueValues(row)}</Box>
-                    </div>
+                    </Button>
                   ))}
                 </CustomFlex>
               </div>
@@ -119,19 +139,23 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ name, Data, image }) => {
 };
 const DisplayWasher = ({ washerData }: DisplayWasherProps) => {
   return (
-    <DisplayDryOrWash name="洗濯機使用可能台数" Data={washerData} image={bathIcon}></DisplayDryOrWash>
+    <DisplayDryOrWash name="洗濯機" Data={washerData} image={bathIcon}></DisplayDryOrWash>
   );
 };
 
 const DisplayDryer = ({ dryerData }: DisplayDryerProps) => {
 
-  return (<DisplayDryOrWash name="乾燥機使用可能台数" Data={dryerData} image={bathIcon}></DisplayDryOrWash>
+  return (<DisplayDryOrWash name="乾燥機" Data={dryerData} image={bathIcon}></DisplayDryOrWash>
 
   );
 };
 
 const DisplayShower = ({ showerData }: DisplayShowerProps) => {
   const textData = ['山寮', '海寮'];
+  const router = useRouter();
+  const shouwerTrans = (dormName: string) => {
+    router.push(`/analysis/pb/${dormName}`)
+  };
   return (
     <Box {...boxStyles}>
       <CustomHStack>
@@ -147,14 +171,14 @@ const DisplayShower = ({ showerData }: DisplayShowerProps) => {
         <Box height="100%" width="50%">
           <CustomVStack>
             {showerData.map((row, index) => (
-              <div key={index} style={{ width: "100%", height: "50%" }}>
+              <Button  onClick={() => shouwerTrans(textData[index])} key={index} style={{ width: "100%", height: "50%" ,background:"white"}}>
                 <CustomFlex >
                   <Box fontSize="90%" position="absolute" top="0" left="0" m={2}>{textData[index]}</Box>
                   <Flex justifyContent="center" alignItems="center" flex="1">
                     <Box >{countTrueValues(row)}</Box>
                   </Flex>
                 </CustomFlex>
-              </div>
+              </Button>
             ))}
           </CustomVStack>
         </Box>
@@ -166,6 +190,10 @@ const DisplayShower = ({ showerData }: DisplayShowerProps) => {
 const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) => {
   const textData = ['1', '2', '3'];
   const _numberOfUsingBathData = [countTrueValues(numberOfUsingBathData), null, null];
+  const router = useRouter();
+  const BathTrans = (bathNumber: string) => {
+    router.push(`/analysis/pb/${bathNumber}`)
+  };
   return (
     // <Card bgColor="gray.100" height="28vh" width="80vw" boxShadow="xl">
     <Box
@@ -177,7 +205,7 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
             <Box>
               <VStack>
                 <Image boxSize="30%" objectFit="cover" src={bathIcon.src} alt="ローカル" />
-                <Box  >大浴場利用人数</Box>
+                <Box>大浴場利用人数</Box>
               </VStack>
             </Box>
           </Center>
@@ -185,11 +213,13 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
         <Box height="100%" width="100%">
           <CustomVStack >
             {_numberOfUsingBathData.map((numberOfUsingBath, index) => (
-              <div key={index} style={{ width: "100%", height: "33%" }}>
+              
+       
+                <Button onClick={() => BathTrans(textData[index])} key={index} style={{ width: "100%", height: "33%", background:"white"}}>
                 <CustomFlex >
                   <Box fontSize="90%" >{textData[index]}</Box>
                   <Flex justifyContent="center" alignItems="center" flex="1">
-                    <Box >
+                    <Box>
                       {numberOfUsingBath !== null ? (
                         <Box fontSize="100%">
                           {numberOfUsingBath}
@@ -200,9 +230,11 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
                     </Box>
                   </Flex>
                 </CustomFlex>
-              </div>
+                </Button>
+           
             ))}
           </CustomVStack>
+
         </Box>
       </CustomHStack >
     </Box >
