@@ -209,10 +209,28 @@ type TeacherCleaningReport = {
   registeredTeacher: string;
 };
 
+type DormData = {
+  dormitory: string
+  floor: string | null
+  type: string
+}
+
+type DashboardDetailResponse = {
+  dormitory: string
+  floor: number
+  No: number
+  startedTime: Date | null
+  lastDataTime: Date
+  status: boolean
+  type: "DR" | "WA" | "SW" | "PB" | "ALL"
+}
+
 export type {
   MonthlyCleaningReportAndSpecialCleaningReport,
   WeeklyCleaningReport,
   DashboardData,
+  DormData,
+  DashboardDetailResponse,
   DisplayShowerProps,
   DisplayPublicBathProps,
   StudentDataAttendedMonthlyCleaning,

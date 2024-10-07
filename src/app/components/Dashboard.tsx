@@ -82,25 +82,25 @@ const CustomFlex: React.FC<CustomFlexProps> = ({ children }) => {
   );
 };
 interface DryOrWashProps {
-  name: string;
+  type: string;
   Data: boolean[][][];
   image: StaticImageData;
 }
 
 
-const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ name, Data, image }) => {
-  const textData = ['山寮', '海寮'];
+const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ type, Data, image }) => {
+  const textData = ['MOU', 'SEA'];
   const floorData = ['1F', '2F', '3F'];
   const router = useRouter();
   interface DryOrWashAnaProps {
-    dormName:string;
+    dormitory:string;
     floor:string;
   }
-  const dryOrWashTrans = ({dormName,floor} : DryOrWashAnaProps) => {
-    if(name==="洗濯機"){
-    router.push(`/analysis/wm/${dormName}/${floor}`);
-    }else if(name==="乾燥機"){
-    router.push(`/analysis/dm/${dormName}/${floor}`);
+  const dryOrWashTrans = ({dormitory,floor} : DryOrWashAnaProps) => {
+    if(type==="DR"){
+    router.push(`/analysis/wm/${dormitory}/${floor}`);
+    }else if(type==="WA"){
+    router.push(`/analysis/dm/${dormitory}/${floor}`);
 }
 
   };
@@ -111,7 +111,7 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ name, Data, image }) => {
           <Center h="100%">
             <VStack>
               <Image src={image.src} alt="Dryer Image" objectFit="cover" boxSize="30%" />
-              <Text fontWeight="bold">{name}使用可能台数</Text>
+              <Text fontWeight="bold">{type="DR" ? '乾燥機' : '洗濯機' }使用可能台数</Text>
             </VStack>
 
           </Center>
@@ -123,7 +123,7 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ name, Data, image }) => {
                 <Box fontSize="100%" position="absolute" top="0" left="0" m={2}>{textData[index]}</Box>
                 <CustomFlex>
                   {twoDArray.map((row, i) => (
-                    <Button onClick={() => dryOrWashTrans({ dormName:textData[index], floor: floorData[i] })} key={i} style={{background:"white"}}>
+                    <Button onClick={() => dryOrWashTrans({ dormitory:textData[index], floor: floorData[i] })} key={i} style={{background:"white"}}>
                       <Box fontSize="10%">{floorData[i]}</Box>
                       <Box>{countTrueValues(row)}</Box>
                     </Button>
@@ -139,22 +139,22 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ name, Data, image }) => {
 };
 const DisplayWasher = ({ washerData }: DisplayWasherProps) => {
   return (
-    <DisplayDryOrWash name="洗濯機" Data={washerData} image={bathIcon}></DisplayDryOrWash>
+    <DisplayDryOrWash type="WM" Data={washerData} image={bathIcon}></DisplayDryOrWash>
   );
 };
 
 const DisplayDryer = ({ dryerData }: DisplayDryerProps) => {
 
-  return (<DisplayDryOrWash name="乾燥機" Data={dryerData} image={bathIcon}></DisplayDryOrWash>
+  return (<DisplayDryOrWash type="DM" Data={dryerData} image={bathIcon}></DisplayDryOrWash>
 
   );
 };
 
 const DisplayShower = ({ showerData }: DisplayShowerProps) => {
-  const textData = ['山寮', '海寮'];
+  const textData = ['MOU', 'SEA'];
   const router = useRouter();
-  const shouwerTrans = (dormName: string) => {
-    router.push(`/analysis/pb/${dormName}`)
+  const shouwerTrans = (dormitory: string) => {
+    router.push(`/analysis/pb/${dormitory}`)
   };
   return (
     <Box {...boxStyles}>

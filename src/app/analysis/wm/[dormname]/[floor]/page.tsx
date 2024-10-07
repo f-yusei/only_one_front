@@ -12,7 +12,7 @@ const WmAnalysisPage: React.FC = () => {
   return (
     <div>
       <Text>{param.dormname} {param.floor} 洗濯機</Text>
-      <BoxGrid data={data} />
+      <BoxGrid type = "DM" dormitory={param.dormname as string} floor={param.floor as string} />
     </div>
   );
 };

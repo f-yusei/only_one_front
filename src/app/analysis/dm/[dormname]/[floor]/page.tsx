@@ -6,13 +6,13 @@ import { Text } from '@chakra-ui/react';
 import {useParams } from 'next/navigation';
 const DmAnalysisPage: React.FC = () => {
   // データ定義
-  const data = [true, false, true, false];
+  const data = [new Date()];
   const param = useParams();
 
   return (
     <div>
       <Text>{param.dormname} {param.floor} 乾燥機</Text>
-      <BoxGrid data={data} />
+      <BoxGrid type="DM" dormitory={param.dormname as string} floor={param.floor as string}/>
     </div>
   );
 };

@@ -3,6 +3,8 @@ import {
   CleaningReport,
   CleaningTableDataToPost,
   DashboardData,
+  DashboardDetailResponse,
+  DormData,
   MonthCleaningData,
   RollCallTableDataToPost,
   SpecialCleaningData,
@@ -85,6 +87,14 @@ const postTeacherReadReport = async (cleaningId: number) => {
   return response.data;
 };
 
+//analysis
+
+const getDashboardDetail = async (dormData: DormData) => {
+  const response = await apiClient.get(`/dashboard_details?dormitory=${dormData.dormitory}&floor=${dormData.floor}&type=${dormData.type}`);
+  console.log(response)
+  return response.data as DashboardDetailResponse[]
+}
+
 const api = {
   getDashboardData,
   getCleaningData,
@@ -99,6 +109,7 @@ const api = {
   postRollCallData,
   getCleaningDataById,
   postMonthlyCleaningAttender,
+  getDashboardDetail
 };
 
 export default api;
