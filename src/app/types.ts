@@ -209,10 +209,58 @@ type TeacherCleaningReport = {
   registeredTeacher: string;
 };
 
+type DormData = {
+  dormitory: string
+  floor: string | null
+  type: string
+}
+
+type DashboardDetailResponse = {
+  dormitory: string
+  floor: number
+  No: number
+  startedTime: Date | null
+  lastDataTime: Date
+  status: boolean
+  type: "DR" | "WA" | "SW" | "PB" | "ALL"
+}
+
+type TrandisionsApiResponse = {
+  type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
+  dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
+  floor: number; // 1 ~ 5
+  No: number; // 1 ~ 4
+  data: {
+    labels: string[]; // example: hh:mm:ss
+    datasets: Array<{
+      label: string; // example: 一週間
+      data: number[]; // example: 3.1
+    }>;
+  };
+};
+
+type ApiQueryParams = {
+  id?: string; // Specify by IoTID. Example: WA_311
+  dormitory?: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL'; // Example: MOU, CEN, SEA, SPA or ALL
+  floor?: '1' | '2' | '3' | '4' | '5' | 'ALL'; // Example: 1 ~ 5 or ALL
+  type?: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL'; // Example: DR, WA, SW, PB or ALL
+  weekday?: string; // Example: MON, MONDAY, TUE, TUESDAY, etc.
+  weekly?: string; // Flag for past week calculation. Example: TRUE
+  monthly?: string; // Flag for past month calculation. Example: TRUE
+  halfYear?: string; // Flag for past half-year calculation. Example: TRUE
+  startTime?: string; // Example: YYYY-MM-DD-hh:mm:ss
+  endTime?: string; // Example: YYYY-MM-DD-hh:mm:ss
+  groupByDormitory?: string; // Example: TRUE
+  groupByFloor?: string; // Example: TRUE
+  groupByID?: string; // Example: TRUE
+};
+
 export type {
   MonthlyCleaningReportAndSpecialCleaningReport,
   WeeklyCleaningReport,
   DashboardData,
+  DormData,
+  DashboardDetailResponse,
   DisplayShowerProps,
   DisplayPublicBathProps,
   StudentDataAttendedMonthlyCleaning,
@@ -221,7 +269,9 @@ export type {
   DisplayDryerProps,
   SpecialCleaningData,
   CleaningData,
+  TrandisionsApiResponse,
   CleaningAllData,
+  ApiQueryParams,
   CleaningTableDataToPost,
   WeeklyCleaningTableData,
   WeeklyCleaningTableProps,

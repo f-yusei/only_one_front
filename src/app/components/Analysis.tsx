@@ -3,16 +3,24 @@
 import React, { useState, useEffect } from 'react';
 import { Box, SimpleGrid, Text } from '@chakra-ui/react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, ChartOptions, LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  ChartOptions,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import api from '@/api/api';
+import { DashboardDetailResponse, DormData } from '../types';
+import utill from '../util';
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
-type BoxGridProps = {
-  data: boolean[];
-};
-
-
-export const BoxGrid: React.FC<BoxGridProps> = ({ data }) => {
+export const BoxGrid: React.FC<DormData> = (dormData) => {
   const getCurrentTime = (): string => {
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, '0');
@@ -21,6 +29,8 @@ export const BoxGrid: React.FC<BoxGridProps> = ({ data }) => {
   };
 
   const [currentTime, setCurrentTime] = useState<string>(getCurrentTime());
+  const [dashboardData, setDashboardData] = useState<DashboardDetailResponse[]>();
+  const [loading, setLoading] = useState(true); // ローディングの状態を管理
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,27 +39,57 @@ export const BoxGrid: React.FC<BoxGridProps> = ({ data }) => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true); // データ取得中
+      try {
+        // APIからデータを取得 (例)
+        const response = await api.getDashboardDetail(dormData);
+        setDashboardData(response);
+      } catch (error) {
+        console.error('データ取得エラー:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [dormData]);
+
+  if (dashboardData == undefined) {
+    return;
+  }
+
   return (
-    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} p={5}>
-      {data.map((value, index) => (
-        <Box
-          key={index}
-          w="150px"
-          h="150px"
-          bg={value ? 'blue.200' : 'white'}
-          border="1px solid"
-          borderColor="gray.200"
-          borderRadius="md"
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Text fontSize="lg">データ {index + 1}</Text>
-          <Text fontSize="sm">{currentTime}</Text>
-        </Box>
-      ))}
-    </SimpleGrid>
+    <div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} p={5}>
+          {dashboardData.map((value, index) => (
+            <Box
+              key={index}
+              w="150px"
+              h="150px"
+              bg={value ? 'blue.200' : 'white'}
+              border="1px solid"
+              borderColor="gray.200"
+              borderRadius="md"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Text fontSize="lg">
+                {utill.changeTypeToDisplayName(value.type)}
+                {index + 1}
+              </Text>
+              <Text fontSize="sm">{currentTime}</Text>
+            </Box>
+          ))}
+        </SimpleGrid>
+      )}
+    </div>
   );
 };
 
@@ -141,8 +181,10 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
     }
   }, []);
 
-  const filteredLabels = initialLabels.filter(label => label >= startTime && label <= endTime);
-  const filteredData = initialData.map(data => data.slice(initialLabels.indexOf(startTime), initialLabels.indexOf(endTime) + 1));
+  const filteredLabels = initialLabels.filter((label) => label >= startTime && label <= endTime);
+  const filteredData = initialData.map((data) =>
+    data.slice(initialLabels.indexOf(startTime), initialLabels.indexOf(endTime) + 1)
+  );
 
   const options: ChartOptions<'line'> = {
     responsive: true,
@@ -156,7 +198,7 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
           callback: (value, index) => {
             const label = filteredLabels[index];
             return label === currentTime ? `**${label}**` : label;
-          }
+          },
         },
         min: filteredLabels[0],
         max: filteredLabels[filteredLabels.length - 1],
@@ -166,10 +208,9 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
         max: 10,
       },
     },
-     plugins: {
-
+    plugins: {
       zoom: {
-         zoom: {
+        zoom: {
           wheel: {
             enabled: true,
           },

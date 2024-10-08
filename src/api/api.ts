@@ -1,8 +1,11 @@
 import {
+  ApiQueryParams,
   CleaningAllData,
   CleaningReport,
   CleaningTableDataToPost,
   DashboardData,
+  DashboardDetailResponse,
+  DormData,
   MonthCleaningData,
   RollCallTableDataToPost,
   SpecialCleaningData,
@@ -10,9 +13,11 @@ import {
   StudentDataByFloor,
   StudentNameType,
   TeacherCleaningReport,
+  TrandisionsApiResponse,
   WeekCleaningData,
 } from '@/app/types';
 import apiClient from './axiosClient';
+import utill from '@/app/util';
 
 const getDashboardData = async () => {
   const response = await apiClient.get<DashboardData[]>('/dashboard');
@@ -85,11 +90,30 @@ const postTeacherReadReport = async (cleaningId: number) => {
   return response.data;
 };
 
+//analysis
+
+const getDashboardDetail = async (dormData: DormData) => {
+  const response = await apiClient.get(
+    `/dashboard_details?dormitory=${dormData.dormitory}&floor=${dormData.floor}&type=${dormData.type}`
+  );
+  console.log(response);
+  return response.data as DashboardDetailResponse[];
+};
+
+const getTrandisions = async (paramData: ApiQueryParams) => {
+  const queryString = utill.toQueryString(paramData);
+
+  const response = await apiClient.get(`/trandisions?${queryString}`);
+  console.log(response);
+  return response.data as TrandisionsApiResponse;
+};
+
 const api = {
   getDashboardData,
   getCleaningData,
   postTableData,
   postTeacherReadReport,
+  getTrandisions,
   getCleaningStatus,
   getStudentData,
   getCleaningDataByDate,
@@ -99,6 +123,7 @@ const api = {
   postRollCallData,
   getCleaningDataById,
   postMonthlyCleaningAttender,
+  getDashboardDetail,
 };
 
 export default api;

@@ -6,13 +6,13 @@ import { Text } from '@chakra-ui/react';
 import {useParams } from 'next/navigation';
 const SrAnalysisPage: React.FC = () => {
   // データ定義
-  const data = [true, false, true, false];
+ // const data = [true, false, true, false];
   const param = useParams();
 
   return (
     <div>
-      <Text>{param.dormName} シャワー室</Text>
-      <BoxGrid data={data} />
+      <Text>{param.dormitory} シャワー室</Text>
+      <BoxGrid type="SR" dormitory={param.dormitory as string} floor={null}/>
     </div>
   );
 };
