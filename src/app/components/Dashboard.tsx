@@ -111,7 +111,7 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ type, Data, image }) => {
           <Center h="100%">
             <VStack>
               <Image src={image.src} alt="Dryer Image" objectFit="cover" boxSize="30%" />
-              <Text fontWeight="bold">{type="DR" ? '乾燥機' : '洗濯機' }使用可能台数</Text>
+              <Text fontWeight="bold">{type=="DR" ? '乾燥機' : '洗濯機' }使用可能台数</Text>
             </VStack>
 
           </Center>
