@@ -100,7 +100,7 @@ const getDashboardDetail = async (dormData: DormData) => {
   return response.data as DashboardDetailResponse[];
 };
 
-const getTrandisions = async (paramData: ApiQueryParams) => {
+const getTransitions = async (paramData: ApiQueryParams) => {
   const queryString = utill.toQueryString(paramData);
 
   const response = await apiClient.get(`/trandisions?${queryString}`);
@@ -113,7 +113,7 @@ const api = {
   getCleaningData,
   postTableData,
   postTeacherReadReport,
-  getTrandisions,
+  getTransitions,
   getCleaningStatus,
   getStudentData,
   getCleaningDataByDate,
