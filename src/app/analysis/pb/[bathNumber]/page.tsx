@@ -24,7 +24,9 @@ const PbAnalysisPage: React.FC = () => {
   const [data, setData] = useState<number[][]>([]);
   const [loading, setLoading] = useState<boolean>();
 
-  const queryParams: ApiQueryParams = {};
+  const queryParams: ApiQueryParams = {
+    //TODO getTransitionsに渡すクエリパラメータをここで定義
+  };
 
   useEffect(() => {
     const fetchData = async () => {
