@@ -18,6 +18,22 @@ const changeTypeToDisplayName = (type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL'): strin
   }
   return changedName;
 };
+const changeDormToDisplayName = (dormitory: 'MOU' | 'SEA' | 'ALL'): string => {
+  let changedName = '';
+  switch (dormitory) {
+    case 'MOU':
+      changedName = '山寮';
+      break;
+    case 'SEA':
+      changedName = '海寮';
+      break;
+    default:
+      break;
+  }
+  return changedName;
+};
+
+
 
 function toQueryString<T extends Record<string, string | number | boolean | undefined | null>>(
   params: T
@@ -36,6 +52,7 @@ function toQueryString<T extends Record<string, string | number | boolean | unde
 
 const utill = {
   changeTypeToDisplayName,
+  changeDormToDisplayName,
   toQueryString,
 };
 

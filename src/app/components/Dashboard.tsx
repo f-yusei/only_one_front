@@ -9,7 +9,8 @@ import {
   Image,
   StackDivider,
   Flex,
-  Button
+  Button,
+  background
 } from '@chakra-ui/react';
 // import { v4 } from 'uuid';
 import {
@@ -18,7 +19,10 @@ import {
   DisplayWasherProps,
   DisplayDryerProps,
 } from '../types';
-import bathIcon from '../../../public/images/bathicon.png';
+import bath from '../../../public/images/bath.png';
+import dryer from '../../../public/images/dryer.png';
+import washer from '../../../public/images/washer.png';
+import shower from '../../../public/images/shower.png';
 import { StaticImageData } from 'next/image'; // インポートが機能しない場合の代替策
 
 const boxStyles = {
@@ -30,9 +34,11 @@ const boxStyles = {
   rounded: 'xl',
   fontWeight: 'bold',
   fontSize: '125%',
+  background:"gray.50"
 };
 
 import { useRouter } from 'next/navigation';
+import utill from '../util';
 
 
 
@@ -82,104 +88,94 @@ const CustomFlex: React.FC<CustomFlexProps> = ({ children }) => {
   );
 };
 interface DryOrWashProps {
-  type: string;
+  dormitory: "MOU" |"SEA"|"ALL";
+  type: "DR" | "WA" | "SW" | "PB" | "ALL";
   Data: boolean[][][];
   image: StaticImageData;
 }
 
 
-const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ type, Data, image }) => {
-  const textData = ['MOU', 'SEA'];
-  const floorData = ['1F', '2F', '3F'];
+const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ type, Data, image, dormitory }) => {
   const router = useRouter();
   interface DryOrWashAnaProps {
-    dormitory:string;
+    dormitory: "MOU" |"SEA"|"ALL";
     floor:string;
   }
   const dryOrWashTrans = ({dormitory,floor} : DryOrWashAnaProps) => {
     if(type==="DR"){
-    router.push(`/analysis/wm/${dormitory}/${floor}`);
-    }else if(type==="WA"){
     router.push(`/analysis/dm/${dormitory}/${floor}`);
+    }else if(type==="WA"){
+    router.push(`/analysis/wm/${dormitory}/${floor}`);
 }
 
   };
   return (
-    <Card {...boxStyles}>
+    <Card {...boxStyles} >
       <CustomHStack >
         <Box width={"50%"} height={"100%"}>
           <Center h="100%">
             <VStack>
               <Image src={image.src} alt="Dryer Image" objectFit="cover" boxSize="30%" />
-              <Text fontWeight="bold">{type=="DR" ? '乾燥機' : '洗濯機' }使用可能台数</Text>
+              <Text fontWeight="bold" fontSize="90%">{utill.changeTypeToDisplayName(type)}使用可能台数</Text>
             </VStack>
 
           </Center>
         </Box>
         <Box width={"50%"} height={"100%"}>
           <CustomVStack>
-            {Data.map((twoDArray, index) => (
-              <div  key={index} style={{ height: '100%', width: "100%", position: "relative" }} >
-                <Box fontSize="100%" position="absolute" top="0" left="0" m={2}>{textData[index]}</Box>
-                <CustomFlex>
-                  {twoDArray.map((row, i) => (
-                    <Button onClick={() => dryOrWashTrans({ dormitory:textData[index], floor: floorData[i] })} key={i} style={{background:"white"}}>
-                      <Box fontSize="10%">{floorData[i]}</Box>
-                      <Box>{countTrueValues(row)}</Box>
+                  {Data && Data[dormitory == "MOU" ? 0 : 1] && 
+  Data[dormitory == "MOU" ? 0 : 1].map((row, i) => (
+                    <Button onClick={() => dryOrWashTrans({ dormitory:dormitory, floor: i+1 as unknown as string})} key={i} style={{ width: "100%", height: "33%", background:"gray.50"}} variant='outline'>
+                    <CustomFlex>
+                      <Box fontSize="90%">{i+1 as unknown as string}階</Box>
+                      <Flex justifyContent="center" alignItems="center" flex="1">
+                      <Box fontSize="200%">{countTrueValues(row)}</Box>
+                      </Flex>
+                    </CustomFlex>
                     </Button>
                   ))}
-                </CustomFlex>
-              </div>
-            ))}
+               
           </CustomVStack>
         </Box>
       </CustomHStack>
     </Card>
   );
 };
-const DisplayWasher = ({ washerData }: DisplayWasherProps) => {
+const DisplayWasher = ({ washerData,dormitory }: DisplayWasherProps) => {
   return (
-    <DisplayDryOrWash type="WM" Data={washerData} image={bathIcon}></DisplayDryOrWash>
+    <DisplayDryOrWash type="WA" Data={washerData} image={washer} dormitory={dormitory} ></DisplayDryOrWash>
   );
 };
 
-const DisplayDryer = ({ dryerData }: DisplayDryerProps) => {
+const DisplayDryer = ({ dryerData,dormitory }: DisplayDryerProps) => {
 
-  return (<DisplayDryOrWash type="DM" Data={dryerData} image={bathIcon}></DisplayDryOrWash>
+  return (<DisplayDryOrWash type="DR" Data={dryerData} image={dryer} dormitory={dormitory}></DisplayDryOrWash>
 
   );
 };
 
-const DisplayShower = ({ showerData }: DisplayShowerProps) => {
-  const textData = ['MOU', 'SEA'];
+const DisplayShower = ({ showerData,dormitory }: DisplayShowerProps) => {
   const router = useRouter();
   const shouwerTrans = (dormitory: string) => {
     router.push(`/analysis/pb/${dormitory}`)
   };
   return (
-    <Box {...boxStyles}>
+    <Box {...boxStyles} >
       <CustomHStack>
         <Box height="100%" width="50%">
           <Center h="100%">
             <VStack>
-              <Image boxSize="30%" objectFit="cover" src={bathIcon.src} alt="ローカル" />
+              <Image boxSize="30%" objectFit="cover" src={shower.src} alt="ローカル" />
 
-              <Text fontWeight="bold">シャワー室</Text>
+              <Text fontWeight="bold" fontSize="85%">シャワー室利用可能数</Text>
             </VStack>
           </Center>
         </Box>
         <Box height="100%" width="50%">
           <CustomVStack>
-            {showerData.map((row, index) => (
-              <Button  onClick={() => shouwerTrans(textData[index])} key={index} style={{ width: "100%", height: "50%" ,background:"white"}}>
-                <CustomFlex >
-                  <Box fontSize="90%" position="absolute" top="0" left="0" m={2}>{textData[index]}</Box>
-                  <Flex justifyContent="center" alignItems="center" flex="1">
-                    <Box >{countTrueValues(row)}</Box>
-                  </Flex>
-                </CustomFlex>
+              <Button  onClick={() => shouwerTrans(dormitory)}  style={{ width: "100%", height: "100%" ,background:"gray.10" }} variant='outline'>
+                    <Text justifyContent="center" alignItems="center" fontSize="200%">{countTrueValues(showerData[dormitory=="MOU" ? 0 : 1])}</Text>
               </Button>
-            ))}
           </CustomVStack>
         </Box>
       </CustomHStack>
@@ -204,8 +200,8 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
           <Center h="100%">
             <Box>
               <VStack>
-                <Image boxSize="30%" objectFit="cover" src={bathIcon.src} alt="ローカル" />
-                <Box>大浴場利用人数</Box>
+                <Image boxSize="30%" objectFit="cover" src={bath.src} alt="ローカル" />
+                <Box fontSize="100%">大浴場利用人数</Box>
               </VStack>
             </Box>
           </Center>
@@ -213,19 +209,17 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
         <Box height="100%" width="100%">
           <CustomVStack >
             {_numberOfUsingBathData.map((numberOfUsingBath, index) => (
-              
-       
-                <Button onClick={() => BathTrans(textData[index])} key={index} style={{ width: "100%", height: "33%", background:"white"}}>
+                <Button onClick={() => BathTrans(textData[index])} key={index} style={{ width: "100%", height: "33%", background:"gray.10"}} variant='outline'>
                 <CustomFlex >
                   <Box fontSize="90%" >{textData[index]}</Box>
                   <Flex justifyContent="center" alignItems="center" flex="1">
                     <Box>
                       {numberOfUsingBath !== null ? (
-                        <Box fontSize="100%">
+                        <Box justifyContent="center" alignItems="center" fontSize="200%">
                           {numberOfUsingBath}
                         </Box>
                       ) : (
-                        <Box fontSize="100%">Coming Soon..</Box>
+                        <Box justifyContent="center" alignItems="center" fontSize="100%">Coming Soon..</Box>
                       )}
                     </Box>
                   </Flex>

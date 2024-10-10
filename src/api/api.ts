@@ -97,7 +97,7 @@ const getDashboardDetail = async (dormData: DormData) => {
     `/dashboard_details?dormitory=${dormData.dormitory}&floor=${dormData.floor}&type=${dormData.type}`
   );
   console.log(response);
-  return response.data as DashboardDetailResponse[];
+  return response.data as DashboardDetailResponse;
 };
 
 const getTrandisions = async (paramData: ApiQueryParams) => {

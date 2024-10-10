@@ -8,7 +8,7 @@ const Header = () => {
     <Flex bg="blue.800" p={4} alignItems="center">
       <Box p="2">
         <Text fontSize="xl" color="whiteAlpha.900" fontWeight="bold">
-          石川高専 有朋寮
+          どみとる
         </Text>
       </Box>
       <Spacer />

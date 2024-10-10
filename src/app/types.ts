@@ -136,14 +136,17 @@ type LoginData = {
 //type for Props
 type DisplayWasherProps = {
   washerData: boolean[][][];
+  dormitory: "MOU" |"SEA"|"ALL";
 };
 
 type DisplayDryerProps = {
   dryerData: boolean[][][];
+  dormitory: "MOU" |"SEA"|"ALL";
 }
 
 type DisplayShowerProps = {
   showerData: boolean[][];
+  dormitory: "MOU" |"SEA"|"ALL";
 };
 
 type DisplayPublicBathProps = {
@@ -223,7 +226,7 @@ type DashboardDetailResponse = {
   lastDataTime: Date
   status: boolean
   type: "DR" | "WA" | "SW" | "PB" | "ALL"
-}
+}[];
 
 type TrandisionsApiResponse = {
   type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
@@ -254,6 +257,13 @@ type ApiQueryParams = {
   groupByFloor?: string; // Example: TRUE
   groupByID?: string; // Example: TRUE
 };
+
+type DormitoryMobileComponentProps = {
+  _showerData:boolean[][];
+  _washerData:boolean[][][];
+  _dryerData:boolean[][][];
+  dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
+}
 
 export type {
   MonthlyCleaningReportAndSpecialCleaningReport,
@@ -289,6 +299,7 @@ export type {
   TeacherCleaningReport,
   MonthCleaningData,
   WeekCleaningData,
+  DormitoryMobileComponentProps,
 };
 
 

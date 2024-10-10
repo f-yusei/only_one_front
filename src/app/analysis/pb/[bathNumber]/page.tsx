@@ -3,7 +3,7 @@ import React from 'react';
 import { Chart as ChartJS, LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 import { Text } from '@chakra-ui/react';
 import {useParams } from 'next/navigation';
-import Analysis from '../../../components/Analysis';  
+import  Analysis  from '../../../components/Analysis';  
 
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
@@ -20,7 +20,7 @@ const generateLabels = () => {
 
 // データ生成関数
 const generateData = (length: number) => {
-  return Array.from({ length }, () => Math.floor(Math.random() * 11));
+  return Array.from({ length }, () => Math.floor(Math.random() * 5));
 };
 
 

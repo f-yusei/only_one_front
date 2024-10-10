@@ -1,6 +1,4 @@
 
-
-
 'use client';
 // pages/index.tsx
 import { NextPage } from 'next';
