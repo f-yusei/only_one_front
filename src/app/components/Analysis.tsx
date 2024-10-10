@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Box, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text,Grid,FormControl, FormLabel, Input,HStack, Heading } from '@chakra-ui/react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -29,7 +29,7 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
   };
 
   const [currentTime, setCurrentTime] = useState<string>(getCurrentTime());
-  const [dashboardData, setDashboardData] = useState<DashboardDetailResponse[]>();
+  const [dashboardData, setDashboardData] = useState<DashboardDetailResponse>();
   const [loading, setLoading] = useState(true); // ローディングの状態を管理
 
   useEffect(() => {
@@ -39,56 +39,108 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true); // データ取得中
-      try {
-        // APIからデータを取得 (例)
-        const response = await api.getDashboardDetail(dormData);
-        setDashboardData(response);
-      } catch (error) {
-        console.error('データ取得エラー:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setLoading(true); // データ取得中
+  //     try {
+  //       // APIからデータを取得 (例)
+  //       const response = await api.getDashboardDetail(dormData);
+  //       setDashboardData(response);
+  //     } catch (error) {
+  //       console.error('データ取得エラー:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, [dormData]);
+  //   fetchData();
+  // }, [dormData]);
 
-  if (dashboardData == undefined) {
-    return;
-  }
-
+ const data = [false,false,true,false];
+   
   return (
     <div>
-      {loading ? (
+      {/* {loading ? (
         <p>Loading...</p>
-      ) : (
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} p={5}>
-          {dashboardData.map((value, index) => (
+      ) : ( */}
+     <Box
+      w="100%"
+      p={5} // 全体のパディング
+      bg="gray.50" // 背景色を薄いグレーに
+      borderRadius="md"
+      boxShadow="lg" // シャドウを追加
+      mb={6} // 下にマージンを追加して他のコンポーネントとの距離を取る
+
+    >
+      <Text
+        fontSize="2xl"
+        fontWeight="bold"
+        textAlign="center" // テキストを中央揃え
+       
+        mb={4} // 下にスペースを追加
+        borderBottom="2px solid" // 下にボーダーを追加して見出しを強調
+        borderColor="gray.300" // ボーダーの色
+        pb={2} // ボーダーとの間にスペースを追加
+      >
+        現在の利用状況
+      </Text>
+
+      <SimpleGrid spacing={3}>
+        <Grid 
+          templateColumns="repeat(2, 1fr)" 
+          gap={4} 
+          w="90vw" 
+          margin="0 auto"
+        >
+          {data.map((value, index) => (
             <Box
               key={index}
-              w="150px"
-              h="150px"
-              bg={value ? 'blue.200' : 'white'}
+              w="100%"
+              h="15vh" // 高さを少し増やす
+              bg={value ? 'rgba(255, 255, 102, 0.3)' : 'white'}
               border="1px solid"
-              borderColor="gray.200"
+              borderColor='gray.500'
               borderRadius="md"
               display="flex"
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
+              p={6} // パディングを増やして余白を広げる
+              boxShadow="md" // 各ボックスにもシャドウを追加
             >
-              <Text fontSize="lg">
-                {utill.changeTypeToDisplayName(value.type)}
-                {index + 1}
+              <Text fontSize="3xl" fontWeight="bold">
+                {utill.changeTypeToDisplayName("DR")} {index + 1}
               </Text>
-              <Text fontSize="sm">{currentTime}</Text>
+
+              {value ? (
+                <>
+                  <Text
+                    fontSize="2xl" // フォントサイズを大きく
+                    color="red.500"
+                    fontWeight="bold"
+                    mt={4} // 上にスペースを追加
+                  >
+                    使用中
+                  </Text>
+                  <Text fontSize="lg" color="gray.600">
+                    経過時間: 15 分
+                  </Text>
+                </>
+              ) : (
+                <>
+                  <Text fontSize="2xl" color="green.500" fontWeight="bold" mt={4} mb={6}>
+                    使用可能
+                  </Text>
+                  <Text fontSize="lg" color="gray.600">
+                    {/* 空のテキスト */}
+                  </Text>
+                </>
+              )}
             </Box>
           ))}
-        </SimpleGrid>
-      )}
+        </Grid>
+      </SimpleGrid>
+    </Box>
     </div>
   );
 };
@@ -104,7 +156,7 @@ const LineChart: React.FC<LineChartProps> = ({ data, labels, options }) => {
     labels: labels,
     datasets: [
       {
-        label: '1日',
+        label: '指定',
         data: data[0],
         fill: false,
         borderColor: 'rgba(75, 192, 192, 1)',
@@ -112,7 +164,7 @@ const LineChart: React.FC<LineChartProps> = ({ data, labels, options }) => {
         pointRadius: 0,
       },
       {
-        label: '1週間',
+        label: '過去1週間',
         data: data[1],
         fill: false,
         borderColor: 'rgba(192, 75, 192, 1)',
@@ -120,7 +172,7 @@ const LineChart: React.FC<LineChartProps> = ({ data, labels, options }) => {
         pointRadius: 0,
       },
       {
-        label: '1ヶ月',
+        label: '過去1ヶ月',
         data: data[2],
         fill: false,
         borderColor: 'rgba(192, 192, 75, 1)',
@@ -128,7 +180,7 @@ const LineChart: React.FC<LineChartProps> = ({ data, labels, options }) => {
         pointRadius: 0,
       },
       {
-        label: '半年',
+        label: '過去半年',
         data: data[3],
         fill: false,
         borderColor: 'rgba(192, 192, 192, 1)',
@@ -197,7 +249,7 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
           maxTicksLimit: 6,
           callback: (value, index) => {
             const label = filteredLabels[index];
-            return label === currentTime ? `**${label}**` : label;
+            return label === currentTime ? `**${label}**` : label; // 修正箇所: テンプレートリテラルの使用
           },
         },
         min: filteredLabels[0],
@@ -205,7 +257,7 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
       },
       y: {
         min: 0,
-        max: 10,
+        max: 4,
       },
     },
     plugins: {
@@ -226,19 +278,78 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
       },
     },
   };
+  
+  const today = new Date();
+  const sixMonthsAgo = new Date(today);
+  sixMonthsAgo.setMonth(today.getMonth() - 6);
+  const formattedToday = today.toISOString().split('T')[0];
+  const formattedSixMonthsAgo = sixMonthsAgo.toISOString().split('T')[0];
+
+  const [startDate, setStartDate] = useState(formattedSixMonthsAgo);
+  const [endDate, setEndDate] = useState(formattedToday);
 
   return (
-    <div>
-      <div>
-        <label>開始時間:</label>
-        <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
-        <label>終了時間:</label>
-        <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
-      </div>
-      <div style={{ height: '200px', width: '95%' }}>
-        <LineChart data={filteredData} labels={filteredLabels} options={options} />
-      </div>
-    </div>
+    <Box
+    w="100%"
+    h="560px"
+    p={5} // 全体のパディング
+    bg="gray.50" // 背景色を薄いグレーに
+    borderRadius="md"
+    boxShadow="lg" // シャドウを追加
+    mb={6} // 下にマージンを追加して他のコンポーネントとの距離を取る
+
+  >
+        <Text
+        fontSize="2xl"
+        fontWeight="bold"
+        textAlign="center" // テキストを中央揃え
+       
+        mb={4} // 下にスペースを追加
+        borderBottom="2px solid" // 下にボーダーを追加して見出しを強調
+        borderColor="gray.300" // ボーダーの色
+        pb={2} // ボーダーとの間にスペースを追加
+      >
+        過去の利用データ
+      </Text>
+      
+      <Box height="30vh">
+        <Box p={4}>
+          <HStack spacing={4}>
+            <FormControl id="start-date">
+              <FormLabel>日付:</FormLabel>
+              <Input 
+                type="date" 
+                value={startDate} 
+                onChange={(e) => setStartDate(e.target.value)} 
+                max={formattedToday} // 最大値を今日の日付に設定
+              />
+            </FormControl>
+            
+            <FormControl id="start-time">
+              <FormLabel>開始時間:</FormLabel>
+              <Input 
+                type="time" 
+                value={startTime} 
+                onChange={(e) => setStartTime(e.target.value)} 
+              />
+            </FormControl>
+
+            <FormControl id="end-time">
+              <FormLabel>終了時間:</FormLabel>
+              <Input 
+                type="time" 
+                value={endTime} 
+                onChange={(e) => setEndTime(e.target.value)} 
+              />
+            </FormControl>
+          </HStack>
+        </Box>
+        
+        <div style={{ height: '100%', width: '100%' }}>
+          <LineChart data={filteredData} labels={filteredLabels} options={options} />
+        </div>
+      </Box>
+    </Box>
   );
 };
 
