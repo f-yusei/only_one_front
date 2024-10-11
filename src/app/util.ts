@@ -18,7 +18,7 @@ const changeTypeToDisplayName = (type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL'): strin
   }
   return changedName;
 };
-const changeDormToDisplayName = (dormitory: 'MOU' | 'SEA' | 'ALL'): string => {
+const changeDormToDisplayName = (dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA'): string => {
   let changedName = '';
   switch (dormitory) {
     case 'MOU':
@@ -27,13 +27,15 @@ const changeDormToDisplayName = (dormitory: 'MOU' | 'SEA' | 'ALL'): string => {
     case 'SEA':
       changedName = '海寮';
       break;
+    case 'CEN':
+      changedName = '中寮';
+    case 'SPA':
+      changedName = '宙寮';
     default:
       break;
   }
   return changedName;
 };
-
-
 
 function toQueryString<T extends Record<string, string | number | boolean | undefined | null>>(
   params: T
@@ -50,10 +52,18 @@ function toQueryString<T extends Record<string, string | number | boolean | unde
   return queryParts.join('&');
 }
 
-const utill = {
+const countTrueValues = (data: boolean[]) => {
+  if (!data) {
+    return 0;
+  }
+  return data.filter((value) => value).length;
+};
+
+const util = {
   changeTypeToDisplayName,
   changeDormToDisplayName,
   toQueryString,
+  countTrueValues,
 };
 
-export default utill;
+export default util;

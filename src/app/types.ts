@@ -92,7 +92,7 @@ class StudentName implements OptionBase {
     public value: string,
     public label: string,
     public colorScheme: string
-  ) { }
+  ) {}
 }
 
 type StudentNameType = {
@@ -135,18 +135,18 @@ type LoginData = {
 
 //type for Props
 type DisplayWasherProps = {
-  washerData: boolean[][][];
-  dormitory: "MOU" |"SEA"|"ALL";
+  washerData: boolean[][];
+  dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA';
 };
 
 type DisplayDryerProps = {
-  dryerData: boolean[][][];
-  dormitory: "MOU" |"SEA"|"ALL";
-}
+  dryerData: boolean[][];
+  dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA';
+};
 
 type DisplayShowerProps = {
-  showerData: boolean[][];
-  dormitory: "MOU" |"SEA"|"ALL";
+  showerData: boolean[];
+  dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA';
 };
 
 type DisplayPublicBathProps = {
@@ -213,19 +213,19 @@ type TeacherCleaningReport = {
 };
 
 type DormData = {
-  dormitory: string
-  floor: string | null
-  type: string
-}
+  dormitory: string;
+  floor: string | null;
+  type: string;
+};
 
 type DashboardDetailResponse = {
-  dormitory: string
-  floor: number
-  No: number
-  startedTime: Date | null
-  lastDataTime: Date
-  status: boolean
-  type: "DR" | "WA" | "SW" | "PB" | "ALL"
+  dormitory: string;
+  floor: number;
+  No: number;
+  startedTime: Date | null;
+  lastDataTime: Date;
+  status: boolean;
+  type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
 }[];
 
 type TrandisionsApiResponse = {
@@ -258,13 +258,12 @@ type ApiQueryParams = {
   groupByID?: string; // Example: TRUE
 };
 
-interface DormitoryMobileComponentProps  {
-  showerData:boolean[][];
-  washerData:boolean[][][];
-  dryerData:boolean[][][];
-  dormitory: 'MOU' | 'SEA' |  'ALL';
+interface DormitoryMobileComponentProps {
+  showerData: boolean[];
+  washerData: boolean[][];
+  dryerData: boolean[][];
+  dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
 }
-
 
 export type {
   MonthlyCleaningReportAndSpecialCleaningReport,
@@ -302,5 +301,3 @@ export type {
   WeekCleaningData,
   DormitoryMobileComponentProps,
 };
-
-

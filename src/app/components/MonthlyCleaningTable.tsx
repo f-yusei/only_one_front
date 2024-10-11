@@ -19,8 +19,8 @@ import {
   RowData,
 } from '@tanstack/react-table';
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { ActionMeta, MultiValue, Select, GroupBase ,OptionBase} from 'chakra-react-select';
-import  {MonthlyCleaningTableData } from '../types';
+import { ActionMeta, MultiValue, Select, GroupBase, OptionBase } from 'chakra-react-select';
+import { MonthlyCleaningTableData } from '../types';
 
 declare module '@tanstack/table-core' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

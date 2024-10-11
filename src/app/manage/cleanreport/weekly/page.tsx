@@ -42,13 +42,12 @@ const cleanData = {
   ],
 };
 
-
-export default function WeeklyCleanReport(){
-  return(
+export default function WeeklyCleanReport() {
+  return (
     <Box m={1}>
       <Box>週例清掃</Box>
       {cleanData.studentStatus.map((array) => (
-      <AttendChecker key = {array.student} studentAccount={array.student} />
+        <AttendChecker key={array.student} studentAccount={array.student} />
       ))}
       <WeeklyCleanValue cleanpoint="要項１" />
       <WeeklyCleanValue cleanpoint="要項２" />
@@ -112,7 +111,7 @@ const WeeklyCleanComment = () => {
   return (
     <Box>
       <Box>なんかあったら書いてもらう</Box>
-      <Textarea m={1}  width="98%" height={30}/>
+      <Textarea m={1} width="98%" height={30} />
     </Box>
   );
 };

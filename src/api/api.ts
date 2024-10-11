@@ -17,7 +17,7 @@ import {
   WeekCleaningData,
 } from '@/app/types';
 import apiClient from './axiosClient';
-import utill from '@/app/util';
+import util from '@/app/util';
 
 const getDashboardData = async () => {
   const response = await apiClient.get<DashboardData[]>('/dashboard');
@@ -101,7 +101,7 @@ const getDashboardDetail = async (dormData: DormData) => {
 };
 
 const getTrandisions = async (paramData: ApiQueryParams) => {
-  const queryString = utill.toQueryString(paramData);
+  const queryString = util.toQueryString(paramData);
 
   const response = await apiClient.get(`/trandisions?${queryString}`);
   console.log(response);

@@ -56,7 +56,7 @@ export default function CreanReportChoice() {
       </Select>
     );
   };
-  
+
   return (
     <>
       <Box m={2}>
@@ -242,4 +242,3 @@ export default function CreanReportChoice() {
     </>
   );
 }
-

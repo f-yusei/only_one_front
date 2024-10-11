@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { BoxGrid } from '../../../../components/Analysis'; // BoxGridコンポーネントをインポート
-import { Center, Text, Box, Link, Button, Flex, VStack } from '@chakra-ui/react';
+import { Text, Box, Link, Button, Flex } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
-import utill from '../../../../util';
+import util from '../../../../util';
 import Analysis from '../../../../components/Analysis';
 const WmAnalysisPage: React.FC = () => {
   // データ定義
@@ -20,15 +20,17 @@ const WmAnalysisPage: React.FC = () => {
           textAlign="center"
           mt={3} // テキストを中央揃え
         >
-          {utill.changeDormToDisplayName(param.dormname as "ALL" | "MOU" | "SEA")} {param.floor}階 乾燥機
+          {util.changeDormToDisplayName(param.dormname as 'ALL' | 'MOU' | 'SEA')} {param.floor}階
+          乾燥機
         </Text>
       </Box>
       <BoxGrid type="DM" dormitory={param.dormname as string} floor={param.floor as string} />
       <Flex
         justifyContent="center" // 水平方向の中央揃え
-        alignItems="center" >
+        alignItems="center"
+      >
         <Box width="100vw" height="30vh">
-        <Analysis initialLabels={labels} initialData={data} />
+          <Analysis initialLabels={labels} initialData={data} />
         </Box>
       </Flex>
 
@@ -36,45 +38,45 @@ const WmAnalysisPage: React.FC = () => {
         justifyContent="center"
         alignItems="center"
         gap={100} // ボタン間のスペースを設定
-         // 横幅をフルに使う
+        // 横幅をフルに使う
         h="40vh"
       >
-        {param.dormname == "MOU" ? (
-          <Link href='/yama'>
+        {param.dormname == 'MOU' ? (
+          <Link href="/yama">
             <Button
-            size={"lg"}
+              size={'lg'}
               bg="blue.500"
               color="white"
-              _hover={{ bg: "blue.600" }} // ホバー時のスタイル
+              _hover={{ bg: 'blue.600' }} // ホバー時のスタイル
               borderRadius="2" // 丸みをつける
               shadow="md" // 影を追加
               w="100%"
             >
-              {utill.changeDormToDisplayName(param.dormname as "ALL" | "MOU" | "SEA")}のページに戻る
+              {util.changeDormToDisplayName(param.dormname as 'ALL' | 'MOU' | 'SEA')}のページに戻る
             </Button>
           </Link>
         ) : (
-          <Link href='/umi'>
+          <Link href="/umi">
             <Button
-            size={"lg"}
+              size={'lg'}
               bg="green.500"
               color="white"
-              _hover={{ bg: "green.600" }}
+              _hover={{ bg: 'green.600' }}
               borderRadius="2"
               shadow="md"
               w="100%"
             >
-              {utill.changeDormToDisplayName(param.dormname as "ALL" | "MOU" | "SEA")}のページに戻る
+              {util.changeDormToDisplayName(param.dormname as 'ALL' | 'MOU' | 'SEA')}のページに戻る
             </Button>
           </Link>
         )}
 
-        <Link href='/'>
+        <Link href="/">
           <Button
-          size={"lg"}
+            size={'lg'}
             bg="gray.500"
             color="white"
-            _hover={{ bg: "gray.600" }}
+            _hover={{ bg: 'gray.600' }}
             borderRadius="2"
             shadow="md"
             w="100%"
@@ -83,7 +85,6 @@ const WmAnalysisPage: React.FC = () => {
           </Button>
         </Link>
       </Flex>
-
     </div>
   );
 };
