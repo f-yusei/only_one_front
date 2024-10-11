@@ -1,10 +1,13 @@
 'use client';
-import { VStack, Box, Center, StackDivider, Button } from '@chakra-ui/react';
+import { VStack, Box, Center, StackDivider, Button ,Text} from '@chakra-ui/react';
 import { DisplayQrCode, DisplayPublicBath } from '../components/Dashboard';
 //import { useDashboardData } from './hooks/useDashboardData';
 import { Link } from '@chakra-ui/next-js';
-import { useEffect, useState } from 'react';
+import React , { useEffect, useState } from 'react';
 import NoScrollComponent from './OptUI ';
+import { DormitoryMobileComponentProps } from '../types';
+import { DisplayShower,DisplayDryer,DisplayWasher } from '../components/Dashboard';
+import utill from '../util';
 
 
 
@@ -76,6 +79,64 @@ const MobileComponent = () => {
     </Box >
   );
 }
+
+export const DormitoryMobailComponent: React.FC<DormitoryMobileComponentProps> = ({ showerData,washerData,dryerData, dormitory }) => {
+ return(
+  <>
+  <Box
+      p={5} // 全体のパディング
+      bg="gray.100" // 背景色を薄いグレーに
+      borderRadius="md"
+      boxShadow="lg" // シャドウを追加
+      mb={6} // 下にマージンを追加して他のコンポーネントとの距離を取る
+      w={"100%"}
+      h={"100vh"}
+      mt={3}
+    >
+      
+      <Text
+        fontSize="2xl"
+        fontWeight="bold"
+        textAlign="center" // テキストを中央揃え
+       
+        mb={4} // 下にスペースを追加
+        borderBottom="2px solid" // 下にボーダーを追加して見出しを強調
+        borderColor="gray.300" // ボーダーの色
+        pb={2} // ボーダーとの間にスペースを追加
+      >
+        {utill.changeDormToDisplayName(dormitory)}
+      </Text>
+      <VStack spacing="1vh" height={"100%"} >
+    <Box width={"90vw"} height={"20%"}>  
+      <DisplayShower showerData={showerData} dormitory={dormitory} />
+    </Box>
+    <Box width={"90vw"} height={"32%"}>  
+      <DisplayWasher washerData={washerData} dormitory={dormitory} />
+    </Box>
+    <Box width={"90vw"} height={"32%"}> 
+      <DisplayDryer dryerData={dryerData} dormitory={dormitory} />
+    </Box>
+    <Link href='/'>
+   <Button
+     size={"lg"}
+     bg="gray.500"
+     color="white"
+     _hover={{ bg: "gray.600" }}
+     borderRadius="2"
+     shadow="md"
+     w="100%"
+     mt={5}
+     justifyContent={"flex-end"}
+   >
+     トップページに戻る
+   </Button>
+ </Link>
+  </VStack>
+</Box>
+
+</>
+ );
+};
 
 export default MobileComponent;
 

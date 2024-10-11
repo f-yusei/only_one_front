@@ -122,8 +122,9 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                   >
                     使用中
                   </Text>
+                  //TODO 現在時刻から使用開始時間を引いて経過時間を算出してほしい
                   <Text fontSize="lg" color="gray.600">
-                    経過時間: 15 分
+                    経過時間: 15 分 
                   </Text>
                 </>
               ) : (
@@ -291,13 +292,12 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
   return (
     <Box
     w="100%"
-    h="560px"
-    p={5} // 全体のパディング
-    bg="gray.50" // 背景色を薄いグレーに
+    h="50vh"
+    p={5} 
+    bg="gray.50" 
     borderRadius="md"
-    boxShadow="lg" // シャドウを追加
-    mb={6} // 下にマージンを追加して他のコンポーネントとの距離を取る
-
+    boxShadow="lg" 
+    mb={6} 
   >
         <Text
         fontSize="2xl"
@@ -345,9 +345,9 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
           </HStack>
         </Box>
         
-        <div style={{ height: '100%', width: '100%' }}>
+        <Box style={{ height: '100%', width: '100%' }}>
           <LineChart data={filteredData} labels={filteredLabels} options={options} />
-        </div>
+        </Box>
       </Box>
     </Box>
   );

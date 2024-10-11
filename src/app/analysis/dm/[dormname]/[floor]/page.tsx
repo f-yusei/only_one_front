@@ -31,7 +31,7 @@ const DmAnalysisPage: React.FC = () => {
     generateData(24 * 12),  // 1ヶ月
     generateData(24 * 12),  // 半年
   ];
-  // データ定義
+
   const param = useParams();
 
   return (

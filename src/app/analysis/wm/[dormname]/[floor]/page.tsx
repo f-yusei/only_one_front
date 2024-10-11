@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { BoxGrid } from '../../../../components/Analysis'; // BoxGridコンポーネントをインポート
-import { Text } from '@chakra-ui/react';
-import {useParams } from 'next/navigation';
+import { Center, Text, Box, Link, Button, Flex, VStack } from '@chakra-ui/react';
+import { useParams } from 'next/navigation';
+import utill from '../../../../util';
+import Analysis from '../../../../components/Analysis';
 const WmAnalysisPage: React.FC = () => {
   // データ定義
   //const data = [true, false, true, false];
@@ -11,8 +13,77 @@ const WmAnalysisPage: React.FC = () => {
 
   return (
     <div>
-      <Text>{param.dormname} {param.floor} 洗濯機</Text>
-      <BoxGrid type = "DM" dormitory={param.dormname as string} floor={param.floor as string} />
+      <Box>
+        <Text
+          fontSize="5xl" // テキストを大きく
+          fontWeight="bold" // 太字にする
+          textAlign="center"
+          mt={3} // テキストを中央揃え
+        >
+          {utill.changeDormToDisplayName(param.dormname as "ALL" | "MOU" | "SEA")} {param.floor}階 乾燥機
+        </Text>
+      </Box>
+      <BoxGrid type="DM" dormitory={param.dormname as string} floor={param.floor as string} />
+      <Flex
+        justifyContent="center" // 水平方向の中央揃え
+        alignItems="center" >
+        <Box width="100vw" height="30vh">
+        <Analysis initialLabels={labels} initialData={data} />
+        </Box>
+      </Flex>
+
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        gap={100} // ボタン間のスペースを設定
+         // 横幅をフルに使う
+        h="40vh"
+      >
+        {param.dormname == "MOU" ? (
+          <Link href='/yama'>
+            <Button
+            size={"lg"}
+              bg="blue.500"
+              color="white"
+              _hover={{ bg: "blue.600" }} // ホバー時のスタイル
+              borderRadius="2" // 丸みをつける
+              shadow="md" // 影を追加
+              w="100%"
+            >
+              {utill.changeDormToDisplayName(param.dormname as "ALL" | "MOU" | "SEA")}のページに戻る
+            </Button>
+          </Link>
+        ) : (
+          <Link href='/umi'>
+            <Button
+            size={"lg"}
+              bg="green.500"
+              color="white"
+              _hover={{ bg: "green.600" }}
+              borderRadius="2"
+              shadow="md"
+              w="100%"
+            >
+              {utill.changeDormToDisplayName(param.dormname as "ALL" | "MOU" | "SEA")}のページに戻る
+            </Button>
+          </Link>
+        )}
+
+        <Link href='/'>
+          <Button
+          size={"lg"}
+            bg="gray.500"
+            color="white"
+            _hover={{ bg: "gray.600" }}
+            borderRadius="2"
+            shadow="md"
+            w="100%"
+          >
+            トップページに戻る
+          </Button>
+        </Link>
+      </Flex>
+
     </div>
   );
 };

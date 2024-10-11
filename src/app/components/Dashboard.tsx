@@ -115,7 +115,7 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ type, Data, image, dormito
         <Box width={"50%"} height={"100%"}>
           <Center h="100%">
             <VStack>
-              <Image src={image.src} alt="Dryer Image" objectFit="cover" boxSize="30%" />
+              <Image src={image.src} alt="Dryer Image" objectFit="cover" boxSize="30%" width={"30%"} height={"30%"} />
               <Text fontWeight="bold" fontSize="90%">{utill.changeTypeToDisplayName(type)}使用可能台数</Text>
             </VStack>
 

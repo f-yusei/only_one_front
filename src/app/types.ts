@@ -258,12 +258,13 @@ type ApiQueryParams = {
   groupByID?: string; // Example: TRUE
 };
 
-type DormitoryMobileComponentProps = {
-  _showerData:boolean[][];
-  _washerData:boolean[][][];
-  _dryerData:boolean[][][];
-  dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
+interface DormitoryMobileComponentProps  {
+  showerData:boolean[][];
+  washerData:boolean[][][];
+  dryerData:boolean[][][];
+  dormitory: 'MOU' | 'SEA' |  'ALL';
 }
+
 
 export type {
   MonthlyCleaningReportAndSpecialCleaningReport,
