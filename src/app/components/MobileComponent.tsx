@@ -10,7 +10,7 @@ import { DisplayShower, DisplayDryer, DisplayWasher } from '../components/Dashbo
 import util from '../util';
 
 const MobileComponent = () => {
-  const [bathArray, ] = useState<boolean[]>([]);
+  const [bathArray] = useState<boolean[]>([]);
 
   return (
     <Box style={{ width: '100vw', height: '100vh' }}>

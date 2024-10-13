@@ -15,20 +15,21 @@ import { useParams } from 'next/navigation';
 import Analysis from '../../../components/Analysis';
 import { ApiQueryParams } from '@/app/types';
 import { useTransitions } from '@/app/hooks/useTransitions';
+import util from '@/app/util';
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 const PbAnalysisPage: React.FC = () => {
-  const param = useParams<{ dormname: "MOU" | "CEN" | "SEA" | "SPA"; bathNumber: string }>();
+  const param = useParams<{ dormname: 'MOU' | 'CEN' | 'SEA' | 'SPA'; bathNumber: string }>();
 
   const paramData: ApiQueryParams = {
-    type: "PB",
-    dormitory: param.dormname
+    type: 'PB',
+    dormitory: param.dormname,
   };
 
   const { transitions, isLoading, isError } = useTransitions(paramData);
 
-    if (isLoading) {
+  if (isLoading) {
     return <div>loading...</div>;
   }
 
@@ -36,19 +37,9 @@ const PbAnalysisPage: React.FC = () => {
     return <div>データが正常に取得できませんでした。</div>;
   }
 
-
-  function convertToDataArray(
-    datasets: {
-      label: string;
-      data: number[];
-    }[]
-  ): number[][] {
-    return datasets.map((dataset) => dataset.data);
-  }
   const labels = transitions.data.data.labels;
   //ラベルを取り除いたデータだけの配列
-  const initialData = convertToDataArray(transitions.data.data.datasets);
-
+  const initialData = util.convertToDataArray(transitions.data.data.datasets);
 
   return (
     <div>

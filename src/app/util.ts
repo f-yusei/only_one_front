@@ -59,11 +59,21 @@ const countTrueValues = (data: boolean[]) => {
   return data.filter((value) => value).length;
 };
 
+function convertToDataArray(
+  datasets: {
+    label: string;
+    data: number[];
+  }[]
+): number[][] {
+  return datasets.map((dataset) => dataset.data);
+}
+
 const util = {
   changeTypeToDisplayName,
   changeDormToDisplayName,
   toQueryString,
   countTrueValues,
+  convertToDataArray,
 };
 
 export default util;

@@ -29,9 +29,7 @@ import api from '@/api/api';
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
-
 export const BoxGrid: React.FC<DormData> = (dormData) => {
-
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [dashboardData, setDashboardData] = useState<DashboardDetailResponse>();
   const [loading, setLoading] = useState(true); // ローディングの状態を管理
@@ -69,14 +67,14 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
 
   // 経過分数を計算する関数
   const calculateElapsedMinutes = (startTime: Date | null): string => {
-    if(!startTime){
-      return ""
+    if (!startTime) {
+      return '';
     }
     const elapsedMilliseconds = currentTime.getTime() - startTime.getTime();
     const elapsedMinutes = Math.floor(elapsedMilliseconds / (1000 * 60)); // ミリ秒を分に変換
-    const response = elapsedMinutes.toString() + "分";
+    const response = elapsedMinutes.toString() + '分';
 
-    return response
+    return response;
   };
 
   if (!dashboardData) {
@@ -150,8 +148,7 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                       <Text fontSize="2xl" color="green.500" fontWeight="bold" mt={4} mb={6}>
                         使用可能
                       </Text>
-                      <Text fontSize="lg" color="gray.600">
-                      </Text>
+                      <Text fontSize="lg" color="gray.600"></Text>
                     </>
                   )}
                 </Box>

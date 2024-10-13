@@ -9,17 +9,20 @@ import Analysis from '../../../../components/Analysis';
 import { useTransitions } from '@/app/hooks/useTransitions';
 import { ApiQueryParams } from '@/app/types';
 const WmAnalysisPage: React.FC = () => {
-  const param = useParams<{ dormname: "MOU" | "CEN" | "SEA" | "SPA"; floor: "1" | "2" | "3" | "4" | "5" }>();
+  const param = useParams<{
+    dormname: 'MOU' | 'CEN' | 'SEA' | 'SPA';
+    floor: '1' | '2' | '3' | '4' | '5';
+  }>();
 
   const paramData: ApiQueryParams = {
-    type: "WA",
+    type: 'WA',
     dormitory: param.dormname,
-    floor: param.floor
+    floor: param.floor,
   };
 
   const { transitions, isLoading, isError } = useTransitions(paramData);
 
-    if (isLoading) {
+  if (isLoading) {
     return <div>loading...</div>;
   }
 
@@ -27,18 +30,9 @@ const WmAnalysisPage: React.FC = () => {
     return <div>データが正常に取得できませんでした。</div>;
   }
 
-
-  function convertToDataArray(
-    datasets: {
-      label: string;
-      data: number[];
-    }[]
-  ): number[][] {
-    return datasets.map((dataset) => dataset.data);
-  }
   const labels = transitions.data.data.labels;
   //ラベルを取り除いたデータだけの配列
-  const initialData = convertToDataArray(transitions.data.data.datasets);
+  const initialData = util.convertToDataArray(transitions.data.data.datasets);
 
   return (
     <div>
@@ -49,8 +43,7 @@ const WmAnalysisPage: React.FC = () => {
           textAlign="center"
           mt={3} // テキストを中央揃え
         >
-          {util.changeDormToDisplayName(param.dormname)} {param.floor}階
-          乾燥機
+          {util.changeDormToDisplayName(param.dormname)} {param.floor}階 乾燥機
         </Text>
       </Box>
       <BoxGrid type="DR" dormitory={param.dormname} floor={param.floor} />

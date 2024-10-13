@@ -6,7 +6,7 @@ import { Text } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 const SrAnalysisPage: React.FC = () => {
   // データ定義
-  const param = useParams<{ dormitory:string }>();
+  const param = useParams<{ dormitory: string }>();
 
   return (
     <div>
