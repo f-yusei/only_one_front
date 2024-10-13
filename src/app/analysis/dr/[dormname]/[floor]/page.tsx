@@ -6,32 +6,41 @@ import { Text, Box, Link, Button, Flex } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import util from '../../../../util';
 import Analysis from '../../../../components/Analysis';
+import { useTransitions } from '@/app/hooks/useTransitions';
+import { ApiQueryParams } from '@/app/types';
 
 const DmAnalysisPage: React.FC = () => {
-  const generateLabels = () => {
-    const labels = [];
-    for (let i = 0; i < 24 * 12; i++) {
-      const hour = Math.floor(i / 12);
-      const minute = (i % 12) * 5;
-      labels.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
-    }
-    return labels;
+  const param = useParams<{ dormname: "MOU" | "CEN" | "SEA" | "SPA"; floor: "1" | "2" | "3" | "4" | "5" }>();
+
+  const paramData: ApiQueryParams = {
+    type: "WA",
+    dormitory: param.dormname,
+    floor: param.floor
   };
 
-  // データ生成関数
-  const generateData = (length: number) => {
-    return Array.from({ length }, () => Math.floor(Math.random() * 5));
-  };
+  const { transitions, isLoading, isError } = useTransitions(paramData);
 
-  const labels = generateLabels();
-  const data = [
-    generateData(24 * 12), // 1日
-    generateData(24 * 12), // 1週間
-    generateData(24 * 12), // 1ヶ月
-    generateData(24 * 12), // 半年
-  ];
+    if (isLoading) {
+    return <div>loading...</div>;
+  }
 
-  const param = useParams<{ dormname:"MOU" | "SEA" | "CEN" | "SPA"; floor:string}>();
+  if (isError || !transitions.data?.data) {
+    return <div>データが正常に取得できませんでした。</div>;
+  }
+
+
+  function convertToDataArray(
+    datasets: {
+      label: string;
+      data: number[];
+    }[]
+  ): number[][] {
+    return datasets.map((dataset) => dataset.data);
+  }
+  const labels = transitions.data.data.labels;
+  //ラベルを取り除いたデータだけの配列
+  const initialData = convertToDataArray(transitions.data.data.datasets);
+
 
   return (
     <div>
@@ -52,7 +61,7 @@ const DmAnalysisPage: React.FC = () => {
         alignItems="center"
       >
         <Box width="100vw" height="30vh">
-          <Analysis initialLabels={labels} initialData={data} />
+          <Analysis initialLabels={labels} initialData={initialData} />
         </Box>
       </Flex>
 

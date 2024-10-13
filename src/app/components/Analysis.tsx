@@ -29,30 +29,26 @@ import api from '@/api/api';
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
-export const BoxGrid: React.FC<DormData> = (dormData) => {
-  const getCurrentTime = (): string => {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
-  };
 
-  const [, setCurrentTime] = useState<string>(getCurrentTime());
-  const [, setDashboardData] = useState<DashboardDetailResponse>();
+export const BoxGrid: React.FC<DormData> = (dormData) => {
+
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [dashboardData, setDashboardData] = useState<DashboardDetailResponse>();
   const [loading, setLoading] = useState(true); // ローディングの状態を管理
 
+  // 現在時刻を1分ごとに更新
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTime(getCurrentTime());
-    }, 60000); // 1分ごとに時間を更新
+      setCurrentTime(new Date());
+    }, 60000); // 1分ごとに更新
     return () => clearInterval(interval);
   }, []);
 
+  // 1分ごとにデータをフェッチ
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // データ取得中
+      setLoading(true);
       try {
-        // APIからデータを取得 (例)
         const response = await api.getDashboardDetail(dormData);
         setDashboardData(response);
       } catch (error) {
@@ -63,9 +59,29 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
     };
 
     fetchData();
+
+    const interval = setInterval(() => {
+      fetchData(); // 1分ごとにデータをフェッチしなおす
+    }, 60000);
+
+    return () => clearInterval(interval);
   }, [dormData]);
 
-  const data = [false, false, true, false];
+  // 経過分数を計算する関数
+  const calculateElapsedMinutes = (startTime: Date | null): string => {
+    if(!startTime){
+      return ""
+    }
+    const elapsedMilliseconds = currentTime.getTime() - startTime.getTime();
+    const elapsedMinutes = Math.floor(elapsedMilliseconds / (1000 * 60)); // ミリ秒を分に変換
+    const response = elapsedMinutes.toString() + "分";
+
+    return response
+  };
+
+  if (!dashboardData) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>
@@ -94,12 +110,12 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
 
           <SimpleGrid spacing={3}>
             <Grid templateColumns="repeat(2, 1fr)" gap={4} w="90vw" margin="0 auto">
-              {data.map((value, index) => (
+              {dashboardData.map((value, index) => (
                 <Box
                   key={index}
                   w="100%"
                   h="15vh" // 高さを少し増やす
-                  bg={value ? 'rgba(255, 255, 102, 0.3)' : 'white'}
+                  bg={value.status ? 'rgba(255, 255, 102, 0.3)' : 'white'}
                   border="1px solid"
                   borderColor="gray.500"
                   borderRadius="md"
@@ -114,7 +130,7 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                     {util.changeTypeToDisplayName('DR')} {index + 1}
                   </Text>
 
-                  {value ? (
+                  {!value.status ? (
                     <>
                       <Text
                         fontSize="2xl" // フォントサイズを大きく
@@ -124,9 +140,9 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                       >
                         使用中
                       </Text>
-                      {/*TODO 現在時刻から使用開始時間を引いて経過時間を算出してほしい*/}
+                      {/* 経過分数の表示 */}
                       <Text fontSize="lg" color="gray.600">
-                        経過時間: 15 分
+                        経過時間: {calculateElapsedMinutes(value.startedTime)}
                       </Text>
                     </>
                   ) : (
@@ -135,7 +151,6 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                         使用可能
                       </Text>
                       <Text fontSize="lg" color="gray.600">
-                        {/* 空のテキスト */}
                       </Text>
                     </>
                   )}
