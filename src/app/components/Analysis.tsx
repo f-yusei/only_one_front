@@ -25,6 +25,7 @@ import {
 } from 'chart.js';
 import { DashboardDetailResponse, DormData } from '../types';
 import util from '../util';
+import api from '@/api/api';
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
@@ -36,8 +37,8 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
     return `${hours}:${minutes}`;
   };
 
-  const [currentTime, setCurrentTime] = useState<string>(getCurrentTime());
-  const [dashboardData, setDashboardData] = useState<DashboardDetailResponse>();
+  const [, setCurrentTime] = useState<string>(getCurrentTime());
+  const [, setDashboardData] = useState<DashboardDetailResponse>();
   const [loading, setLoading] = useState(true); // ローディングの状態を管理
 
   useEffect(() => {
@@ -47,102 +48,103 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
     return () => clearInterval(interval);
   }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setLoading(true); // データ取得中
-  //     try {
-  //       // APIからデータを取得 (例)
-  //       const response = await api.getDashboardDetail(dormData);
-  //       setDashboardData(response);
-  //     } catch (error) {
-  //       console.error('データ取得エラー:', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true); // データ取得中
+      try {
+        // APIからデータを取得 (例)
+        const response = await api.getDashboardDetail(dormData);
+        setDashboardData(response);
+      } catch (error) {
+        console.error('データ取得エラー:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fetchData();
-  // }, [dormData]);
+    fetchData();
+  }, [dormData]);
 
   const data = [false, false, true, false];
 
   return (
     <div>
-      {/* {loading ? (
+      {loading ? (
         <p>Loading...</p>
-      ) : ( */}
-      <Box
-        w="100%"
-        p={5} // 全体のパディング
-        bg="gray.50" // 背景色を薄いグレーに
-        borderRadius="md"
-        boxShadow="lg" // シャドウを追加
-        mb={6} // 下にマージンを追加して他のコンポーネントとの距離を取る
-      >
-        <Text
-          fontSize="2xl"
-          fontWeight="bold"
-          textAlign="center" // テキストを中央揃え
-          mb={4} // 下にスペースを追加
-          borderBottom="2px solid" // 下にボーダーを追加して見出しを強調
-          borderColor="gray.300" // ボーダーの色
-          pb={2} // ボーダーとの間にスペースを追加
+      ) : (
+        <Box
+          w="100%"
+          p={5} // 全体のパディング
+          bg="gray.50" // 背景色を薄いグレーに
+          borderRadius="md"
+          boxShadow="lg" // シャドウを追加
+          mb={6} // 下にマージンを追加して他のコンポーネントとの距離を取る
         >
-          現在の利用状況
-        </Text>
+          <Text
+            fontSize="2xl"
+            fontWeight="bold"
+            textAlign="center" // テキストを中央揃え
+            mb={4} // 下にスペースを追加
+            borderBottom="2px solid" // 下にボーダーを追加して見出しを強調
+            borderColor="gray.300" // ボーダーの色
+            pb={2} // ボーダーとの間にスペースを追加
+          >
+            現在の利用状況
+          </Text>
 
-        <SimpleGrid spacing={3}>
-          <Grid templateColumns="repeat(2, 1fr)" gap={4} w="90vw" margin="0 auto">
-            {data.map((value, index) => (
-              <Box
-                key={index}
-                w="100%"
-                h="15vh" // 高さを少し増やす
-                bg={value ? 'rgba(255, 255, 102, 0.3)' : 'white'}
-                border="1px solid"
-                borderColor="gray.500"
-                borderRadius="md"
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                p={6} // パディングを増やして余白を広げる
-                boxShadow="md" // 各ボックスにもシャドウを追加
-              >
-                <Text fontSize="3xl" fontWeight="bold">
-                  {util.changeTypeToDisplayName('DR')} {index + 1}
-                </Text>
+          <SimpleGrid spacing={3}>
+            <Grid templateColumns="repeat(2, 1fr)" gap={4} w="90vw" margin="0 auto">
+              {data.map((value, index) => (
+                <Box
+                  key={index}
+                  w="100%"
+                  h="15vh" // 高さを少し増やす
+                  bg={value ? 'rgba(255, 255, 102, 0.3)' : 'white'}
+                  border="1px solid"
+                  borderColor="gray.500"
+                  borderRadius="md"
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  p={6} // パディングを増やして余白を広げる
+                  boxShadow="md" // 各ボックスにもシャドウを追加
+                >
+                  <Text fontSize="3xl" fontWeight="bold">
+                    {util.changeTypeToDisplayName('DR')} {index + 1}
+                  </Text>
 
-                {value ? (
-                  <>
-                    <Text
-                      fontSize="2xl" // フォントサイズを大きく
-                      color="red.500"
-                      fontWeight="bold"
-                      mt={4} // 上にスペースを追加
-                    >
-                      使用中
-                    </Text>
-                    //TODO 現在時刻から使用開始時間を引いて経過時間を算出してほしい
-                    <Text fontSize="lg" color="gray.600">
-                      経過時間: 15 分
-                    </Text>
-                  </>
-                ) : (
-                  <>
-                    <Text fontSize="2xl" color="green.500" fontWeight="bold" mt={4} mb={6}>
-                      使用可能
-                    </Text>
-                    <Text fontSize="lg" color="gray.600">
-                      {/* 空のテキスト */}
-                    </Text>
-                  </>
-                )}
-              </Box>
-            ))}
-          </Grid>
-        </SimpleGrid>
-      </Box>
+                  {value ? (
+                    <>
+                      <Text
+                        fontSize="2xl" // フォントサイズを大きく
+                        color="red.500"
+                        fontWeight="bold"
+                        mt={4} // 上にスペースを追加
+                      >
+                        使用中
+                      </Text>
+                      {/*TODO 現在時刻から使用開始時間を引いて経過時間を算出してほしい*/}
+                      <Text fontSize="lg" color="gray.600">
+                        経過時間: 15 分
+                      </Text>
+                    </>
+                  ) : (
+                    <>
+                      <Text fontSize="2xl" color="green.500" fontWeight="bold" mt={4} mb={6}>
+                        使用可能
+                      </Text>
+                      <Text fontSize="lg" color="gray.600">
+                        {/* 空のテキスト */}
+                      </Text>
+                    </>
+                  )}
+                </Box>
+              ))}
+            </Grid>
+          </SimpleGrid>
+        </Box>
+      )}
     </div>
   );
 };
@@ -288,7 +290,7 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
   const formattedSixMonthsAgo = sixMonthsAgo.toISOString().split('T')[0];
 
   const [startDate, setStartDate] = useState(formattedSixMonthsAgo);
-  const [endDate, setEndDate] = useState(formattedToday);
+  // const [endDate, setEndDate] = useState(formattedToday);
 
   return (
     <Box w="100%" h="50vh" p={5} bg="gray.50" borderRadius="md" boxShadow="lg" mb={6}>

@@ -102,9 +102,9 @@ const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ type, Data, image, dormito
   }
   const dryOrWashTrans = ({ dormitory, floor }: DryOrWashAnaProps) => {
     if (type === 'DR') {
-      router.push(`/analysis/dm/${dormitory}/${floor}`);
+      router.push(`/analysis/dr/${dormitory}/${floor}`);
     } else if (type === 'WA') {
-      router.push(`/analysis/wm/${dormitory}/${floor}`);
+      router.push(`/analysis/wa/${dormitory}/${floor}`);
     }
   };
   return (

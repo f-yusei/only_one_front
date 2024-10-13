@@ -228,7 +228,7 @@ type DashboardDetailResponse = {
   type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
 }[];
 
-type TrandisionsApiResponse = {
+type TransitionsApiResponse = {
   type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
   dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
   floor: number; // 1 ~ 5
@@ -279,7 +279,7 @@ export type {
   DisplayDryerProps,
   SpecialCleaningData,
   CleaningData,
-  TrandisionsApiResponse,
+  TransitionsApiResponse,
   CleaningAllData,
   ApiQueryParams,
   CleaningTableDataToPost,

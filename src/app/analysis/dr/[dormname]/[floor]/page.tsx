@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { BoxGrid } from '../../../../components/Analysis'; // BoxGridコンポーネントをインポート
-import { Center, Text, Box, Link, Button, Flex, VStack } from '@chakra-ui/react';
+import { Text, Box, Link, Button, Flex } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import util from '../../../../util';
 import Analysis from '../../../../components/Analysis';
@@ -31,7 +31,7 @@ const DmAnalysisPage: React.FC = () => {
     generateData(24 * 12), // 半年
   ];
 
-  const param = useParams();
+  const param = useParams<{ dormname:"MOU" | "SEA" | "CEN" | "SPA"; floor:string}>();
 
   return (
     <div>
@@ -42,11 +42,11 @@ const DmAnalysisPage: React.FC = () => {
           textAlign="center"
           mt={3} // テキストを中央揃え
         >
-          {util.changeDormToDisplayName(param.dormname as 'ALL' | 'MOU' | 'SEA')} {param.floor}階
+          {util.changeDormToDisplayName(param.dormname)} {param.floor}階
           乾燥機
         </Text>
       </Box>
-      <BoxGrid type="DM" dormitory={param.dormname as string} floor={param.floor as string} />
+      <BoxGrid type="DR" dormitory={param.dormname} floor={param.floor} />
       <Flex
         justifyContent="center" // 水平方向の中央揃え
         alignItems="center"
@@ -74,7 +74,7 @@ const DmAnalysisPage: React.FC = () => {
               shadow="md" // 影を追加
               w="100%"
             >
-              {util.changeDormToDisplayName(param.dormname as 'ALL' | 'MOU' | 'SEA')}のページに戻る
+              {util.changeDormToDisplayName(param.dormname)}のページに戻る
             </Button>
           </Link>
         ) : (
@@ -88,7 +88,7 @@ const DmAnalysisPage: React.FC = () => {
               shadow="md"
               w="100%"
             >
-              {util.changeDormToDisplayName(param.dormname as 'ALL' | 'MOU' | 'SEA')}のページに戻る
+              {util.changeDormToDisplayName(param.dormname)}のページに戻る
             </Button>
           </Link>
         )}

@@ -6,10 +6,39 @@ import { Text, Box, Link, Button, Flex } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import util from '../../../../util';
 import Analysis from '../../../../components/Analysis';
+import { useTransitions } from '@/app/hooks/useTransitions';
+import { ApiQueryParams } from '@/app/types';
 const WmAnalysisPage: React.FC = () => {
-  // データ定義
-  //const data = [true, false, true, false];
-  const param = useParams();
+  const param = useParams<{ dormname: "MOU" | "CEN" | "SEA" | "SPA"; floor: "1" | "2" | "3" | "4" | "5" }>();
+
+  const paramData: ApiQueryParams = {
+    type: "WA",
+    dormitory: param.dormname,
+    floor: param.floor
+  };
+
+  const { transitions, isLoading, isError } = useTransitions(paramData);
+
+    if (isLoading) {
+    return <div>loading...</div>;
+  }
+
+  if (isError || !transitions.data?.data) {
+    return <div>データが正常に取得できませんでした。</div>;
+  }
+
+
+  function convertToDataArray(
+    datasets: {
+      label: string;
+      data: number[];
+    }[]
+  ): number[][] {
+    return datasets.map((dataset) => dataset.data);
+  }
+  const labels = transitions.data.data.labels;
+  //ラベルを取り除いたデータだけの配列
+  const initialData = convertToDataArray(transitions.data.data.datasets);
 
   return (
     <div>
@@ -20,17 +49,17 @@ const WmAnalysisPage: React.FC = () => {
           textAlign="center"
           mt={3} // テキストを中央揃え
         >
-          {util.changeDormToDisplayName(param.dormname as 'ALL' | 'MOU' | 'SEA')} {param.floor}階
+          {util.changeDormToDisplayName(param.dormname)} {param.floor}階
           乾燥機
         </Text>
       </Box>
-      <BoxGrid type="DM" dormitory={param.dormname as string} floor={param.floor as string} />
+      <BoxGrid type="DR" dormitory={param.dormname} floor={param.floor} />
       <Flex
         justifyContent="center" // 水平方向の中央揃え
         alignItems="center"
       >
         <Box width="100vw" height="30vh">
-          <Analysis initialLabels={labels} initialData={data} />
+          <Analysis initialLabels={labels} initialData={initialData} />
         </Box>
       </Flex>
 
@@ -52,7 +81,7 @@ const WmAnalysisPage: React.FC = () => {
               shadow="md" // 影を追加
               w="100%"
             >
-              {util.changeDormToDisplayName(param.dormname as 'ALL' | 'MOU' | 'SEA')}のページに戻る
+              {util.changeDormToDisplayName(param.dormname)}のページに戻る
             </Button>
           </Link>
         ) : (
@@ -66,7 +95,7 @@ const WmAnalysisPage: React.FC = () => {
               shadow="md"
               w="100%"
             >
-              {util.changeDormToDisplayName(param.dormname as 'ALL' | 'MOU' | 'SEA')}のページに戻る
+              {util.changeDormToDisplayName(param.dormname)}のページに戻る
             </Button>
           </Link>
         )}

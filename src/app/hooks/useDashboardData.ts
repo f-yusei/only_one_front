@@ -49,7 +49,7 @@ export const useDashboardDataStatuses = (dormData: DormData) => {
     };
 
     fetchData();
-  }, [dormData]);
+  }, []);
 
   const showerData = dashboardDetailData?.filter((item) => item.type === 'SW');
   const dryerData = dashboardDetailData?.filter((item) => item.type === 'DR');

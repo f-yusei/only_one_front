@@ -3,38 +3,14 @@ import { VStack, Box, Center, StackDivider, Button, Text } from '@chakra-ui/reac
 import { DisplayPublicBath } from '../components/Dashboard';
 //import { useDashboardData } from './hooks/useDashboardData';
 import { Link } from '@chakra-ui/next-js';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import NoScrollComponent from './OptUI ';
 import { DormitoryMobileComponentProps } from '../types';
 import { DisplayShower, DisplayDryer, DisplayWasher } from '../components/Dashboard';
 import util from '../util';
 
 const MobileComponent = () => {
-  const [bathArray, setBathArray] = useState<boolean[]>([]);
-  const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/dashboard?type=PB`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-
-        if (data && Array.isArray(data.PB)) {
-          const boolArray = data.PB.map((value: number) => Boolean(value));
-          setBathArray(boolArray);
-        } else {
-          console.error('Data is not in the expected format:', data);
-        }
-      } catch (error) {
-        console.log(error); // ここでエラーをコンソールに表示
-      }
-    };
-
-    fetchData();
-  }, [NEXT_PUBLIC_API_URL]); // 空の配列を渡して、コンポーネントのマウント時に一度だけ実行されるようにする
+  const [bathArray, ] = useState<boolean[]>([]);
 
   return (
     <Box style={{ width: '100vw', height: '100vh' }}>
