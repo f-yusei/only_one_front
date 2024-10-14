@@ -1,19 +1,19 @@
-import api from "@/api/api";
-import { Box, SimpleGrid, Grid,Text } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import { DormData, DashboardDetailResponse } from "../types";
-import util from "../util";
+import api from '@/api/api';
+import { Box, SimpleGrid, Grid, Text } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import { DormData, DashboardDetailResponse } from '../types';
+import util from '../util';
 
 export const BoxGrid: React.FC<DormData> = (dormData) => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [dashboardData, setDashboardData] = useState<DashboardDetailResponse>();
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   // 現在時刻を1分ごとに更新
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-    }, 60000); 
+    }, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -59,21 +59,14 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <Box
-          w="100%"
-          p={5} 
-          bg="gray.50" 
-          borderRadius="md"
-          boxShadow="lg" 
-          mb={6}
-                  >
+        <Box w="100%" p={5} bg="gray.50" borderRadius="md" boxShadow="lg" mb={6}>
           <Text
             fontSize="2xl"
             fontWeight="bold"
-            textAlign="center" 
-            mb={4} 
+            textAlign="center"
+            mb={4}
             borderBottom="2px solid"
-            borderColor="gray.300" 
+            borderColor="gray.300"
             pb={2}
           >
             現在の利用状況
@@ -85,7 +78,7 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                 <Box
                   key={index}
                   w="100%"
-                  h="15vh" 
+                  h="15vh"
                   bg={value.status ? 'rgba(255, 255, 102, 0.3)' : 'white'}
                   border="1px solid"
                   borderColor="gray.500"
@@ -95,7 +88,7 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                   justifyContent="center"
                   alignItems="center"
                   p={6}
-                  boxShadow="md" 
+                  boxShadow="md"
                 >
                   <Text fontSize="3xl" fontWeight="bold">
                     {util.changeTypeToDisplayName('DR')} {index + 1}
@@ -103,12 +96,7 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
 
                   {!value.status ? (
                     <>
-                      <Text
-                        fontSize="2xl"
-                        color="red.500"
-                        fontWeight="bold"
-                        mt={4}
-                      >
+                      <Text fontSize="2xl" color="red.500" fontWeight="bold" mt={4}>
                         使用中
                       </Text>
                       {/* 経過分数の表示 */}

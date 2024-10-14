@@ -1,5 +1,5 @@
 'use client';
-import { DormitoryMobailComponent } from '../components/MobileComponent';
+import { DormitoryMobileComponent } from '../components/MobileComponent';
 import { useDashboardDataStatuses } from '../hooks/useDashboardData';
 import { DormData } from '../types';
 
@@ -36,7 +36,7 @@ const UmiDashboardPage = () => {
   const { showerStatusArray, washerStatusArray, dryerStatusArray } = dashboardDataStatuses;
 
   return (
-    <DormitoryMobailComponent
+    <DormitoryMobileComponent
       showerData={showerStatusArray}
       washerData={washerStatusArray}
       dryerData={dryerStatusArray}

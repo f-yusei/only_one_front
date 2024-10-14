@@ -1,9 +1,14 @@
-import { Box, Center, VStack, Button, Flex, Text, Image } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { DisplayWasherProps, DisplayDryerProps, DisplayShowerProps, DisplayPublicBathProps } from "../types";
-import util from "../util";
-import { CustomHStack, CustomVStack, CustomFlex } from "./CustomCommonComponents";
-import { DisplayDryOrWash } from "./DisplayDryOrWash";
+import { Box, Center, VStack, Button, Flex, Text, Image } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import {
+  DisplayWasherProps,
+  DisplayDryerProps,
+  DisplayShowerProps,
+  DisplayPublicBathProps,
+} from '../types';
+import util from '../util';
+import { CustomHStack, CustomVStack, CustomFlex } from './CustomCommonComponents';
+import { DisplayDryOrWash } from './DisplayDryOrWash';
 import bath from '../../../public/images/bath.png';
 import dryer from '../../../public/images/dryer.png';
 import washer from '../../../public/images/washer.png';
@@ -132,4 +137,4 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
   );
 };
 
-export {DisplayDryer,DisplayWasher,DisplayPublicBath,DisplayShower}
+export { DisplayDryer, DisplayWasher, DisplayPublicBath, DisplayShower };

@@ -1,18 +1,6 @@
 'use client';
-import {
-  Card,
-  VStack,
-  Text,
-  Box,
-  Center,
-  Image,
-  Flex,
-  Button,
-} from '@chakra-ui/react';
-import {
-  DryOrWashAnaProps,
-  DryOrWashProps,
-} from '../types';
+import { Card, VStack, Text, Box, Center, Image, Flex, Button } from '@chakra-ui/react';
+import { DryOrWashAnaProps, DryOrWashProps } from '../types';
 
 import { useRouter } from 'next/navigation';
 import util from '../util';
@@ -28,10 +16,9 @@ const boxStyles = {
   background: 'gray.50',
 };
 
-
 export const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ type, Data, image, dormitory }) => {
   const router = useRouter();
-  
+
   const dryOrWashTrans = ({ dormitory, floor }: DryOrWashAnaProps) => {
     if (type === 'DR') {
       router.push(`/analysis/dr/${dormitory}/${floor}`);

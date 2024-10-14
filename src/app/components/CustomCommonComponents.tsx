@@ -1,5 +1,5 @@
-import { HStack, StackDivider, VStack, Flex } from "@chakra-ui/react";
-import { CustomStackProps, CustomFlexProps } from "../types";
+import { HStack, StackDivider, VStack, Flex } from '@chakra-ui/react';
+import { CustomStackProps, CustomFlexProps } from '../types';
 
 const CustomHStack: React.FC<CustomStackProps> = ({ children }) => {
   return (
@@ -43,4 +43,4 @@ const CustomFlex: React.FC<CustomFlexProps> = ({ children }) => {
   );
 };
 
-export {CustomFlex,CustomHStack,CustomVStack}
+export { CustomFlex, CustomHStack, CustomVStack };

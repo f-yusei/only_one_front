@@ -4,6 +4,6 @@ export const useDayInfo = () => {
   sixMonthsAgo.setMonth(today.getMonth() - 6);
   const formattedToday = today.toISOString().split('T')[0];
   const formattedSixMonthsAgo = sixMonthsAgo.toISOString().split('T')[0];
-  
-  return {formattedToday,formattedSixMonthsAgo}
-}
+
+  return { formattedToday, formattedSixMonthsAgo };
+};

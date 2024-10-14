@@ -1,5 +1,5 @@
 'use client';
-import { DormitoryMobailComponent } from '../components/MobileComponent';
+import { DormitoryMobileComponent } from '../components/MobileComponent';
 import { useDashboardDataStatuses } from '../hooks/useDashboardData';
 import { DormData } from '../types';
 
@@ -33,7 +33,7 @@ const YamaDashboardPage = () => {
   }
 
   return (
-    <DormitoryMobailComponent
+    <DormitoryMobileComponent
       showerData={dashboardDataStatuses.showerStatusArray}
       washerData={dashboardDataStatuses.washerStatusArray}
       dryerData={dashboardDataStatuses.dryerStatusArray}

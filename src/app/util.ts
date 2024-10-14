@@ -68,11 +68,11 @@ function convertToDataArray(
   return datasets.map((dataset) => dataset.data);
 }
 
- const formatTime = (date: Date) => {
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      return `${hours}:${minutes}`;
-    };
+const formatTime = (date: Date) => {
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${hours}:${minutes}`;
+};
 
 const util = {
   changeTypeToDisplayName,
@@ -80,7 +80,7 @@ const util = {
   toQueryString,
   countTrueValues,
   convertToDataArray,
-  formatTime
+  formatTime,
 };
 
 export default util;

@@ -1,6 +1,6 @@
-import { ChartOptions } from "chart.js";
+import { ChartOptions } from 'chart.js';
 
-export const useChart = (data:number[][],labels:string[]) => {
+export const useChart = (data: number[][], labels: string[]) => {
   const chartData = {
     labels: labels,
     datasets: [
@@ -39,11 +39,11 @@ export const useChart = (data:number[][],labels:string[]) => {
     ],
   };
 
-  return {chartData}
-}
+  return { chartData };
+};
 
-export const useChartOptions = (filteredLabels:string[],currentTime:string) => {
-const options: ChartOptions<'line'> = {
+export const useChartOptions = (filteredLabels: string[], currentTime: string) => {
+  const options: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -83,5 +83,5 @@ const options: ChartOptions<'line'> = {
       },
     },
   };
-  return options
-}
+  return options;
+};

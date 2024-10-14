@@ -59,10 +59,10 @@ export const DormitoryMobileComponent: React.FC<DormitoryMobileComponentProps> =
   return (
     <>
       <Box
-        p={5} 
-        bg="gray.100" 
+        p={5}
+        bg="gray.100"
         borderRadius="md"
-        boxShadow="lg" 
+        boxShadow="lg"
         mb={6}
         w={'100%'}
         h={'100vh'}
@@ -71,10 +71,10 @@ export const DormitoryMobileComponent: React.FC<DormitoryMobileComponentProps> =
         <Text
           fontSize="2xl"
           fontWeight="bold"
-          textAlign="center" 
-          mb={4} 
+          textAlign="center"
+          mb={4}
           borderBottom="2px solid"
-          borderColor="gray.300" 
+          borderColor="gray.300"
           pb={2}
         >
           {util.changeDormToDisplayName(dormitory)}

@@ -1,14 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Text,
-  FormControl,
-  FormLabel,
-  Input,
-  HStack,
-} from '@chakra-ui/react';
+import { Box, Text, FormControl, FormLabel, Input, HStack } from '@chakra-ui/react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -28,14 +21,13 @@ import { useDayInfo } from '../hooks/useDayInfo';
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 const LineChart: React.FC<LineChartProps> = ({ data, labels, options }) => {
-  const {chartData} = useChart(data,labels)
+  const { chartData } = useChart(data, labels);
   return <Line data={chartData} options={options} />;
 };
 
 const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
+  const { formattedToday, formattedSixMonthsAgo } = useDayInfo();
 
-  const {formattedToday,formattedSixMonthsAgo} = useDayInfo()
-  
   const filteredLabels = initialLabels.filter((label) => label >= startTime && label <= endTime);
   const filteredData = initialData.map((data) =>
     data.slice(initialLabels.indexOf(startTime), initialLabels.indexOf(endTime) + 1)
@@ -46,7 +38,7 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
   const [currentTime, setCurrentTime] = useState('');
   const [startDate, setStartDate] = useState(formattedSixMonthsAgo);
 
-  const options = useChartOptions(filteredLabels,currentTime)
+  const options = useChartOptions(filteredLabels, currentTime);
 
   useEffect(() => {
     const now = new Date();
@@ -56,7 +48,7 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
 
     start.setHours(currentHours - 4);
     start.setMinutes(0);
-    
+
     end.setHours(currentHours + 1);
     end.setMinutes(0);
 
@@ -76,8 +68,8 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
       <Text
         fontSize="2xl"
         fontWeight="bold"
-        textAlign="center" 
-        mb={4} 
+        textAlign="center"
+        mb={4}
         borderBottom="2px solid"
         borderColor="gray.300"
         pb={2}
