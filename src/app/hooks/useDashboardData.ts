@@ -52,10 +52,12 @@ export const useDashboardDataStatuses = (dormData: DormData) => {
   }, []);
 
   const showerData = dashboardDetailData?.filter((item) => item.type === 'SW');
+  const bathData = dashboardDetailData?.filter((item) => item.type === 'PB');
   const dryerData = dashboardDetailData?.filter((item) => item.type === 'DR');
   const washerData = dashboardDetailData?.filter((item) => item.type === 'WA');
 
   const showerStatusArray = showerData?.map((item) => item.status) || [];
+  const bathStatusArray = bathData?.map((item) => item.status) || [];
   const dryerStatusArrayByFloor = getStatusArrayByFloor(dryerData);
   const washerStatusArrayByFloor = getStatusArrayByFloor(washerData);
 
@@ -63,6 +65,7 @@ export const useDashboardDataStatuses = (dormData: DormData) => {
     showerStatusArray: showerStatusArray,
     dryerStatusArray: dryerStatusArrayByFloor,
     washerStatusArray: washerStatusArrayByFloor,
+    bathStatusArray: bathStatusArray,
   };
 
   return { dashboardDataStatuses, isLoading, isError };

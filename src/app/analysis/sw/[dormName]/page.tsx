@@ -11,7 +11,7 @@ const SrAnalysisPage: React.FC = () => {
   return (
     <div>
       <Text>{param.dormitory} シャワー室</Text>
-      <BoxGrid type="SW" dormitory={param.dormitory} floor={null} />
+      <BoxGrid type="SW" dormitory={param.dormitory} />
     </div>
   );
 };

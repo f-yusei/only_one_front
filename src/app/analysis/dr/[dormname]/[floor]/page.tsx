@@ -20,6 +20,8 @@ const DmAnalysisPage: React.FC = () => {
     dormitory: param.dormname,
     floor: param.floor,
     halfYear: 'TRUE',
+    weekly: 'TRUE',
+    monthly: 'TRUE',
   };
 
   const { transitions, isLoading, isError } = useTransitions(paramData);

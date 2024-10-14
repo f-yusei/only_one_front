@@ -6,7 +6,6 @@ import { DormData } from '../types';
 const YamaDashboardPage = () => {
   const dormData: DormData = {
     dormitory: 'MOU',
-    floor: null,
     type: 'ALL',
   };
   const { dashboardDataStatuses, isError, isLoading } = useDashboardDataStatuses(dormData);

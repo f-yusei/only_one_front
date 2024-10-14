@@ -25,6 +25,9 @@ const PbAnalysisPage: React.FC = () => {
   const paramData: ApiQueryParams = {
     type: 'PB',
     dormitory: param.dormname,
+    halfYear: 'TRUE',
+    weekly: 'TRUE',
+    monthly: 'TRUE',
   };
 
   const { transitions, isLoading, isError } = useTransitions(paramData);

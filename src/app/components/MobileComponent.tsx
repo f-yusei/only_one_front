@@ -1,52 +1,65 @@
 'use client';
 import { VStack, Box, Center, StackDivider, Button, Text } from '@chakra-ui/react';
 import { Link } from '@chakra-ui/next-js';
-import React, { useState } from 'react';
+import React from 'react';
 import NoScrollComponent from './OptUI ';
-import { DormitoryMobileComponentProps } from '../types';
+import { DormData, DormitoryMobileComponentProps } from '../types';
 import util from '../util';
 import { DisplayPublicBath, DisplayShower, DisplayWasher, DisplayDryer } from './DisplayComponents';
+import { useDashboardDataStatuses } from '../hooks/useDashboardData';
 
 const MobileComponent = () => {
-  const [bathArray] = useState<boolean[]>([]);
-  //TODO PBの値をフェッチする
+  const dormData: DormData = {
+    type: 'PB',
+  };
+  const { dashboardDataStatuses, isError, isLoading } = useDashboardDataStatuses(dormData);
+
+  if (!dashboardDataStatuses.bathStatusArray || isError) {
+    return <div>正常にデータが取得できませんでした。</div>;
+  }
 
   return (
-    <Box style={{ width: '100vw', height: '100vh' }}>
-      <NoScrollComponent />
-      <VStack spacing="1vh" mt="3vh" height={'100%'}>
-        <Box width={'90%'} height={'50%'}>
-          <DisplayPublicBath numberOfUsingBathData={bathArray} />
-        </Box>
+    <div>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <Box style={{ width: '100vw', height: '100vh' }}>
+          <NoScrollComponent />
+          <VStack spacing="1vh" mt="3vh" height={'100%'}>
+            <Box width={'90%'} height={'50%'}>
+              <DisplayPublicBath numberOfUsingBathData={dashboardDataStatuses.bathStatusArray} />
+            </Box>
 
-        <Box
-          boxShadow="0 4px 8px rgba(0, 0.2, 0.2, 0.4)"
-          borderWidth="1px"
-          height="28vh"
-          width="90vw"
-          rounded={'xl'}
-          background={'gray.50'}
-        >
-          <VStack borderColor={'black'} divider={<StackDivider />} spacing="0">
-            <Link href="/yama">
-              <Button style={{ width: '90vw', height: '14vh' }} variant="outline">
-                <Center h="100%" fontWeight="bold" fontSize="300%">
-                  山寮
-                </Center>
-              </Button>
-            </Link>
+            <Box
+              boxShadow="0 4px 8px rgba(0, 0.2, 0.2, 0.4)"
+              borderWidth="1px"
+              height="28vh"
+              width="90vw"
+              rounded={'xl'}
+              background={'gray.50'}
+            >
+              <VStack borderColor={'black'} divider={<StackDivider />} spacing="0">
+                <Link href="/yama">
+                  <Button style={{ width: '90vw', height: '14vh' }} variant="outline">
+                    <Center h="100%" fontWeight="bold" fontSize="300%">
+                      山寮
+                    </Center>
+                  </Button>
+                </Link>
 
-            <Link href="/umi">
-              <Button style={{ width: '90vw', height: '14vh' }} variant="outline">
-                <Center h="100%" fontWeight="bold" fontSize="300%">
-                  海寮
-                </Center>
-              </Button>
-            </Link>
+                <Link href="/umi">
+                  <Button style={{ width: '90vw', height: '14vh' }} variant="outline">
+                    <Center h="100%" fontWeight="bold" fontSize="300%">
+                      海寮
+                    </Center>
+                  </Button>
+                </Link>
+              </VStack>
+            </Box>
           </VStack>
         </Box>
-      </VStack>
-    </Box>
+      )}
+    </div>
   );
 };
 

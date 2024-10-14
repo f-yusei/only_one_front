@@ -6,7 +6,6 @@ import { DormData } from '../types';
 const UmiDashboardPage = () => {
   const dormData: DormData = {
     dormitory: 'SEA',
-    floor: null,
     type: 'ALL',
   };
 

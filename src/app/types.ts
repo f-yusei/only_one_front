@@ -215,8 +215,8 @@ type TeacherCleaningReport = {
 };
 
 type DormData = {
-  dormitory: string;
-  floor: string | null;
+  dormitory?: string;
+  floor?: string;
   type: string;
 };
 
