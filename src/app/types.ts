@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { OptionBase } from 'chakra-react-select';
+import { ChartOptions } from 'chart.js';
+import { StaticImageData } from 'next/image';
 
 type DashboardData = {
   yamaWasherData: boolean[];
@@ -92,7 +94,7 @@ class StudentName implements OptionBase {
     public value: string,
     public label: string,
     public colorScheme: string
-  ) { }
+  ) {}
 }
 
 type StudentNameType = {
@@ -135,18 +137,18 @@ type LoginData = {
 
 //type for Props
 type DisplayWasherProps = {
-  washerData: boolean[][][];
-  dormitory: "MOU" |"SEA"|"ALL";
+  washerData: boolean[][];
+  dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA';
 };
 
 type DisplayDryerProps = {
-  dryerData: boolean[][][];
-  dormitory: "MOU" |"SEA"|"ALL";
-}
+  dryerData: boolean[][];
+  dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA';
+};
 
 type DisplayShowerProps = {
-  showerData: boolean[][];
-  dormitory: "MOU" |"SEA"|"ALL";
+  showerData: boolean[];
+  dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA';
 };
 
 type DisplayPublicBathProps = {
@@ -213,22 +215,22 @@ type TeacherCleaningReport = {
 };
 
 type DormData = {
-  dormitory: string
-  floor: string | null
-  type: string
-}
+  dormitory: string;
+  floor: string | null;
+  type: string;
+};
 
 type DashboardDetailResponse = {
-  dormitory: string
-  floor: number
-  No: number
-  startedTime: Date | null
-  lastDataTime: Date
-  status: boolean
-  type: "DR" | "WA" | "SW" | "PB" | "ALL"
+  dormitory: string;
+  floor: number;
+  No: number;
+  startedTime: Date | null;
+  lastDataTime: Date;
+  status: boolean;
+  type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
 }[];
 
-type TrandisionsApiResponse = {
+type TransitionsApiResponse = {
   type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
   dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
   floor: number; // 1 ~ 5
@@ -258,15 +260,50 @@ type ApiQueryParams = {
   groupByID?: string; // Example: TRUE
 };
 
-interface DormitoryMobileComponentProps  {
-  showerData:boolean[][];
-  washerData:boolean[][][];
-  dryerData:boolean[][][];
-  dormitory: 'MOU' | 'SEA' |  'ALL';
-}
+type DormitoryMobileComponentProps = {
+  showerData: boolean[];
+  washerData: boolean[][];
+  dryerData: boolean[][];
+  dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
+};
+type AnalysisProps = {
+  initialLabels: string[];
+  initialData: number[][];
+};
 
+type LineChartProps = {
+  data: number[][];
+  labels: string[];
+  options?: ChartOptions<'line'>;
+};
+
+type CustomStackProps = {
+  children: React.ReactNode;
+};
+
+type CustomFlexProps = {
+  children: React.ReactNode;
+};
+
+type DryOrWashProps = {
+  dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA';
+  type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
+  Data: boolean[][];
+  image: StaticImageData;
+};
+
+type DryOrWashAnaProps = {
+  dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA';
+  floor: string;
+};
 
 export type {
+  DryOrWashAnaProps,
+  DryOrWashProps,
+  CustomFlexProps,
+  CustomStackProps,
+  LineChartProps,
+  AnalysisProps,
   MonthlyCleaningReportAndSpecialCleaningReport,
   WeeklyCleaningReport,
   DashboardData,
@@ -280,7 +317,7 @@ export type {
   DisplayDryerProps,
   SpecialCleaningData,
   CleaningData,
-  TrandisionsApiResponse,
+  TransitionsApiResponse,
   CleaningAllData,
   ApiQueryParams,
   CleaningTableDataToPost,
@@ -302,5 +339,3 @@ export type {
   WeekCleaningData,
   DormitoryMobileComponentProps,
 };
-
-

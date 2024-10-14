@@ -1,47 +1,47 @@
 'use client';
-import { Box ,VStack} from '@chakra-ui/react';
-import { DisplayShower, DisplayWasher, DisplayDryer } from '../components/Dashboard';
-import { useUmiDashboardData } from '../hooks/useDashboardData';
-import NoScrollComponent from '../components/OptUI ';
-import { DormitoryMobailComponent } from '../components/MobileComponent';
-
+import { DormitoryMobileComponent } from '../components/MobileComponent';
+import { useDashboardDataStatuses } from '../hooks/useDashboardData';
+import { DormData } from '../types';
 
 const UmiDashboardPage = () => {
-  const { umiDashboardData, isError, isLoading } = useUmiDashboardData();
+  const dormData: DormData = {
+    dormitory: 'SEA',
+    floor: null,
+    type: 'ALL',
+  };
+
+  const { dashboardDataStatuses, isError, isLoading } = useDashboardDataStatuses(dormData);
   if (isLoading) {
     return <div>loading...</div>;
   }
-  if (!umiDashboardData) {
+  if (!dashboardDataStatuses) {
     return <div>そもそもデータ取得できてねーぞ</div>;
   }
   if (isError) {
     return <div>なんかエラー出たぞ</div>;
   }
 
-  if (!umiDashboardData.showerData) {
+  if (!dashboardDataStatuses.showerStatusArray) {
     return <div>シャワーのデータがねえぞおおおおおおおおお</div>;
   }
 
-  if (!umiDashboardData.washerData) {
+  if (!dashboardDataStatuses.washerStatusArray) {
     return <div>洗濯機のデータがねえぞおおおおおおおおお</div>;
   }
 
-  if (!umiDashboardData.dryerData) {
+  if (!dashboardDataStatuses.dryerStatusArray) {
     return <div>乾燥機のデータがねえぞおおおおおおおおお</div>;
   }
 
-
-
-  const { showerData, washerData, dryerData } = umiDashboardData;
-  // 既存の boolean[][] を boolean[][][] に変換
-  const _showerData = [showerData]; // これで showerData は boolean[][][] になります
-  const _washerData = [[washerData]]; // 同様に変換
-  const _dryerData = [[dryerData]];   // 同様に変換
-
+  const { showerStatusArray, washerStatusArray, dryerStatusArray } = dashboardDataStatuses;
 
   return (
-    <DormitoryMobailComponent showerData={_showerData} washerData={_washerData} dryerData={_dryerData} dormitory='MOU'/>
-  
+    <DormitoryMobileComponent
+      showerData={showerStatusArray}
+      washerData={washerStatusArray}
+      dryerData={dryerStatusArray}
+      dormitory="SEA"
+    />
   );
 };
 
