@@ -68,12 +68,19 @@ function convertToDataArray(
   return datasets.map((dataset) => dataset.data);
 }
 
+ const formatTime = (date: Date) => {
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${hours}:${minutes}`;
+    };
+
 const util = {
   changeTypeToDisplayName,
   changeDormToDisplayName,
   toQueryString,
   countTrueValues,
   convertToDataArray,
+  formatTime
 };
 
 export default util;

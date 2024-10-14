@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { OptionBase } from 'chakra-react-select';
+import { ChartOptions } from 'chart.js';
+import { StaticImageData } from 'next/image';
 
 type DashboardData = {
   yamaWasherData: boolean[];
@@ -258,14 +260,51 @@ type ApiQueryParams = {
   groupByID?: string; // Example: TRUE
 };
 
-interface DormitoryMobileComponentProps {
+type DormitoryMobileComponentProps = {
   showerData: boolean[];
   washerData: boolean[][];
   dryerData: boolean[][];
   dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
 }
+type AnalysisProps = {
+  initialLabels: string[];
+  initialData: number[][];
+}
+
+
+type LineChartProps = {
+  data: number[][];
+  labels: string[];
+  options?: ChartOptions<'line'>;
+}
+
+type CustomStackProps = {
+  children: React.ReactNode;
+}
+
+type CustomFlexProps = {
+  children: React.ReactNode;
+}
+
+type DryOrWashProps = {
+  dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA';
+  type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
+  Data: boolean[][];
+  image: StaticImageData;
+}
+
+type DryOrWashAnaProps = {
+    dormitory: 'MOU' | 'SEA' | 'ALL' | 'CEN' | 'SPA';
+    floor: string;
+  }
 
 export type {
+  DryOrWashAnaProps,
+  DryOrWashProps,
+  CustomFlexProps,
+  CustomStackProps,
+  LineChartProps,
+  AnalysisProps,
   MonthlyCleaningReportAndSpecialCleaningReport,
   WeeklyCleaningReport,
   DashboardData,

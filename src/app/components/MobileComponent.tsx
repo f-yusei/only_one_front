@@ -1,16 +1,15 @@
 'use client';
 import { VStack, Box, Center, StackDivider, Button, Text } from '@chakra-ui/react';
-import { DisplayPublicBath } from '../components/Dashboard';
-//import { useDashboardData } from './hooks/useDashboardData';
 import { Link } from '@chakra-ui/next-js';
 import React, { useState } from 'react';
 import NoScrollComponent from './OptUI ';
 import { DormitoryMobileComponentProps } from '../types';
-import { DisplayShower, DisplayDryer, DisplayWasher } from '../components/Dashboard';
 import util from '../util';
+import { DisplayPublicBath, DisplayShower, DisplayWasher, DisplayDryer } from './DisplayComponents';
 
 const MobileComponent = () => {
   const [bathArray] = useState<boolean[]>([]);
+  //TODO PBの値をフェッチする
 
   return (
     <Box style={{ width: '100vw', height: '100vh' }}>
@@ -51,7 +50,7 @@ const MobileComponent = () => {
   );
 };
 
-export const DormitoryMobailComponent: React.FC<DormitoryMobileComponentProps> = ({
+export const DormitoryMobileComponent: React.FC<DormitoryMobileComponentProps> = ({
   showerData,
   washerData,
   dryerData,
@@ -60,11 +59,11 @@ export const DormitoryMobailComponent: React.FC<DormitoryMobileComponentProps> =
   return (
     <>
       <Box
-        p={5} // 全体のパディング
-        bg="gray.100" // 背景色を薄いグレーに
+        p={5} 
+        bg="gray.100" 
         borderRadius="md"
-        boxShadow="lg" // シャドウを追加
-        mb={6} // 下にマージンを追加して他のコンポーネントとの距離を取る
+        boxShadow="lg" 
+        mb={6}
         w={'100%'}
         h={'100vh'}
         mt={3}
@@ -72,11 +71,11 @@ export const DormitoryMobailComponent: React.FC<DormitoryMobileComponentProps> =
         <Text
           fontSize="2xl"
           fontWeight="bold"
-          textAlign="center" // テキストを中央揃え
-          mb={4} // 下にスペースを追加
-          borderBottom="2px solid" // 下にボーダーを追加して見出しを強調
-          borderColor="gray.300" // ボーダーの色
-          pb={2} // ボーダーとの間にスペースを追加
+          textAlign="center" 
+          mb={4} 
+          borderBottom="2px solid"
+          borderColor="gray.300" 
+          pb={2}
         >
           {util.changeDormToDisplayName(dormitory)}
         </Text>

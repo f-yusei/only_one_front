@@ -3,9 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
-  SimpleGrid,
   Text,
-  Grid,
   FormControl,
   FormLabel,
   Input,
@@ -14,7 +12,6 @@ import {
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
-  ChartOptions,
   LineElement,
   PointElement,
   CategoryScale,
@@ -23,225 +20,50 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { DashboardDetailResponse, DormData } from '../types';
+import { AnalysisProps, LineChartProps } from '../types';
+import { useChart, useChartOptions } from '../hooks/useChart';
 import util from '../util';
-import api from '@/api/api';
+import { useDayInfo } from '../hooks/useDayInfo';
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
-export const BoxGrid: React.FC<DormData> = (dormData) => {
-  const [currentTime, setCurrentTime] = useState<Date>(new Date());
-  const [dashboardData, setDashboardData] = useState<DashboardDetailResponse>();
-  const [loading, setLoading] = useState(true); // ローディングの状態を管理
-
-  // 現在時刻を1分ごとに更新
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000); // 1分ごとに更新
-    return () => clearInterval(interval);
-  }, []);
-
-  // 1分ごとにデータをフェッチ
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await api.getDashboardDetail(dormData);
-        setDashboardData(response);
-      } catch (error) {
-        console.error('データ取得エラー:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-
-    const interval = setInterval(() => {
-      fetchData(); // 1分ごとにデータをフェッチしなおす
-    }, 60000);
-
-    return () => clearInterval(interval);
-  }, [dormData]);
-
-  // 経過分数を計算する関数
-  const calculateElapsedMinutes = (startTime: Date | null): string => {
-    if (!startTime) {
-      return '';
-    }
-    const elapsedMilliseconds = currentTime.getTime() - startTime.getTime();
-    const elapsedMinutes = Math.floor(elapsedMilliseconds / (1000 * 60)); // ミリ秒を分に変換
-    const response = elapsedMinutes.toString() + '分';
-
-    return response;
-  };
-
-  if (!dashboardData) {
-    return <p>Loading...</p>;
-  }
-
-  return (
-    <div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <Box
-          w="100%"
-          p={5} // 全体のパディング
-          bg="gray.50" // 背景色を薄いグレーに
-          borderRadius="md"
-          boxShadow="lg" // シャドウを追加
-          mb={6} // 下にマージンを追加して他のコンポーネントとの距離を取る
-        >
-          <Text
-            fontSize="2xl"
-            fontWeight="bold"
-            textAlign="center" // テキストを中央揃え
-            mb={4} // 下にスペースを追加
-            borderBottom="2px solid" // 下にボーダーを追加して見出しを強調
-            borderColor="gray.300" // ボーダーの色
-            pb={2} // ボーダーとの間にスペースを追加
-          >
-            現在の利用状況
-          </Text>
-
-          <SimpleGrid spacing={3}>
-            <Grid templateColumns="repeat(2, 1fr)" gap={4} w="90vw" margin="0 auto">
-              {dashboardData.map((value, index) => (
-                <Box
-                  key={index}
-                  w="100%"
-                  h="15vh" // 高さを少し増やす
-                  bg={value.status ? 'rgba(255, 255, 102, 0.3)' : 'white'}
-                  border="1px solid"
-                  borderColor="gray.500"
-                  borderRadius="md"
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  p={6} // パディングを増やして余白を広げる
-                  boxShadow="md" // 各ボックスにもシャドウを追加
-                >
-                  <Text fontSize="3xl" fontWeight="bold">
-                    {util.changeTypeToDisplayName('DR')} {index + 1}
-                  </Text>
-
-                  {!value.status ? (
-                    <>
-                      <Text
-                        fontSize="2xl" // フォントサイズを大きく
-                        color="red.500"
-                        fontWeight="bold"
-                        mt={4} // 上にスペースを追加
-                      >
-                        使用中
-                      </Text>
-                      {/* 経過分数の表示 */}
-                      <Text fontSize="lg" color="gray.600">
-                        経過時間: {calculateElapsedMinutes(value.startedTime)}
-                      </Text>
-                    </>
-                  ) : (
-                    <>
-                      <Text fontSize="2xl" color="green.500" fontWeight="bold" mt={4} mb={6}>
-                        使用可能
-                      </Text>
-                      <Text fontSize="lg" color="gray.600"></Text>
-                    </>
-                  )}
-                </Box>
-              ))}
-            </Grid>
-          </SimpleGrid>
-        </Box>
-      )}
-    </div>
-  );
-};
-
-interface LineChartProps {
-  data: number[][];
-  labels: string[];
-  options?: ChartOptions<'line'>;
-}
-
 const LineChart: React.FC<LineChartProps> = ({ data, labels, options }) => {
-  const chartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: '指定',
-        data: data[0],
-        fill: false,
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-        pointRadius: 0,
-      },
-      {
-        label: '過去1週間',
-        data: data[1],
-        fill: false,
-        borderColor: 'rgba(192, 75, 192, 1)',
-        borderWidth: 1,
-        pointRadius: 0,
-      },
-      {
-        label: '過去1ヶ月',
-        data: data[2],
-        fill: false,
-        borderColor: 'rgba(192, 192, 75, 1)',
-        borderWidth: 1,
-        pointRadius: 0,
-      },
-      {
-        label: '過去半年',
-        data: data[3],
-        fill: false,
-        borderColor: 'rgba(192, 192, 192, 1)',
-        borderWidth: 1,
-        pointRadius: 0,
-      },
-    ],
-  };
+  const {chartData} = useChart(data,labels)
   return <Line data={chartData} options={options} />;
 };
 
-interface AnalysisProps {
-  initialLabels: string[];
-  initialData: number[][];
-}
-
 const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
+
+  const {formattedToday,formattedSixMonthsAgo} = useDayInfo()
+  
+  const filteredLabels = initialLabels.filter((label) => label >= startTime && label <= endTime);
+  const filteredData = initialData.map((data) =>
+    data.slice(initialLabels.indexOf(startTime), initialLabels.indexOf(endTime) + 1)
+  );
+
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [currentTime, setCurrentTime] = useState('');
+  const [startDate, setStartDate] = useState(formattedSixMonthsAgo);
+
+  const options = useChartOptions(filteredLabels,currentTime)
 
   useEffect(() => {
     const now = new Date();
+    const start = new Date(now);
+    const end = new Date(now);
     const currentHours = now.getHours();
 
-    const start = new Date(now);
     start.setHours(currentHours - 4);
     start.setMinutes(0);
-
-    const end = new Date(now);
+    
     end.setHours(currentHours + 1);
     end.setMinutes(0);
 
-    const formatTime = (date: Date) => {
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      return `${hours}:${minutes}`;
-    };
+    setStartTime(util.formatTime(start));
+    setEndTime(util.formatTime(end));
+    setCurrentTime(util.formatTime(now));
 
-    setStartTime(formatTime(start));
-    setEndTime(formatTime(end));
-    setCurrentTime(formatTime(now));
-  }, []);
-
-  useEffect(() => {
     if (typeof window !== 'undefined') {
       import('chartjs-plugin-zoom').then((zoomPlugin) => {
         ChartJS.register(zoomPlugin.default);
@@ -249,71 +71,16 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
     }
   }, []);
 
-  const filteredLabels = initialLabels.filter((label) => label >= startTime && label <= endTime);
-  const filteredData = initialData.map((data) =>
-    data.slice(initialLabels.indexOf(startTime), initialLabels.indexOf(endTime) + 1)
-  );
-
-  const options: ChartOptions<'line'> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      x: {
-        offset: false,
-        ticks: {
-          align: 'center',
-          maxTicksLimit: 6,
-          callback: (value, index) => {
-            const label = filteredLabels[index];
-            return label === currentTime ? `**${label}**` : label; // 修正箇所: テンプレートリテラルの使用
-          },
-        },
-        min: filteredLabels[0],
-        max: filteredLabels[filteredLabels.length - 1],
-      },
-      y: {
-        min: 0,
-        max: 4,
-      },
-    },
-    plugins: {
-      zoom: {
-        zoom: {
-          wheel: {
-            enabled: true,
-          },
-          pinch: {
-            enabled: true,
-          },
-          mode: 'x' as const,
-        },
-        pan: {
-          enabled: true,
-          mode: 'x' as const,
-        },
-      },
-    },
-  };
-
-  const today = new Date();
-  const sixMonthsAgo = new Date(today);
-  sixMonthsAgo.setMonth(today.getMonth() - 6);
-  const formattedToday = today.toISOString().split('T')[0];
-  const formattedSixMonthsAgo = sixMonthsAgo.toISOString().split('T')[0];
-
-  const [startDate, setStartDate] = useState(formattedSixMonthsAgo);
-  // const [endDate, setEndDate] = useState(formattedToday);
-
   return (
     <Box w="100%" h="50vh" p={5} bg="gray.50" borderRadius="md" boxShadow="lg" mb={6}>
       <Text
         fontSize="2xl"
         fontWeight="bold"
-        textAlign="center" // テキストを中央揃え
-        mb={4} // 下にスペースを追加
-        borderBottom="2px solid" // 下にボーダーを追加して見出しを強調
-        borderColor="gray.300" // ボーダーの色
-        pb={2} // ボーダーとの間にスペースを追加
+        textAlign="center" 
+        mb={4} 
+        borderBottom="2px solid"
+        borderColor="gray.300"
+        pb={2}
       >
         過去の利用データ
       </Text>

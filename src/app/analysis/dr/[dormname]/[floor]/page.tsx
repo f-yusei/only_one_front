@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { BoxGrid } from '../../../../components/Analysis'; // BoxGridコンポーネントをインポート
+import { BoxGrid } from '@/app/components/BoxGrid';
 import { Text, Box, Link, Button, Flex } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import util from '../../../../util';

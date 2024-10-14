@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { BoxGrid } from '../../../components/Analysis'; // BoxGridコンポーネントをインポート
+import { BoxGrid } from '@/app/components/BoxGrid';
 import { Text } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 const SrAnalysisPage: React.FC = () => {

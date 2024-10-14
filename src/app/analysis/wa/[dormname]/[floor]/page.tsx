@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { BoxGrid } from '../../../../components/Analysis'; // BoxGridコンポーネントをインポート
 import { Text, Box, Link, Button, Flex } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import util from '../../../../util';
 import Analysis from '../../../../components/Analysis';
 import { useTransitions } from '@/app/hooks/useTransitions';
 import { ApiQueryParams } from '@/app/types';
+import { BoxGrid } from '@/app/components/BoxGrid';
 const WmAnalysisPage: React.FC = () => {
   const param = useParams<{
     dormname: 'MOU' | 'CEN' | 'SEA' | 'SPA';
