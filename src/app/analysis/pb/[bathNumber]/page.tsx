@@ -30,15 +30,14 @@ const PbAnalysisPage: React.FC = () => {
     monthly: 'TRUE',
   };
 
-  const { transitions, isLoading, isError } = useTransitions(paramData);
+  const { transitions, isLoading, error } = useTransitions(paramData);
 
   if (isLoading) {
     return <div>loading...</div>;
   }
 
-  if (isError || transitions === undefined) {
-    console.log("transitions:",transitions)
-    return <div>データが正常に取得できませんでした。</div>;
+  if (error || transitions === undefined) {
+    return <div>{error}</div>;
   }
 //ラベルを取り除いたデータだけの配列
   const filteredData =transitions.find((item) => item.No.toString() == param.bathNumber);

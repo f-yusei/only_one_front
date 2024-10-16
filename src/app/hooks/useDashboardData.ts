@@ -31,18 +31,17 @@ export const useDashboardDataStatuses = (dormData: DormData) => {
     null
   );
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState<string | null>();
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsError(false);
       setIsLoading(true);
 
       try {
         const result = await api.getDashboardDetail(dormData);
         setDashboardDetailData(result);
       } catch (error) {
-        setIsError(true);
+        setError('利用状況データの取得に失敗しました。');
       }
 
       setIsLoading(false);
@@ -68,5 +67,5 @@ export const useDashboardDataStatuses = (dormData: DormData) => {
     bathStatusArray: bathStatusArray,
   };
 
-  return { dashboardDataStatuses, isLoading, isError };
+  return { dashboardDataStatuses, isLoading, error };
 };

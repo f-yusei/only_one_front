@@ -9,12 +9,12 @@ const UmiDashboardPage = () => {
     type: 'ALL',
   };
 
-  const { dashboardDataStatuses, isError, isLoading } = useDashboardDataStatuses(dormData);
+  const { dashboardDataStatuses, error, isLoading } = useDashboardDataStatuses(dormData);
   if (isLoading) {
     return <div>loading...</div>;
   }
-  if (dashboardDataStatuses === undefined || isError) {
-    return <div>正常にデータが取得できませんでした。</div>;
+  if (dashboardDataStatuses === undefined || error) {
+    return <div>{error}</div>;
   }
 
   const { showerStatusArray, washerStatusArray, dryerStatusArray } = dashboardDataStatuses;
