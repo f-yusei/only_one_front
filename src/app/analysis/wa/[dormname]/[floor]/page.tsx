@@ -33,13 +33,16 @@ const WmAnalysisPage: React.FC = () => {
     return <div>{error}</div>;
   }
 
-  const filteredData =transitions.find((item) => item.No.toString() == param.floor);
-  if(filteredData === undefined){
+  const filteredData = transitions
+  .filter((item) => item.floor !== null)
+  .find((item) => item.floor?.toString() === param.floor); 
+
+  if (filteredData === undefined) {
     return <div>データが正常に取得できませんでした。</div>;
   }
   //ラベルを取り除いたデータだけの配列
   const initialData = util.convertToDataArray(filteredData.data.datasets);
-  const labels = filteredData.data.labels
+  const labels = filteredData.data.labels;
 
   return (
     <div>

@@ -28,17 +28,10 @@ const LineChart: React.FC<LineChartProps> = ({ data, labels, options }) => {
 const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
   const { formattedToday, formattedSixMonthsAgo } = useDayInfo();
 
-  const filteredLabels = initialLabels.filter((label) => label >= startTime && label <= endTime);
-  const filteredData = initialData.map((data) =>
-    data.slice(initialLabels.indexOf(startTime), initialLabels.indexOf(endTime) + 1)
-  );
-
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [currentTime, setCurrentTime] = useState('');
   const [startDate, setStartDate] = useState(formattedSixMonthsAgo);
-
-  const options = useChartOptions(filteredLabels, currentTime);
 
   useEffect(() => {
     const now = new Date();
@@ -62,6 +55,12 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
       });
     }
   }, []);
+
+  const filteredLabels = initialLabels.filter((label) => label >= startTime && label <= endTime);
+    const filteredData = initialData.map((data) =>
+    data.slice(initialLabels.indexOf(startTime), initialLabels.indexOf(endTime) + 1)
+  );
+  const options = useChartOptions(filteredLabels, currentTime);
 
   return (
     <Box w="100%" h="50vh" p={5} bg="gray.50" borderRadius="md" boxShadow="lg" mb={6}>

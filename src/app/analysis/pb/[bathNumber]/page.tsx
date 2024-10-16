@@ -39,14 +39,17 @@ const PbAnalysisPage: React.FC = () => {
   if (error || transitions === undefined) {
     return <div>{error}</div>;
   }
-//ラベルを取り除いたデータだけの配列
-  const filteredData =transitions.find((item) => item.No.toString() == param.bathNumber);
-  if(filteredData === undefined){
+  //ラベルを取り除いたデータだけの配列
+  const filteredData = transitions
+  .filter((item) => item.No !== null)
+  .find((item) => item.No?.toString() === param.bathNumber); 
+
+  if (filteredData === undefined) {
     return <div>データが正常に取得できませんでした。</div>;
   }
 
   const initialData = util.convertToDataArray(filteredData.data.datasets);
-  const labels = filteredData.data.labels
+  const labels = filteredData.data.labels;
 
   return (
     <div>

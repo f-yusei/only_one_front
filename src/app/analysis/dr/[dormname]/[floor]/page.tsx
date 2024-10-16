@@ -35,7 +35,10 @@ const DmAnalysisPage: React.FC = () => {
     return <div>{error}</div>;
   }
 
-  const filteredData =transitions.find((item) => item.No.toString() == param.floor);
+  const filteredData = transitions
+  .filter((item) => item.floor !== null)
+  .find((item) => item.floor?.toString() === param.floor); 
+  
   if(filteredData === undefined){
     return <div>データが正常に取得できませんでした。</div>;
   }

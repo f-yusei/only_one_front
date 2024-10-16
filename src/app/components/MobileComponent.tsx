@@ -12,10 +12,10 @@ const MobileComponent = () => {
   const dormData: DormData = {
     type: 'PB',
   };
-  const { dashboardDataStatuses, isError, isLoading } = useDashboardDataStatuses(dormData);
+  const { dashboardDataStatuses, error, isLoading } = useDashboardDataStatuses(dormData);
 
-  if (dashboardDataStatuses.bathStatusArray === undefined || isError) {
-    return <div>正常にデータが取得できませんでした。</div>;
+  if (dashboardDataStatuses.bathStatusArray === undefined || error) {
+    return <div>{error}</div>;
   }
 
   return (
