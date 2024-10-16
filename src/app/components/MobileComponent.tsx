@@ -14,7 +14,7 @@ const MobileComponent = () => {
   };
   const { dashboardDataStatuses, isError, isLoading } = useDashboardDataStatuses(dormData);
 
-  if (!dashboardDataStatuses.bathStatusArray || isError) {
+  if (dashboardDataStatuses.bathStatusArray === undefined || isError) {
     return <div>正常にデータが取得できませんでした。</div>;
   }
 

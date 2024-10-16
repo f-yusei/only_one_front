@@ -3,7 +3,7 @@ import { ApiQueryParams, TransitionsApiResponse } from '../types';
 import api from '@/api/api';
 
 export const useTransitions = (paramData: ApiQueryParams) => {
-  const [response, setResponse] = useState<TransitionsApiResponse | null>(null);
+  const [response, setResponse] = useState<TransitionsApiResponse | undefined>();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -25,9 +25,7 @@ export const useTransitions = (paramData: ApiQueryParams) => {
     fetchData();
   }, []);
 
-  const transitions = {
-    data: response,
-  };
+  const transitions = response
 
   return { transitions, isLoading, isError };
 };

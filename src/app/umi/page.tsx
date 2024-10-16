@@ -13,23 +13,8 @@ const UmiDashboardPage = () => {
   if (isLoading) {
     return <div>loading...</div>;
   }
-  if (!dashboardDataStatuses) {
-    return <div>そもそもデータ取得できてねーぞ</div>;
-  }
-  if (isError) {
-    return <div>なんかエラー出たぞ</div>;
-  }
-
-  if (!dashboardDataStatuses.showerStatusArray) {
-    return <div>シャワーのデータがねえぞおおおおおおおおお</div>;
-  }
-
-  if (!dashboardDataStatuses.washerStatusArray) {
-    return <div>洗濯機のデータがねえぞおおおおおおおおお</div>;
-  }
-
-  if (!dashboardDataStatuses.dryerStatusArray) {
-    return <div>乾燥機のデータがねえぞおおおおおおおおお</div>;
+  if (dashboardDataStatuses === undefined || isError) {
+    return <div>正常にデータが取得できませんでした。</div>;
   }
 
   const { showerStatusArray, washerStatusArray, dryerStatusArray } = dashboardDataStatuses;

@@ -231,7 +231,7 @@ type DashboardDetailResponse = {
 }[];
 
 type TransitionsApiResponse = {
-  type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
+    type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
   dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
   floor: number; // 1 ~ 5
   No: number; // 1 ~ 4
@@ -242,7 +242,7 @@ type TransitionsApiResponse = {
       data: number[]; // example: 3.1
     }>;
   };
-};
+}[];
 
 type ApiQueryParams = {
   id?: string; // Specify by IoTID. Example: WA_311
