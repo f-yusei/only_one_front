@@ -50,7 +50,7 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
     return response;
   };
 
-  if (!dashboardData) {
+  if (dashboardData === undefined) {
     return <p>Loading...</p>;
   }
 

@@ -18,21 +18,31 @@ const WmAnalysisPage: React.FC = () => {
     type: 'WA',
     dormitory: param.dormname,
     floor: param.floor,
+    halfYear: 'TRUE',
+    weekly: 'TRUE',
+    monthly: 'TRUE',
   };
 
-  const { transitions, isLoading, isError } = useTransitions(paramData);
+  const { transitions, isLoading, error } = useTransitions(paramData);
 
   if (isLoading) {
     return <div>loading...</div>;
   }
 
-  if (isError || !transitions.data?.data) {
-    return <div>データが正常に取得できませんでした。</div>;
+  if (error || transitions === undefined) {
+    return <div>{error}</div>;
   }
 
-  const labels = transitions.data.data.labels;
+  const filteredData = transitions
+  .filter((item) => item.floor !== null)
+  .find((item) => item.floor?.toString() === param.floor); 
+
+  if (filteredData === undefined) {
+    return <div>データが正常に取得できませんでした。</div>;
+  }
   //ラベルを取り除いたデータだけの配列
-  const initialData = util.convertToDataArray(transitions.data.data.datasets);
+  const initialData = util.convertToDataArray(filteredData.data.datasets);
+  const labels = filteredData.data.labels;
 
   return (
     <div>

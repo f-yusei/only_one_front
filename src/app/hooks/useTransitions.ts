@@ -3,20 +3,19 @@ import { ApiQueryParams, TransitionsApiResponse } from '../types';
 import api from '@/api/api';
 
 export const useTransitions = (paramData: ApiQueryParams) => {
-  const [response, setResponse] = useState<TransitionsApiResponse | null>(null);
+  const [response, setResponse] = useState<TransitionsApiResponse | undefined>();
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState<string | null>();
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsError(false);
       setIsLoading(true);
 
       try {
         const result = await api.getTransitions(paramData);
         setResponse(result);
       } catch (error) {
-        setIsError(true);
+        setError('分析データの取得に失敗しました。');
       }
 
       setIsLoading(false);
@@ -25,9 +24,7 @@ export const useTransitions = (paramData: ApiQueryParams) => {
     fetchData();
   }, []);
 
-  const transitions = {
-    data: response,
-  };
+  const transitions = response;
 
-  return { transitions, isLoading, isError };
+  return { transitions, isLoading, error };
 };

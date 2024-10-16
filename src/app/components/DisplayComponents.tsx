@@ -49,7 +49,7 @@ const DisplayDryer = ({ dryerData, dormitory }: DisplayDryerProps) => {
 const DisplayShower = ({ showerData, dormitory }: DisplayShowerProps) => {
   const router = useRouter();
   const showerTrans = (dormitory: string) => {
-    router.push(`/analysis/pb/${dormitory}`);
+    router.push(`/analysis/sw/${dormitory}`);
   };
   return (
     <Box {...boxStyles}>

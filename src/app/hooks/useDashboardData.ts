@@ -31,18 +31,17 @@ export const useDashboardDataStatuses = (dormData: DormData) => {
     null
   );
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState<string | null>();
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsError(false);
       setIsLoading(true);
 
       try {
         const result = await api.getDashboardDetail(dormData);
         setDashboardDetailData(result);
       } catch (error) {
-        setIsError(true);
+        setError('利用状況データの取得に失敗しました。');
       }
 
       setIsLoading(false);
@@ -52,10 +51,12 @@ export const useDashboardDataStatuses = (dormData: DormData) => {
   }, []);
 
   const showerData = dashboardDetailData?.filter((item) => item.type === 'SW');
+  const bathData = dashboardDetailData?.filter((item) => item.type === 'PB');
   const dryerData = dashboardDetailData?.filter((item) => item.type === 'DR');
   const washerData = dashboardDetailData?.filter((item) => item.type === 'WA');
 
   const showerStatusArray = showerData?.map((item) => item.status) || [];
+  const bathStatusArray = bathData?.map((item) => item.status) || [];
   const dryerStatusArrayByFloor = getStatusArrayByFloor(dryerData);
   const washerStatusArrayByFloor = getStatusArrayByFloor(washerData);
 
@@ -63,7 +64,8 @@ export const useDashboardDataStatuses = (dormData: DormData) => {
     showerStatusArray: showerStatusArray,
     dryerStatusArray: dryerStatusArrayByFloor,
     washerStatusArray: washerStatusArrayByFloor,
+    bathStatusArray: bathStatusArray,
   };
 
-  return { dashboardDataStatuses, isLoading, isError };
+  return { dashboardDataStatuses, isLoading, error };
 };

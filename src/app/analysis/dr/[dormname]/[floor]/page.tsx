@@ -20,37 +20,48 @@ const DmAnalysisPage: React.FC = () => {
     dormitory: param.dormname,
     floor: param.floor,
     halfYear: 'TRUE',
+    weekly: 'TRUE',
+    monthly: 'TRUE',
   };
 
-  const { transitions, isLoading, isError } = useTransitions(paramData);
+  const { transitions, isLoading, error } = useTransitions(paramData);
+  console.log('transitions:',transitions)
 
   if (isLoading) {
     return <div>loading...</div>;
   }
 
-  if (isError || !transitions.data?.data) {
+    if (error || transitions === undefined) {
+    return <div>{error}</div>;
+  }
+
+  const filteredData = transitions
+  .filter((item) => item.floor !== null)
+  .find((item) => item.floor?.toString() === param.floor); 
+  
+  if(filteredData === undefined){
     return <div>データが正常に取得できませんでした。</div>;
   }
 
-  const labels = transitions.data.data.labels;
   //ラベルを取り除いたデータだけの配列
-  const initialData = util.convertToDataArray(transitions.data.data.datasets);
+  const initialData = util.convertToDataArray(filteredData.data.datasets);
+  const labels = filteredData.data.labels
 
   return (
     <div>
       <Box>
         <Text
-          fontSize="5xl" // テキストを大きく
-          fontWeight="bold" // 太字にする
+          fontSize="5xl" 
+          fontWeight="bold" 
           textAlign="center"
-          mt={3} // テキストを中央揃え
+          mt={3} 
         >
           {util.changeDormToDisplayName(param.dormname)} {param.floor}階 乾燥機
         </Text>
       </Box>
       <BoxGrid type="DR" dormitory={param.dormname} floor={param.floor} />
       <Flex
-        justifyContent="center" // 水平方向の中央揃え
+        justifyContent="center" 
         alignItems="center"
       >
         <Box width="100vw" height="30vh">
@@ -61,8 +72,7 @@ const DmAnalysisPage: React.FC = () => {
       <Flex
         justifyContent="center"
         alignItems="center"
-        gap={100} // ボタン間のスペースを設定
-        // 横幅をフルに使う
+        gap={100} 
         h="40vh"
       >
         {param.dormname == 'MOU' ? (
@@ -71,9 +81,9 @@ const DmAnalysisPage: React.FC = () => {
               size={'lg'}
               bg="blue.500"
               color="white"
-              _hover={{ bg: 'blue.600' }} // ホバー時のスタイル
-              borderRadius="2" // 丸みをつける
-              shadow="md" // 影を追加
+              _hover={{ bg: 'blue.600' }}
+              borderRadius="2" 
+              shadow="md"
               w="100%"
             >
               {util.changeDormToDisplayName(param.dormname)}のページに戻る

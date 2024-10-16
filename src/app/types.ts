@@ -215,8 +215,8 @@ type TeacherCleaningReport = {
 };
 
 type DormData = {
-  dormitory: string;
-  floor: string | null;
+  dormitory?: string;
+  floor?: string;
   type: string;
 };
 
@@ -232,17 +232,17 @@ type DashboardDetailResponse = {
 
 type TransitionsApiResponse = {
   type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
-  dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
-  floor: number; // 1 ~ 5
-  No: number; // 1 ~ 4
+  dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL' | null;
+  floor: number | null; // 1 ~ 5
+  No: number | null; // 1 ~ 4
   data: {
     labels: string[]; // example: hh:mm:ss
     datasets: Array<{
       label: string; // example: 一週間
-      data: number[]; // example: 3.1
+      data: (number|null)[]; // example: 3.1
     }>;
   };
-};
+}[];
 
 type ApiQueryParams = {
   id?: string; // Specify by IoTID. Example: WA_311
@@ -268,11 +268,11 @@ type DormitoryMobileComponentProps = {
 };
 type AnalysisProps = {
   initialLabels: string[];
-  initialData: number[][];
+  initialData: (number|null)[][];
 };
 
 type LineChartProps = {
-  data: number[][];
+  data: (number|null)[][];
   labels: string[];
   options?: ChartOptions<'line'>;
 };
