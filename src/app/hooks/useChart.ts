@@ -44,6 +44,7 @@ export const useChart = (data: (number | null)[][], labels: string[]) => {
 
 export const useChartOptions = (filteredLabels: string[], currentTime: string) => {
   const options: ChartOptions<'line'> = {
+    spanGaps: true,
     responsive: true,
     maintainAspectRatio: false,
     scales: {
