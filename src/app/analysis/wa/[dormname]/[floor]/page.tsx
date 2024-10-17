@@ -21,6 +21,7 @@ const WmAnalysisPage: React.FC = () => {
     halfYear: 'TRUE',
     weekly: 'TRUE',
     monthly: 'TRUE',
+    groupByFloor: 'TRUE'
   };
 
   const { transitions, isLoading, error } = useTransitions(paramData);
@@ -38,6 +39,7 @@ const WmAnalysisPage: React.FC = () => {
   .find((item) => item.floor?.toString() === param.floor); 
 
   if (filteredData === undefined) {
+    console.log("filtered:",filteredData)
     return <div>データが正常に取得できませんでした。</div>;
   }
   //ラベルを取り除いたデータだけの配列

@@ -22,6 +22,7 @@ const DmAnalysisPage: React.FC = () => {
     halfYear: 'TRUE',
     weekly: 'TRUE',
     monthly: 'TRUE',
+    groupByFloor: 'TRUE'
   };
 
   const { transitions, isLoading, error } = useTransitions(paramData);

@@ -94,14 +94,14 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                     {util.changeTypeToDisplayName('DR')} {index + 1}
                   </Text>
 
-                  {!value.status ? (
+                  {value.status == 0 && value.startedTime ? (
                     <>
                       <Text fontSize="2xl" color="red.500" fontWeight="bold" mt={4}>
                         使用中
                       </Text>
                       {/* 経過分数の表示 */}
                       <Text fontSize="lg" color="gray.600">
-                        経過時間: {calculateElapsedMinutes(value.startedTime)}
+                        経過時間: {calculateElapsedMinutes(new Date(value.startedTime))}
                       </Text>
                     </>
                   ) : (
