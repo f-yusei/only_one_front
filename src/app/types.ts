@@ -224,8 +224,8 @@ type DashboardDetailResponse = {
   dormitory: string;
   floor: number;
   No: number;
-  startedTime: Date | null;
-  lastDataTime: Date;
+  startedTime: string | null;
+  lastDataTime: string;
   status: number;
   type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
 }[];

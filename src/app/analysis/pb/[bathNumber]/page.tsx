@@ -27,6 +27,7 @@ const PbAnalysisPage: React.FC = () => {
     halfYear: 'TRUE',
     weekly: 'TRUE',
     monthly: 'TRUE',
+    groupByID: 'TRUE'
   };
 
   const { transitions, isLoading, error } = useTransitions(paramData);

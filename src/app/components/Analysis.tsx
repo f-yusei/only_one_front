@@ -56,12 +56,18 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
     }
   }, []);
 
-  const filteredLabels = initialLabels.filter((label) => label >= startTime && label <= endTime);
-    const filteredData = initialData.map((data) =>
-    data.slice(initialLabels.indexOf(startTime), initialLabels.indexOf(endTime) + 1)
-  );
-  const options = useChartOptions(filteredLabels, currentTime);
+  const startTimeIndex = (Number(startTime.split(':')[0])*60 + Number(startTime.split(':')[1]))/5
+  const endTimeIndex = (Number(endTime.split(':')[0])*60 + Number(endTime.split(':')[1]))/5
 
+  const filteredLabels = initialLabels.filter((_,index) => {
+    return (startTimeIndex <= index && index <= endTimeIndex)
+  })
+    const filteredData = initialData.filter((_,index) => {
+    return (startTimeIndex <= index && index <= endTimeIndex)
+  })
+
+  console.log(initialData)
+  const options = useChartOptions(filteredLabels, currentTime);
   return (
     <Box w="100%" h="50vh" p={5} bg="gray.50" borderRadius="md" boxShadow="lg" mb={6}>
       <Text
