@@ -13,7 +13,7 @@ function getStatusArrayByFloor(data: DashboardDetailResponse | undefined): boole
 
     data.forEach((item) => {
       if (!floorMap[item.floor]) {
-        floorMap[item.floor] = []; 
+        floorMap[item.floor] = [];
       }
       floorMap[item.floor].push(util.numToBool(item.status));
     });

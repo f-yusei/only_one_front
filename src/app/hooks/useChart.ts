@@ -1,6 +1,6 @@
 import { ChartOptions } from 'chart.js';
 
-export const useChart = (data: (number|null)[][], labels: string[]) => {
+export const useChart = (data: (number | null)[][], labels: string[]) => {
   const chartData = {
     labels: labels,
     datasets: [
