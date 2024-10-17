@@ -84,12 +84,11 @@ const DisplayShower = ({ showerData, dormitory }: DisplayShowerProps) => {
 };
 
 function extractStatusArray(bathData: DashboardDetailResponse): number[] {
-  return bathData.map(item => item.status);
+  return bathData.map((item) => item.status);
 }
 
-
-const DisplayPublicBath = ({ bathData }: {bathData:DashboardDetailResponse}) => {
-  const numberOfUsingBathData = extractStatusArray(bathData)
+const DisplayPublicBath = ({ bathData }: { bathData: DashboardDetailResponse }) => {
+  const numberOfUsingBathData = extractStatusArray(bathData);
   const textData = ['1', '2', '3'];
   const router = useRouter();
   const BathTrans = (bathNumber: string) => {

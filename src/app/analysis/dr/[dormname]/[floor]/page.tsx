@@ -22,60 +22,46 @@ const DmAnalysisPage: React.FC = () => {
     halfYear: 'TRUE',
     weekly: 'TRUE',
     monthly: 'TRUE',
-    groupByFloor: 'TRUE'
+    groupByFloor: 'TRUE',
   };
 
   const { transitions, isLoading, error } = useTransitions(paramData);
-  console.log('transitions:',transitions)
 
   if (isLoading) {
     return <div>loading...</div>;
   }
 
-    if (error || transitions === undefined) {
+  if (error || transitions === undefined) {
     return <div>{error}</div>;
   }
 
   const filteredData = transitions
-  .filter((item) => item.floor !== null)
-  .find((item) => item.floor?.toString() === param.floor); 
-  
-  if(filteredData === undefined){
+    .filter((item) => item.floor !== null)
+    .find((item) => item.floor?.toString() === param.floor);
+
+  if (filteredData === undefined) {
     return <div>データが正常に取得できませんでした。</div>;
   }
 
   //ラベルを取り除いたデータだけの配列
   const initialData = util.convertToDataArray(filteredData.data.datasets);
-  const labels = filteredData.data.labels
+  const labels = filteredData.data.labels;
 
   return (
     <div>
       <Box>
-        <Text
-          fontSize="5xl" 
-          fontWeight="bold" 
-          textAlign="center"
-          mt={3} 
-        >
+        <Text fontSize="5xl" fontWeight="bold" textAlign="center" mt={3}>
           {util.changeDormToDisplayName(param.dormname)} {param.floor}階 乾燥機
         </Text>
       </Box>
       <BoxGrid type="DR" dormitory={param.dormname} floor={param.floor} />
-      <Flex
-        justifyContent="center" 
-        alignItems="center"
-      >
+      <Flex justifyContent="center" alignItems="center">
         <Box width="100vw" height="30vh">
           <Analysis initialLabels={labels} initialData={initialData} />
         </Box>
       </Flex>
 
-      <Flex
-        justifyContent="center"
-        alignItems="center"
-        gap={100} 
-        h="40vh"
-      >
+      <Flex justifyContent="center" alignItems="center" gap={100} h="40vh">
         {param.dormname == 'MOU' ? (
           <Link href="/yama">
             <Button
@@ -83,7 +69,7 @@ const DmAnalysisPage: React.FC = () => {
               bg="blue.500"
               color="white"
               _hover={{ bg: 'blue.600' }}
-              borderRadius="2" 
+              borderRadius="2"
               shadow="md"
               w="100%"
             >

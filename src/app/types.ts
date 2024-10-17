@@ -239,7 +239,7 @@ type TransitionsApiResponse = {
     labels: string[]; // example: hh:mm:ss
     datasets: Array<{
       label: string; // example: 一週間
-      data: (number|null)[]; // example: 3.1
+      data: (number | null)[]; // example: 3.1
     }>;
   };
 }[];
@@ -268,11 +268,11 @@ type DormitoryMobileComponentProps = {
 };
 type AnalysisProps = {
   initialLabels: string[];
-  initialData: (number|null)[][];
+  initialData: (number | null)[][];
 };
 
 type LineChartProps = {
-  data: (number|null)[][];
+  data: (number | null)[][];
   labels: string[];
   options?: ChartOptions<'line'>;
 };

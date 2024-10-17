@@ -62,9 +62,9 @@ const countTrueValues = (data: boolean[]) => {
 function convertToDataArray(
   datasets: {
     label: string;
-    data: (number|null)[];
+    data: (number | null)[];
   }[]
-): (number|null)[][] {
+): (number | null)[][] {
   return datasets.map((dataset) => dataset.data);
 }
 
@@ -85,7 +85,7 @@ const util = {
   countTrueValues,
   convertToDataArray,
   formatTime,
-  numToBool
+  numToBool,
 };
 
 export default util;

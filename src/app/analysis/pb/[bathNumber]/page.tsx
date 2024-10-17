@@ -27,7 +27,7 @@ const PbAnalysisPage: React.FC = () => {
     halfYear: 'TRUE',
     weekly: 'TRUE',
     monthly: 'TRUE',
-    groupByID: 'TRUE'
+    groupByID: 'TRUE',
   };
 
   const { transitions, isLoading, error } = useTransitions(paramData);
@@ -41,8 +41,8 @@ const PbAnalysisPage: React.FC = () => {
   }
   //ラベルを取り除いたデータだけの配列
   const filteredData = transitions
-  .filter((item) => item.No !== null)
-  .find((item) => item.No?.toString() === param.bathNumber); 
+    .filter((item) => item.No !== null)
+    .find((item) => item.No?.toString() === param.bathNumber);
 
   if (filteredData === undefined) {
     return <div>データが正常に取得できませんでした。</div>;
