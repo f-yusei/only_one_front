@@ -74,6 +74,10 @@ const formatTime = (date: Date) => {
   return `${hours}:${minutes}`;
 };
 
+const numToBool = (num: number): boolean => {
+  return num === 1; // 1 なら true、0 なら false
+};
+
 const util = {
   changeTypeToDisplayName,
   changeDormToDisplayName,
@@ -81,6 +85,7 @@ const util = {
   countTrueValues,
   convertToDataArray,
   formatTime,
+  numToBool
 };
 
 export default util;

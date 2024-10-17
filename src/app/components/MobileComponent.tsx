@@ -14,7 +14,7 @@ const MobileComponent = () => {
   };
   const { dashboardDataStatuses, error, isLoading } = useDashboardDataStatuses(dormData);
 
-  if (dashboardDataStatuses.bathStatusArray === undefined || error) {
+  if (dashboardDataStatuses.bathData === undefined || error) {
     return <div>{error}</div>;
   }
 
@@ -27,7 +27,7 @@ const MobileComponent = () => {
           <NoScrollComponent />
           <VStack spacing="1vh" mt="3vh" height={'100%'}>
             <Box width={'90%'} height={'50%'}>
-              <DisplayPublicBath numberOfUsingBathData={dashboardDataStatuses.bathStatusArray} />
+              <DisplayPublicBath bathData={dashboardDataStatuses.bathData} />
             </Box>
 
             <Box

@@ -226,7 +226,7 @@ type DashboardDetailResponse = {
   No: number;
   startedTime: Date | null;
   lastDataTime: Date;
-  status: boolean;
+  status: number;
   type: 'DR' | 'WA' | 'SW' | 'PB' | 'ALL';
 }[];
 
