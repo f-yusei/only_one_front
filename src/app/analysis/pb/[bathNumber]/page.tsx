@@ -20,11 +20,10 @@ import util from '@/app/util';
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 const PbAnalysisPage: React.FC = () => {
-  const param = useParams<{ dormname: 'MOU' | 'CEN' | 'SEA' | 'SPA'; bathNumber: string }>();
+  const param = useParams<{ bathNumber: string }>();
 
   const paramData: ApiQueryParams = {
     type: 'PB',
-    dormitory: param.dormname,
     halfYear: 'TRUE',
     weekly: 'TRUE',
     monthly: 'TRUE',

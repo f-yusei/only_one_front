@@ -2,6 +2,7 @@
 import { DashboardDetailResponse, DormData } from '../types';
 import { useEffect, useState } from 'react';
 import api from '@/api/api';
+import util from '../util';
 
 function getStatusArrayByFloor(data: DashboardDetailResponse | undefined): boolean[][] {
   const statusArrayByFloor: boolean[][] = [];
@@ -12,9 +13,9 @@ function getStatusArrayByFloor(data: DashboardDetailResponse | undefined): boole
 
     data.forEach((item) => {
       if (!floorMap[item.floor]) {
-        floorMap[item.floor] = []; // 新しいfloorの場合は初期化
+        floorMap[item.floor] = []; 
       }
-      floorMap[item.floor].push(item.status); // floorごとにstatusを追加
+      floorMap[item.floor].push(util.numToBool(item.status));
     });
 
     // floorごとのstatus配列をboolean[][]に変換
@@ -55,8 +56,7 @@ export const useDashboardDataStatuses = (dormData: DormData) => {
   const dryerData = dashboardDetailData?.filter((item) => item.type === 'DR');
   const washerData = dashboardDetailData?.filter((item) => item.type === 'WA');
 
-  const showerStatusArray = showerData?.map((item) => item.status) || [];
-  const bathStatusArray = bathData?.map((item) => item.status) || [];
+  const showerStatusArray = showerData?.map((item) => util.numToBool(item.status)) || [];
   const dryerStatusArrayByFloor = getStatusArrayByFloor(dryerData);
   const washerStatusArrayByFloor = getStatusArrayByFloor(washerData);
 
@@ -64,7 +64,7 @@ export const useDashboardDataStatuses = (dormData: DormData) => {
     showerStatusArray: showerStatusArray,
     dryerStatusArray: dryerStatusArrayByFloor,
     washerStatusArray: washerStatusArrayByFloor,
-    bathStatusArray: bathStatusArray,
+    bathData: bathData,
   };
 
   return { dashboardDataStatuses, isLoading, error };

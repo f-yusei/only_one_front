@@ -4,7 +4,7 @@ import {
   DisplayWasherProps,
   DisplayDryerProps,
   DisplayShowerProps,
-  DisplayPublicBathProps,
+  DashboardDetailResponse,
 } from '../types';
 import util from '../util';
 import { CustomHStack, CustomVStack, CustomFlex } from './CustomCommonComponents';
@@ -83,9 +83,14 @@ const DisplayShower = ({ showerData, dormitory }: DisplayShowerProps) => {
   );
 };
 
-const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) => {
+function extractStatusArray(bathData: DashboardDetailResponse): number[] {
+  return bathData.map(item => item.status);
+}
+
+
+const DisplayPublicBath = ({ bathData }: {bathData:DashboardDetailResponse}) => {
+  const numberOfUsingBathData = extractStatusArray(bathData)
   const textData = ['1', '2', '3'];
-  const _numberOfUsingBathData = [util.countTrueValues(numberOfUsingBathData), null, null];
   const router = useRouter();
   const BathTrans = (bathNumber: string) => {
     router.push(`/analysis/pb/${bathNumber}`);
@@ -105,7 +110,7 @@ const DisplayPublicBath = ({ numberOfUsingBathData }: DisplayPublicBathProps) =>
         </Box>
         <Box height="100%" width="100%">
           <CustomVStack>
-            {_numberOfUsingBathData.map((numberOfUsingBath, index) => (
+            {numberOfUsingBathData.map((numberOfUsingBath, index) => (
               <Button
                 onClick={() => BathTrans(textData[index])}
                 key={index}
