@@ -90,8 +90,13 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                   p={6}
                   boxShadow="md"
                 >
-                  <Text fontSize="3xl" fontWeight="bold">
-                    {util.changeTypeToDisplayName('DR')} {index + 1}
+                  <Text fontSize="xl" fontWeight="bold">
+                    {dormData.type
+                      ? util.changeTypeToDisplayName(
+                          dormData.type as 'DR' | 'WA' | 'SW' | 'PB' | 'ALL'
+                        )
+                      : util.changeTypeToDisplayName('WA')}{' '}
+                    {index + 1}
                   </Text>
 
                   {value.status == 0 && value.startedTime ? (

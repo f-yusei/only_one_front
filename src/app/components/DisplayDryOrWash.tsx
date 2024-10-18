@@ -35,10 +35,10 @@ export const DisplayDryOrWash: React.FC<DryOrWashProps> = ({ type, Data, image, 
               <Image
                 src={image.src}
                 alt="Dryer Image"
-                objectFit="cover"
+                objectFit="fill"
                 boxSize="30%"
-                width={'30%'}
-                height={'30%'}
+                height="12vh"
+                width="auto"
               />
               <Text fontWeight="bold" fontSize="90%">
                 {util.changeTypeToDisplayName(type)}使用可能台数

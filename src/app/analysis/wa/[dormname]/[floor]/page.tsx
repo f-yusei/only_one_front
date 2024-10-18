@@ -54,10 +54,10 @@ const WmAnalysisPage: React.FC = () => {
           textAlign="center"
           mt={3} // テキストを中央揃え
         >
-          {util.changeDormToDisplayName(param.dormname)} {param.floor}階 乾燥機
+          {util.changeDormToDisplayName(param.dormname)} {param.floor}階 洗濯機
         </Text>
       </Box>
-      <BoxGrid type="DR" dormitory={param.dormname} floor={param.floor} />
+      <BoxGrid type="WA" dormitory={param.dormname} floor={param.floor} />
       <Flex
         justifyContent="center" // 水平方向の中央揃え
         alignItems="center"

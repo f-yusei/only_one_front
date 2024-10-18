@@ -53,7 +53,9 @@ const PbAnalysisPage: React.FC = () => {
 
   return (
     <div>
-      <Text>大浴場{param.bathNumber}</Text>
+      <Text fontSize="5xl" fontWeight="bold" textAlign="center" mt={3}>
+        大浴場{param.bathNumber}
+      </Text>
       <Analysis initialLabels={labels} initialData={initialData} />
     </div>
   );

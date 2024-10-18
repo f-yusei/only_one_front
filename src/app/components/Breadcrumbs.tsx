@@ -21,16 +21,18 @@ const Breadcrumbs: React.FC = () => {
 
   const breadcrumbs = [
     { name: 'home', href: '/' },
-    ...pathSegments.map((segment, index) => {
-      if (pathMap[segment]) {
-        const href = '/' + pathSegments.slice(0, index + 1).join('/');
-        return {
-          name: pathMap[segment],
-          href,
-        };
-      }
-      return null;
-    }).filter(Boolean) as { name: string; href: string }[], 
+    ...(pathSegments
+      .map((segment, index) => {
+        if (pathMap[segment]) {
+          const href = '/' + pathSegments.slice(0, index + 1).join('/');
+          return {
+            name: pathMap[segment],
+            href,
+          };
+        }
+        return null;
+      })
+      .filter(Boolean) as { name: string; href: string }[]),
   ];
 
   return (

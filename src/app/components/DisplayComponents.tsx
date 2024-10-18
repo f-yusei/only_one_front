@@ -57,9 +57,16 @@ const DisplayShower = ({ showerData, dormitory }: DisplayShowerProps) => {
         <Box height="100%" width="50%">
           <Center h="100%">
             <VStack>
-              <Image boxSize="30%" objectFit="cover" src={shower.src} alt="ローカル" />
+              <Image
+                src={shower.src}
+                alt="Shower Image"  
+                objectFit="fill"
+                boxSize="30%"
+                height="12vh"
+                width="auto"
+              />
 
-              <Text fontWeight="bold" fontSize="85%">
+              <Text fontWeight="bold" fontSize="84%">
                 シャワー室利用可能数
               </Text>
             </VStack>
