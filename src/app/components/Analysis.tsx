@@ -69,8 +69,6 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
     });
   });
 
-  console.log(initialData);
-  console.log(filteredData);
   const options = useChartOptions(filteredLabels, currentTime);
   return (
     <Box w="100%" h="50vh" p={5} bg="gray.50" borderRadius="md" boxShadow="lg" mb={6}>

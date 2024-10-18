@@ -102,21 +102,6 @@ export const DormitoryMobileComponent: React.FC<DormitoryMobileComponentProps> =
           <Box width={'90vw'} height={'32%'}>
             <DisplayDryer dryerData={dryerData} dormitory={dormitory} />
           </Box>
-          <Link href="/">
-            <Button
-              size={'lg'}
-              bg="gray.500"
-              color="white"
-              _hover={{ bg: 'gray.600' }}
-              borderRadius="2"
-              shadow="md"
-              w="100%"
-              mt={5}
-              justifyContent={'flex-end'}
-            >
-              トップページに戻る
-            </Button>
-          </Link>
         </VStack>
       </Box>
     </>
