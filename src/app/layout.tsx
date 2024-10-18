@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Providers } from './providers';
 import Header from './header';
 import NextTopLoader from 'nextjs-toploader';
+import Breadcrumbs from './components/Breadcrumbs';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <Providers>
           <Header />
+          <Breadcrumbs/>
           <NextTopLoader initialPosition={0.08} />
           {children}
         </Providers>
