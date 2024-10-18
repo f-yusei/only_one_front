@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { BoxGrid } from '@/app/components/BoxGrid';
-import { Text, Box, Link, Button, Flex } from '@chakra-ui/react';
+import { Text, Box, Flex } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import util from '../../../../util';
 import Analysis from '../../../../components/Analysis';
@@ -59,52 +59,6 @@ const DmAnalysisPage: React.FC = () => {
         <Box width="100vw" height="30vh">
           <Analysis initialLabels={labels} initialData={initialData} />
         </Box>
-      </Flex>
-
-      <Flex justifyContent="center" alignItems="center" gap={100} h="40vh">
-        {param.dormname == 'MOU' ? (
-          <Link href="/yama">
-            <Button
-              size={'lg'}
-              bg="blue.500"
-              color="white"
-              _hover={{ bg: 'blue.600' }}
-              borderRadius="2"
-              shadow="md"
-              w="100%"
-            >
-              {util.changeDormToDisplayName(param.dormname)}のページに戻る
-            </Button>
-          </Link>
-        ) : (
-          <Link href="/umi">
-            <Button
-              size={'lg'}
-              bg="green.500"
-              color="white"
-              _hover={{ bg: 'green.600' }}
-              borderRadius="2"
-              shadow="md"
-              w="100%"
-            >
-              {util.changeDormToDisplayName(param.dormname)}のページに戻る
-            </Button>
-          </Link>
-        )}
-
-        <Link href="/">
-          <Button
-            size={'lg'}
-            bg="gray.500"
-            color="white"
-            _hover={{ bg: 'gray.600' }}
-            borderRadius="2"
-            shadow="md"
-            w="100%"
-          >
-            トップページに戻る
-          </Button>
-        </Link>
       </Flex>
     </div>
   );
