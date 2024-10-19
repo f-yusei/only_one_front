@@ -267,8 +267,9 @@ type DormitoryMobileComponentProps = {
   dormitory: 'MOU' | 'CEN' | 'SEA' | 'SPA' | 'ALL';
 };
 type AnalysisProps = {
-  initialLabels: string[];
-  initialData: (number | null)[][];
+  type: string;
+  paramData: ApiQueryParams;
+  bathNumber?:string;
 };
 
 type LineChartProps = {

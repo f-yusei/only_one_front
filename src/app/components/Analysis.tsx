@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Box, Text, FormControl, FormLabel, Input, HStack } from '@chakra-ui/react';
 import { Line } from 'react-chartjs-2';
 import {
@@ -17,6 +15,7 @@ import { AnalysisProps, LineChartProps } from '../types';
 import { useChart, useChartOptions } from '../hooks/useChart';
 import util from '../util';
 import { useDayInfo } from '../hooks/useDayInfo';
+import { useAnalysis } from '../hooks/useAnalysis';
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
@@ -24,8 +23,7 @@ const LineChart: React.FC<LineChartProps> = ({ data, labels, options }) => {
   const { chartData } = useChart(data, labels);
   return <Line data={chartData} options={options} />;
 };
-
-const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
+const Analysis: React.FC<AnalysisProps> = ({ type, paramData, bathNumber }) => {
   const { formattedToday, formattedSixMonthsAgo } = useDayInfo();
 
   const [startTime, setStartTime] = useState('');
@@ -56,22 +54,53 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
     }
   }, []);
 
+  const updatedParamData = useMemo(() => {
+    const startDateTimeString = `${startDate}-00:00:00`;
+    const endDateTimeString = `${startDate}-23:59:00`;
+
+    return {
+      ...paramData,
+      startTime: startDateTimeString,
+      endTime: endDateTimeString,
+    };
+  }, [paramData, startDate]);
+
+  const { labels, initialData, isLoading, error } = useAnalysis(updatedParamData, bathNumber);
+
   const startTimeIndex =
     (Number(startTime.split(':')[0]) * 60 + Number(startTime.split(':')[1])) / 5;
   const endTimeIndex = (Number(endTime.split(':')[0]) * 60 + Number(endTime.split(':')[1])) / 5;
 
-  const filteredLabels = initialLabels.filter((_, index) => {
+  const filteredLabels = labels.filter((_, index) => {
     return startTimeIndex <= index && index <= endTimeIndex;
   });
-  const filteredData = initialData.map((aaa) => {
-    return aaa.filter((_, index) => {
+  const filteredData = initialData.map((dataArray) => {
+    return dataArray.filter((_, index) => {
       return startTimeIndex <= index && index <= endTimeIndex;
     });
   });
 
-  const options = useChartOptions(filteredLabels, currentTime);
+  const options = useChartOptions(type, filteredLabels, currentTime);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>正常に分析データを取得できませんでした。</div>;
+  }
+
   return (
-    <Box w="100%" h="56vh" p={5} bg="gray.50" borderRadius="md" boxShadow="lg" mb={6} overflow="auto">
+    <Box
+      w="100%"
+      h="56vh"
+      p={5}
+      bg="gray.50"
+      borderRadius="md"
+      boxShadow="lg"
+      mb={6}
+      overflow="auto"
+    >
       <Text
         fontSize="2xl"
         fontWeight="bold"
@@ -93,13 +122,17 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                max={formattedToday} // 最大値を今日の日付に設定
+                max={formattedToday}
               />
             </FormControl>
 
             <FormControl id="start-time">
               <FormLabel>開始時間:</FormLabel>
-              <Input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+              <Input
+                type="time"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+              />
             </FormControl>
 
             <FormControl id="end-time">
@@ -116,5 +149,6 @@ const Analysis: React.FC<AnalysisProps> = ({ initialLabels, initialData }) => {
     </Box>
   );
 };
+
 
 export default Analysis;

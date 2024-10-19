@@ -5,35 +5,35 @@ export const useChart = (data: (number | null)[][], labels: string[]) => {
     labels: labels,
     datasets: [
       {
-        label: '指定',
+        label: '過去1週間',
         data: data[0],
         fill: false,
         borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-        pointRadius: 0,
-      },
-      {
-        label: '過去1週間',
-        data: data[1],
-        fill: false,
-        borderColor: 'rgba(192, 75, 192, 1)',
-        borderWidth: 1,
+        borderWidth: 2,
         pointRadius: 0,
       },
       {
         label: '過去1ヶ月',
-        data: data[2],
+        data: data[1],
         fill: false,
-        borderColor: 'rgba(192, 192, 75, 1)',
-        borderWidth: 1,
+        borderColor: 'rgba(192, 75, 192, 1)',
+        borderWidth: 2,
         pointRadius: 0,
       },
       {
         label: '過去半年',
+        data: data[2],
+        fill: false,
+        borderColor: 'rgba(192, 192, 75, 1)',
+        borderWidth: 2,
+        pointRadius: 0,
+      },
+      {
+        label: '指定',
         data: data[3],
         fill: false,
         borderColor: 'rgba(192, 192, 192, 1)',
-        borderWidth: 1,
+        borderWidth: 2,
         pointRadius: 0,
       },
     ],
@@ -42,7 +42,8 @@ export const useChart = (data: (number | null)[][], labels: string[]) => {
   return { chartData };
 };
 
-export const useChartOptions = (filteredLabels: string[], currentTime: string) => {
+export const useChartOptions = (type: string, filteredLabels: string[], currentTime: string) => {
+  const yMax = type === 'PB' ? 10 : 4;
   const options: ChartOptions<'line'> = {
     spanGaps: true,
     responsive: true,
@@ -55,15 +56,15 @@ export const useChartOptions = (filteredLabels: string[], currentTime: string) =
           maxTicksLimit: 6,
           callback: (value, index) => {
             const label = filteredLabels[index];
-            return label === currentTime ? `**${label}**` : label; // 修正箇所: テンプレートリテラルの使用
+            return label === currentTime ? `**${label}**` : label;
           },
         },
-        min: filteredLabels[0],
-        max: filteredLabels[filteredLabels.length - 1],
+        suggestedMin: filteredLabels[0],
+        suggestedMax: filteredLabels[filteredLabels.length - 1],
       },
       y: {
         min: 0,
-        max: 4,
+        max: yMax,
       },
     },
     plugins: {
@@ -75,11 +76,11 @@ export const useChartOptions = (filteredLabels: string[], currentTime: string) =
           pinch: {
             enabled: true,
           },
-          mode: 'x' as const,
+          mode: 'x',
         },
         pan: {
           enabled: true,
-          mode: 'x' as const,
+          mode: 'x',
         },
       },
     },
