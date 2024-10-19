@@ -1,5 +1,5 @@
 import api from '@/api/api';
-import { Box, SimpleGrid, Grid, Text } from '@chakra-ui/react';
+import { Box, SimpleGrid, Grid, Text, useMediaQuery } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { DormData, DashboardDetailResponse } from '../types';
 import util from '../util';
@@ -8,6 +8,7 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [dashboardData, setDashboardData] = useState<DashboardDetailResponse>();
   const [loading, setLoading] = useState(true);
+  const [isSmallScreen] = useMediaQuery("(max-width: 460px)");
 
   // 現在時刻を1分ごとに更新
   useEffect(() => {
@@ -90,7 +91,7 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                   p={6}
                   boxShadow="md"
                 >
-                  <Text fontSize="xl" fontWeight="bold">
+                  <Text fontSize={isSmallScreen ? "l" : "xl"} fontWeight="bold">
                     {dormData.type
                       ? util.changeTypeToDisplayName(
                           dormData.type as 'DR' | 'WA' | 'SW' | 'PB' | 'ALL'
@@ -99,24 +100,35 @@ export const BoxGrid: React.FC<DormData> = (dormData) => {
                     {index + 1}
                   </Text>
 
-                  {value.status == 0 && value.startedTime ? (
-                    <>
-                      <Text fontSize="2xl" color="red.500" fontWeight="bold" mt={4}>
-                        使用中
-                      </Text>
-                      {/* 経過分数の表示 */}
-                      <Text fontSize="lg" color="gray.600">
-                        経過時間: {calculateElapsedMinutes(new Date(value.startedTime))}
-                      </Text>
-                    </>
-                  ) : (
-                    <>
-                      <Text fontSize="2xl" color="green.500" fontWeight="bold" mt={4} mb={6}>
-                        使用可能
-                      </Text>
-                      <Text fontSize="lg" color="gray.600"></Text>
-                    </>
-                  )}
+                  {value.status === 0 && value.startedTime ? (
+        <>
+          <Text
+            fontSize={isSmallScreen ? "xl" : "2xl"}
+            color="red.500"
+            fontWeight="bold"
+            mt={4}
+          >
+            使用中
+          </Text>
+          {/* 経過分数の表示 */}
+          <Text fontSize={isSmallScreen ? "md" : "lg"} color="gray.600">
+            経過時間: {calculateElapsedMinutes(new Date(value.startedTime))}
+          </Text>
+        </>
+      ) : (
+        <>
+          <Text
+            fontSize={isSmallScreen ? "xl" : "2xl"}
+            color="green.500"
+            fontWeight="bold"
+            mt={4}
+            mb={6}
+          >
+            使用可能
+          </Text>
+          <Text fontSize={isSmallScreen ? "md" : "lg"} color="gray.600"></Text>
+        </>
+      )}
                 </Box>
               ))}
             </Grid>

@@ -5,9 +5,9 @@ import { Text, Box, Flex } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 import util from '../../../../util';
 import Analysis from '../../../../components/Analysis';
-import { useTransitions } from '@/app/hooks/useTransitions';
 import { ApiQueryParams } from '@/app/types';
 import { BoxGrid } from '@/app/components/BoxGrid';
+
 const WmAnalysisPage: React.FC = () => {
   const param = useParams<{
     dormname: 'MOU' | 'CEN' | 'SEA' | 'SPA';
@@ -23,27 +23,6 @@ const WmAnalysisPage: React.FC = () => {
     monthly: 'TRUE',
     groupByFloor: 'TRUE',
   };
-
-  const { transitions, isLoading, error } = useTransitions(paramData);
-
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
-
-  if (error || transitions === undefined) {
-    return <div>{error}</div>;
-  }
-
-  const filteredData = transitions
-    .filter((item) => item.floor !== null)
-    .find((item) => item.floor?.toString() === param.floor);
-
-  if (filteredData === undefined) {
-    return <div>データが正常に取得できませんでした。</div>;
-  }
-  //ラベルを取り除いたデータだけの配列
-  const initialData = util.convertToDataArray(filteredData.data.datasets);
-  const labels = filteredData.data.labels;
 
   return (
     <div>
@@ -63,7 +42,7 @@ const WmAnalysisPage: React.FC = () => {
         alignItems="center"
       >
         <Box width="100vw" height="30vh">
-          <Analysis initialLabels={labels} initialData={initialData} />
+          <Analysis type='WA' paramData={paramData} />
         </Box>
       </Flex>
     </div>

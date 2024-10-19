@@ -74,6 +74,17 @@ const formatTime = (date: Date) => {
   return `${hours}:${minutes}`;
 };
 
+const formatDateTime = (date: Date): string => {
+  const padZero = (num: number): string => (num < 10 ? `0${num}` : `${num}`);
+  const year = date.getFullYear();
+  const month = padZero(date.getMonth() + 1); // 月は0から始まるため+1
+  const day = padZero(date.getDate());
+  const hours = padZero(date.getHours());
+  const minutes = padZero(date.getMinutes());
+
+  return `${year}:${month}:${day}-${hours}:${minutes}`;
+};
+
 const numToBool = (num: number): boolean => {
   return num === 1; // 1 なら true、0 なら false
 };
@@ -83,6 +94,7 @@ const util = {
   changeDormToDisplayName,
   toQueryString,
   countTrueValues,
+  formatDateTime,
   convertToDataArray,
   formatTime,
   numToBool,
